@@ -1,0 +1,175 @@
+/* https://github.com/brunoanesio/waybar-config */
+
+@define-color foreground #9DB9F5;
+@define-color background #0e2133;
+@define-color hover #132a40;
+
+@define-color gold #dfb46a;
+@define-color gold_alt #D39834;
+@define-color blue #6A95DF;
+@define-color blue_alt #4f73b8;
+
+@define-color red #e06c75;
+
+* {
+  min-height: 0;
+  min-width: 0;
+  font-family:
+    JetBrains Mono,
+    "JetBrainsMono NFP";
+  font-size: 11px;
+  font-weight: 600;
+
+}
+
+window#waybar {
+  transition-property: background-color;
+  transition-duration: 0.5s;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+#workspaces button {
+  padding: 0.1rem 0.6rem;
+  margin: 0 0.25rem 0 0.25rem;
+  border-radius: 6px;
+  color: @foreground;
+	background: @background;
+  box-shadow: none;
+  text-shadow: none;
+  border: none;
+  transition: none;
+}
+
+#workspaces button:hover {
+  background-color: @hover;
+}
+
+#workspaces button.active {
+  background-color: @hover;
+	color: @gold;
+}
+
+#workspaces button.urgent {
+  background-color: @background;
+  color: @red;
+}
+
+#clock,
+#pulseaudio,
+#custom-logo,
+#custom-power,
+#custom-spotify,
+#custom-notification,
+#custom-pomodoro,
+#cpu,
+#tray,
+#memory,
+#window,
+#mpris,
+#battery,
+#bluetooth,
+#network {
+  padding: 0.1rem 0.6rem;
+  margin: 0 0.25rem 0 0.25rem;
+  border-radius: 4px;
+	background:  @background;
+}
+
+#mpris.playing {
+  color: @foreground;
+}
+
+#mpris.paused {
+  color: @foreground;
+}
+
+#custom-sep {
+  padding: 0px;
+  color: @foreground;
+}
+
+window#waybar.empty #window {
+  background-color: transparent;
+}
+
+#cpu {
+  color: @foreground;
+}
+
+#memory {
+  color: @foreground;
+}
+
+#clock {
+  color: @foreground;
+}
+
+#clock.simpleclock {
+  color: @foreground;
+  font-feature-settings: "tnum";
+}
+
+#window {
+  color: @foreground;
+}
+
+#pulseaudio {
+  color: @foreground;
+}
+
+#pulseaudio.muted {
+  color: @foreground;
+}
+
+#custom-logo {
+  color: @foreground;
+}
+
+#custom-power {
+  color: @foreground;
+}
+
+#battery {
+  color: @foreground;
+}
+
+#battery.charging {
+  color: @blue_alt;
+}
+
+#battery.warning {
+  color: @gold_alt;
+}
+
+#battery.critical {
+  color: @red;
+  animation-name: blink;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+/* Optional: Define a blinking animation for critical state */
+@keyframes blink {
+  to {
+  color: @foreground;
+  }
+}
+
+#bluetooth {
+  color: @foreground;
+}
+
+#network {
+  color: @foreground;
+}
+
+#custom-pomodoro {
+  color: @foreground;
+}
+
+tooltip {
+  background-color: @background;
+  border: 2px solid @blue;
+}

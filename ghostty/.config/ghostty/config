@@ -1,0 +1,54 @@
+# Font
+font-size = 17
+font-feature = -calt
+
+# Theme
+palette = 0=#0e2133
+palette = 1=#e06c75
+palette = 2=#6A95DF
+palette = 3=#D39834
+palette = 4=#6A95DF
+palette = 5=#4f73b8
+palette = 6=#6A95DF
+palette = 7=#c0caf5
+palette = 8=#132a40
+palette = 9=#e06c75
+palette = 10=#9DB9F5
+palette = 11=#F2D28B
+palette = 12=#9DB9F5
+palette = 13=#6A95DF
+palette = 14=#9DB9F5
+palette = 15=#ffffff
+
+background = #0e2133
+foreground = #c0caf5
+selection-background = #264f78
+selection-foreground = #c0caf5
+
+# Background
+background-opacity = 0.9
+background-blur = true
+
+# Cursor
+cursor-color = #ffd700
+custom-shader = shaders/cursor_sweep.glsl
+mouse-hide-while-typing = true
+cursor-style = block
+cursor-style-blink = false
+shell-integration-features = no-cursor
+
+# Tabs
+gtk-tabs-location = hidden
+keybind = super+1=goto_tab:1
+keybind = super+2=goto_tab:2
+keybind = super+3=goto_tab:3
+keybind = super+4=goto_tab:4
+keybind = super+5=goto_tab:5
+keybind = super+6=goto_tab:6
+keybind = super+7=goto_tab:7
+keybind = super+8=goto_tab:8
+keybind = super+9=goto_tab:9
+
+# Window
+window-padding-x = 0
+window-padding-y = 8,0
