@@ -1,0 +1,42 @@
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
+
+# Colored outputs
+alias ls="ls --color=auto"
+alias grep="grep --color=auto"
+
+# Prompt Variables
+Blue="\[\e[0;34m\]"
+Blue_Bold="\[\e[1;34m\]"
+Gold="\[\e[0;33m\]"
+Gold_Bold="\[\e[1;33m\]"
+Reset="\[\e[0m\]"
+function git_branch() {
+     git branch 2> /dev/null | sed -e "/^[^*]/d" -e "s/* \(.*\)/ (\1)/"
+}
+# Prompt
+export PS1="${Blue}[\A]${Blue_Bold}\u ${Gold_Bold}\w${Gold}\$(git_branch)${Blue}: ${Reset}"
+
+# Environment Variables
+export EDITOR=nvim
+export PATH="$HOME/.local/bin:$PATH"
+# Seperate file for api key env variables
+[ -f ~/.bash_secrets ] && . ~/.bash_secrets
+
+# Zoxide
+eval "$(zoxide init bash)"
+
+# Fastfetch
+fastfetch
+
+# Yazi cd to directory
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	IFS= read -r -d '' cwd < "$tmp"
+	[ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
+	rm -f -- "$tmp"
+}
+
+# Lazygit alias
+alias lg="lazygit"
