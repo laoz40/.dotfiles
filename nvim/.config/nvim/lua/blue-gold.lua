@@ -52,9 +52,10 @@ function M.colorscheme()
 	hl("CursorColumn", { bg = p.selection })
 	hl("ColorColumn", { bg = p.selection })
 
-	hl("LineNr", { fg = p.blue_alt })
+	hl("LineNr", { fg = p.blue })
 	hl("LineNrAbove", { fg = p.comment })
 	hl("LineNrBelow", { fg = p.comment })
+	hl("EndOfBuffer", { fg = p.bg })
 	hl("CursorLineNr", { fg = p.gold, bold = true })
 	hl("CursorLineFold", { fg = p.comment, bg = p.selection })
 	hl("CursorLineSign", { fg = p.comment, bg = p.selection })
@@ -243,7 +244,6 @@ function M.colorscheme()
 	hl("DiffChange", { fg = p.gold_alt }) -- changed lines
 	hl("DiffDelete", { fg = p.red }) -- deleted lines
 	hl("DiffText", { fg = p.gold, bold = true }) -- changed text inside line
-
 
 	-----------------------------------------------------------------------------
 	-- TODO

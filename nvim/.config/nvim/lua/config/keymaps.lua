@@ -27,7 +27,7 @@ vim.keymap.set("n", "<leader>fo", function()
 	})
 end, { desc = "Format file with Conform" })
 
--- files
+-- mini.files, open at current file
 vim.keymap.set("n", "<leader>e", function()
 	MiniFiles.open(vim.api.nvim_buf_get_name(0), false)
 	MiniFiles.reveal_cwd()
