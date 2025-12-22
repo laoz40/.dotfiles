@@ -9,6 +9,8 @@
   "margin-bottom": 0,
   "margin-left": 10,
   "margin-right": 10,
+  "on-sigusr1": "hide",
+  "on-sigusr2": "show",
   "exclusive": true,
   "gtk-layer-shell": true,
   "passthrough": false,
@@ -25,7 +27,7 @@
     "battery",
     "clock",
     "clock#simpleclock",
-		"custom/power"
+    "custom/power",
   ],
   "custom/spotify": {
     "format": "  {}",
