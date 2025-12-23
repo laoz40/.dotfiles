@@ -1,0 +1,179 @@
+# vim:fileencoding=utf-8:foldmethod=marker
+# Yazi Blue-Gold Theme (Ported from Neovim)
+
+# : Manager {{{
+
+[mgr]
+cwd = { fg = "#dfb46a" }
+
+# Hovered
+hovered         = { bg = "#264f78" }
+preview_hovered = { bold = true, underline = false }
+
+# Find
+find_keyword  = { fg = "#dfb46a", bold = true, italic = true, underline = true }
+find_position = { fg = "#9DB9F5", bg = "reset", bold = true, italic = true }
+
+# Marker
+marker_copied   = { fg = "#6A95DF", bg = "#6A95DF" }
+marker_cut      = { fg = "#e06c75", bg = "#e06c75" }
+marker_marked   = { fg = "#dfb46a", bg = "#D39834" }
+marker_selected = { fg = "#F2D28B", bg = "#F2D28B" }
+
+# Count
+count_copied   = { fg = "#0e2133", bg = "#6A95DF" }
+count_cut      = { fg = "#0e2133", bg = "#e06c75" }
+count_selected = { fg = "#0e2133", bg = "#dfb46a" }
+
+# Border
+border_symbol = "│"
+border_style  = { fg = "#3a415c" } # Using comment color for subtle borders
+
+# : }}}
+
+
+# : Tabs {{{
+
+[tabs]
+active   = { fg = "#0e2133", bg = "#dfb46a", bold = true }
+inactive = { fg = "#8b95c9", bg = "#132a40" }
+
+# Separator
+sep_inner = { open = "", close = "" }
+sep_outer = { open = "", close = "" }
+
+# : }}}
+
+
+# : Mode {{{
+
+[mode]
+# Normal mode uses your signature Blue
+normal_main = { fg = "#0e2133", bg = "#6A95DF", bold = true }
+normal_alt  = { fg = "#6A95DF", bg = "#132a40" }
+
+# Select mode uses Gold
+select_main = { fg = "#0e2133", bg = "#dfb46a", bold = true }
+select_alt  = { fg = "#dfb46a", bg = "#132a40" }
+
+# Unset/Visual mode
+unset_main = { fg = "#0e2133", bg = "#D39834", bold = true }
+unset_alt  = { fg = "#D39834", bg = "#132a40" }
+
+# : }}}
+
+
+# : Status bar {{{
+
+[status]
+overall = { fg = "#c0caf5" }
+sep_left  = { open = "", close = "" }
+sep_right = { open = "", close = "" }
+
+# Progress
+progress_label = { fg = "#0e2133", bold = true }
+progress_normal = { fg = "#6A95DF", bg = "#132a40" }
+progress_error = { fg = "#e06c75", bg = "#132a40" }
+
+# Permissions
+perm_sep   = { fg = "#3a415c" }
+perm_type  = { fg = "#6A95DF" }
+perm_read  = { fg = "#dfb46a" }
+perm_write = { fg = "#e06c75" }
+perm_exec  = { fg = "#9DB9F5" }
+
+# : }}}
+
+# : Pick {{{
+
+[pick]
+border = { fg = "#4f73b8" }          # blue_alt
+active = { fg = "#dfb46a", bold = true } # gold
+inactive = {}
+
+# : }}}
+
+
+# : Input {{{
+
+[input]
+border   = { fg = "#4f73b8" }        # blue_alt
+title    = { fg = "#dfb46a" }        # gold (Prompt text)
+value    = { fg = "#c0caf5" }        # fg (User input text)
+selected = { bg = "#264f78" }        # selection
+
+# : }}}
+
+
+# : Completion {{{
+
+[cmp]
+border = { fg = "#4f73b8" }          # blue_alt
+active = { fg = "#dfb46a", bg = "#264f78" } # gold on selection
+
+# : }}}
+
+
+# : Tasks {{{
+
+[tasks]
+border  = { fg = "#4f73b8" }         # blue_alt
+title   = { fg = "#dfb46a" }         # gold
+hovered = { fg = "#9DB9F5", underline = true } # blue_light
+
+# : }}}
+
+# : }}}
+
+
+# : Which / Help / Notify {{{
+
+[which]
+mask            = { bg = "#132a40" }
+cand            = { fg = "#dfb46a" }
+rest            = { fg = "#8b95c9" }
+desc            = { fg = "#6A95DF" }
+separator       = "  "
+separator_style = { fg = "#3a415c" }
+
+[help]
+on      = { fg = "#dfb46a" }
+run     = { fg = "#6A95DF" }
+hovered = { reversed = true, bold = true }
+footer  = { fg = "#0e2133", bg = "#c0caf5" }
+
+[notify]
+title_info  = { fg = "#6A95DF" }
+title_warn  = { fg = "#dfb46a" }
+title_error = { fg = "#e06c75" }
+
+# : }}}
+
+
+# : File-specific styles {{{
+
+[filetype]
+
+rules = [
+    # Images (Gold tones)
+    { mime = "image/*", fg = "#F2D28B" },
+
+    # Media (Blue tones)
+    { mime = "video/*", fg = "#4f73b8" },
+    { mime = "audio/*", fg = "#4f73b8" },
+
+    # Archives
+    { mime = "application/zip",             fg = "#D39834" },
+    { mime = "application/x-7z-compressed", fg = "#D39834" },
+
+    # Documents
+    { mime = "application/pdf",        fg = "#9DB9F5" },
+    { mime = "application/vnd.*",      fg = "#9DB9F5" },
+
+    # Fallback Logic:
+    # Directories are GOLD, Normal files are BLUE
+    { name = "*/", fg = "#dfb46a" }, 
+    { name = "*",  fg = "#6A95DF" }
+]
+
+# : }}}
