@@ -5,7 +5,7 @@ WALLPAPER_DIRECTORY=~/Pictures/Wallpapers
 WALLPAPER=$(find "$WALLPAPER_DIRECTORY" -type f | shuf -n 1)
 
 hyprctl hyprpaper preload "$WALLPAPER"
-hyprctl hyprpaper wallpaper "eDP-1,$WALLPAPER"
+hyprctl hyprpaper wallpaper "$MONITOR,$WALLPAPER"
 
 sleep 1
 
