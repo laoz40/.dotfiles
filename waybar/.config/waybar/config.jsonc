@@ -15,8 +15,13 @@
   "gtk-layer-shell": true,
   "passthrough": false,
   "fixed-center": true,
-  "modules-left": ["hyprland/workspaces", "hyprland/window"],
-  "modules-center": ["mpris"],
+  "modules-left": [
+		"hyprland/workspaces", 
+		"hyprland/window",
+		"mpris", 
+	],
+  "modules-center": [
+	],
   "modules-right": [
     "network",
     "bluetooth",
@@ -28,19 +33,11 @@
     "clock#simpleclock",
     "custom/power",
   ],
-  "custom/spotify": {
-    "format": "  {}",
-    "return-type": "json",
-    "on-click": "playerctl -p spotify play-pause",
-    "on-click-right": "spotifatius toggle-liked",
-    "on-click-middle": "playerctl -p spotify next",
-    "exec": "spotifatius monitor",
-  },
   "mpris": {
     "player": "spotify",
     "dynamic-order": ["artist", "title"],
-    "format": "{player_icon} {dynamic}",
-    "format-paused": "{status_icon} <i>{dynamic}</i>",
+    "format": "<span color='#dfb46a'>{player_icon}</span> {dynamic}",
+    "format-paused": "<span color='#dfb46a'>{status_icon}</span> <i>{dynamic}</i>",
     "status-icons": {
       "paused": "",
     },
@@ -57,6 +54,8 @@
   },
   "hyprland/window": {
     "format": "{title}",
+		"icon": true,
+		"icon-size": 12
   },
   "clock#simpleclock": {
     "tooltip": false,
