@@ -103,7 +103,7 @@
   },
   "custom/power": {
     "tooltip": false,
-    "on-click": "bash ~/.local/bin/rofi-power-menu.sh",
+    "on-click": "bash ~/.local/bin/rofi_power_menu.sh",
     "format": "<span color='#dfb46a'>⏻</span>",
   },
   "battery": {
@@ -150,6 +150,6 @@
     "format-linked": " <span color='#dfb46a'>󱘖</span> {ifname} (No IP) ",
     "format-disconnected": " <span color='#e06c75'></span> Disconnected ",
     "interval": 1,
-    "on-click": "bash ~/.local/bin/rofi-wifi-menu.sh",
+    "on-click": "bash ~/.local/bin/rofi_wifi_menu.sh",
   },
 }
