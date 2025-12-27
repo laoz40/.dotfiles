@@ -20,6 +20,7 @@ export PS1="${Blue}[\A]${Blue_Bold}\u ${Gold_Bold}\w${Gold}\$(git_branch)${Blue}
 # Environment Variables
 export EDITOR=nvim
 export PATH="$HOME/.local/bin:$PATH"
+export PATH=$PATH:/home/leoz/.spicetify
 # Seperate file for api key env variables
 [ -f ~/.bash_secrets ] && . ~/.bash_secrets
 
@@ -40,3 +41,4 @@ function y() {
 
 # Lazygit alias
 alias lg="lazygit"
+
