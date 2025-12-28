@@ -23,6 +23,7 @@
   "modules-center": [
 	],
   "modules-right": [
+		"custom/privacy-dots",
     "network",
     "bluetooth",
     "pulseaudio",
@@ -144,12 +145,21 @@
     "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_battery_percentage}%",
   },
   "network": {
-    "format-wifi": " <span color='#dfb46a'>󰤨</span> {essid} ",
+    "format-wifi": "<span color='#dfb46a'>󰤨</span> {essid} ",
     "format-ethernet": "<span color='#dfb46a'></span> Wired ",
     "tooltip-format": "<span color='#dfb46a'> 󰅧 </span>{bandwidthUpBytes}  <span color='#6A95DF'> 󰅢 </span>{bandwidthDownBytes} <span color='#dfb46a'> 󰤨 </span>{signalStrength}%",
     "format-linked": " <span color='#dfb46a'>󱘖</span> {ifname} (No IP) ",
     "format-disconnected": " <span color='#e06c75'></span> Disconnected ",
     "interval": 1,
     "on-click": "bash ~/.local/bin/rofi_wifi_menu.sh",
-  },
+	},
+	"custom/privacy-dots": {
+		"exec": "~/.local/bin/privacy_dots.sh",
+		"return-type": "json",
+		"interval": 3,
+		"format": "{text}",
+		"tooltip": true,
+		"escape": false,
+		"markup": "pango"
+	}
 }
