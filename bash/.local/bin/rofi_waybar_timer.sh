@@ -3,7 +3,7 @@
 timer_file=/tmp/waybar_timer
 timer_paused=/tmp/timer_paused
 
-# waybar read timer
+# waybar get timer
 if [[ $1 == "get" ]]; then
 	if [[ -f $timer_file ]]; then
 		content=$(cat $timer_file)
@@ -71,6 +71,7 @@ else
 	pause_option="Pause"
 fi
 
+# NOTE: Auto selects from results if part of input matches string, should type m after for custom time
 input=$(rofi -dmenu -p "Set Timer:" <<EOF
 25 min
 5 min
@@ -92,12 +93,13 @@ elif [[ $input == "Cancel Timer" ]]; then
 	rm $timer_file
 	notify-send "Timer Cancelled" -i alarm-clock -u normal
 	exit 0
-# If input is numbers followed by space min (optional)
-elif [[ $input =~ ^([0-9]*\.?[0-9]+)([[:space:]]*min)?$ ]]; then
+# If input is numbers followed by space min/m (optional)
+elif [[ $input =~ ^([0-9]*\.?[0-9]+)([[:space:]?]*min|m)?$ ]]; then
 	rm $timer_paused
 	minutes=${BASH_REMATCH[1]}
 	start_timer $minutes
 	exit 0
 else
+	notify-send "Timer Wrong Input" -i alarm-clock -u warning
 	exit 1
 fi
