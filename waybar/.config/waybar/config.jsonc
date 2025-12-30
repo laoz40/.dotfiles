@@ -1,5 +1,4 @@
 // https://github.com/brunoanesio/waybar-config
-
 {
   "layer": "bottom",
   "position": "top",
@@ -16,14 +15,14 @@
   "passthrough": false,
   "fixed-center": true,
   "modules-left": [
-		"hyprland/workspaces", 
-		"hyprland/window",
-		"mpris", 
-	],
-  "modules-center": [
-	],
+    "hyprland/workspaces",
+    "custom/timer",
+    // "hyprland/window",
+    "mpris",
+  ],
+  "modules-center": [],
   "modules-right": [
-		"custom/privacy-dots",
+    "custom/privacy-dots",
     "network",
     "bluetooth",
     "pulseaudio",
@@ -55,8 +54,8 @@
   },
   "hyprland/window": {
     "format": "{title}",
-		"icon": true,
-		"icon-size": 12
+    "icon": true,
+    "icon-size": 12,
   },
   "clock#simpleclock": {
     "tooltip": false,
@@ -148,18 +147,29 @@
     "format-wifi": "<span color='#dfb46a'>󰤨</span> {essid} ",
     "format-ethernet": "<span color='#dfb46a'></span> Wired ",
     "tooltip-format": "<span color='#dfb46a'> 󰅧 </span>{bandwidthUpBytes}  <span color='#6A95DF'> 󰅢 </span>{bandwidthDownBytes} <span color='#dfb46a'> 󰤨 </span>{signalStrength}%",
-    "format-linked": " <span color='#dfb46a'>󱘖</span> {ifname} (No IP) ",
-    "format-disconnected": " <span color='#e06c75'></span> Disconnected ",
+    "format-linked": "<span color='#dfb46a'>󱘖</span> {ifname} (No IP) ",
+    "format-disconnected": "<span color='#e06c75'></span> Disconnected ",
     "interval": 1,
     "on-click": "bash ~/.local/bin/rofi_wifi_menu.sh",
-	},
-	"custom/privacy-dots": {
-		"exec": "~/.local/bin/privacy_dots.sh",
+  },
+  "custom/privacy-dots": {
+    "exec": "~/.local/bin/privacy_dots.sh",
+    "return-type": "json",
+    "interval": 3,
+    "format": "{text}",
+    "tooltip": true,
+    "escape": false,
+    "markup": "pango",
+  },
+  "custom/timer": {
+    "exec": "~/.local/bin/rofi_waybar_timer.sh get",
+		"on-click": "~/.local/bin/rofi_waybar_timer.sh toggle",
 		"return-type": "json",
-		"interval": 3,
-		"format": "{text}",
-		"tooltip": true,
-		"escape": false,
-		"markup": "pango"
-	}
+    "interval": 1,
+		"format": "{icon}{text}", 
+		"format-icons": {
+			"active": "<span color='#dfb46a'> </span>",
+			"paused": "<span color='#dfb46a'>󰏤 </span>"
+		},
+	},
 }

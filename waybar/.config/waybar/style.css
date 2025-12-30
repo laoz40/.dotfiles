@@ -60,7 +60,7 @@ window#waybar {
 #custom-power,
 #custom-spotify,
 #custom-notification,
-#custom-pomodoro,
+#custom-timer,
 #cpu,
 #tray,
 #memory,
@@ -166,7 +166,7 @@ window#waybar.empty #window {
   color: @foreground;
 }
 
-#custom-pomodoro {
+#custom-timer {
   color: @foreground;
 }
 
