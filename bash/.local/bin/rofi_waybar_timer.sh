@@ -100,6 +100,5 @@ elif [[ $input =~ ^([0-9]*\.?[0-9]+)([[:space:]?]*min|m)?$ ]]; then
 	start_timer $minutes
 	exit 0
 else
-	notify-send "Timer Wrong Input" -i alarm-clock -u warning
 	exit 1
 fi
