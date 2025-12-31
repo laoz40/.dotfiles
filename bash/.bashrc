@@ -42,7 +42,16 @@ function y() {
 # Lazygit alias
 alias lg="lazygit"
 
-# Autostart tmux if not already inside a tmux session
+# Autostart tmux and attach to the last session
 if [ -z "$TMUX" ]; then
-    tmux attach-session -t default 2>/dev/null || tmux new-session -s default
+	last_session=$(tmux list-sessions -F '#{session_last_attached} #S' 2>/dev/null | \
+		sort -rn | \
+		head -1 | \
+		awk '{print $2}')
+
+		if [ -n "$last_session" ]; then
+			tmux attach-session -t "$last_session"
+		else
+			tmux new-session -s "main"
+		fi
 fi
