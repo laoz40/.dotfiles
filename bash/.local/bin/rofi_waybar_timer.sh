@@ -32,26 +32,30 @@ if [[ $1 == "toggle" ]]; then
 fi
 
 start_timer() {
-	local duration_seconds=$(awk "BEGIN {print int($1 * 60)}")
-	local current_time=$(date +%s)
-	local end_time=$(( current_time + duration_seconds ))
+	local duration_sec current_time end_time
+	duration_sec=$(awk "BEGIN {print int($1 * 60)}")
+	current_time=$(date +%s)
+	end_time=$(( current_time + duration_sec ))
 
+	rm -f $timer_paused
 	touch $timer_file
 
 	while [[ -f $timer_file ]]; do
-		local current_time=$(date +%s)
-		local remaining_time=$(( end_time - current_time ))
+		local current_time remaining_sec formatted_time
+		current_time=$(date +%s)
+		remaining_sec=$(( end_time - current_time ))
 
 		if [[ -f $timer_paused ]]; then
 			# Add a second to paused time each second to maintain duration
 			((end_time++))
 		else
-			if [ $remaining_time -le 0 ]; then
+			if [ $remaining_sec -le 0 ]; then
 				break
 			fi
 		fi
 
-		local formatted_time=$(printf "%02d:%02d" $((remaining_time/60)) $((remaining_time%60)))
+		# format MM:SS
+		formatted_time=$(printf "%02d:%02d" $((remaining_sec/60)) $((remaining_sec%60)))
 		echo $formatted_time > $timer_file
 		sleep 1
 	done
@@ -71,7 +75,7 @@ else
 	pause_option="Pause"
 fi
 
-# NOTE: Auto selects from results if part of input matches string, should type m after for custom time
+# NOTE: Auto selects from results if part of input matches string, need to type m after for custom time
 input=$(rofi -dmenu -p "Set Timer:" <<EOF
 25 min
 5 min
@@ -80,7 +84,7 @@ Cancel Timer
 EOF
 )
 
-if [[ $input == $pause_option ]]; then
+if [[ $input == "$pause_option" ]]; then
 	if [[ -f $timer_paused ]]; then
 		rm $timer_paused
 		notify-send "Timer Resumed" -i alarm-clock -u normal
@@ -95,10 +99,16 @@ elif [[ $input == "Cancel Timer" ]]; then
 	exit 0
 # If input is numbers followed by space min/m (optional)
 elif [[ $input =~ ^([0-9]*\.?[0-9]+)([[:space:]?]*min|m)?$ ]]; then
-	rm $timer_paused
+	# Find and kill any existing timer processes so they stop writing to the file
+	OTHER_PIDS=$(pgrep -f "$(basename "$0")" | grep -v "^$$$")
+	if [ -n "$OTHER_PIDS" ]; then
+		echo "$OTHER_PIDS" | xargs kill
+	fi
+
 	minutes=${BASH_REMATCH[1]}
 	start_timer $minutes
 	exit 0
 else
+	notify-send "Input Error" -u critical
 	exit 1
 fi
