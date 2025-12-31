@@ -9,13 +9,10 @@ return {
 				"cssls",
 				"tailwindcss",
 				"eslint",
-				"marksman"
+				"marksman",
+				"bashls"
 			})
 		end,
-	},
-	{
-		"j-hui/fidget.nvim",
-		opts = {},
 	},
 }
 
