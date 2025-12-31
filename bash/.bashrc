@@ -42,3 +42,7 @@ function y() {
 # Lazygit alias
 alias lg="lazygit"
 
+# Autostart tmux if not already inside a tmux session
+if [ -z "$TMUX" ]; then
+    tmux attach-session -t default 2>/dev/null || tmux new-session -s default
+fi
