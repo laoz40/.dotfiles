@@ -21,6 +21,8 @@ return {
 					handlebars = { "prettier" },
 					toml = { "prettier" },
 					svelte = { "prettier" },
+					bash = { "shfmt" },
+					sh = { "shfmt" },
 				},
 			})
 		end,
