@@ -43,3 +43,6 @@ gtk-tabs-location = hidden
 # Window
 window-padding-x = 0
 window-padding-y = 0
+
+# Close without confirm
+confirm-close-surface = false
