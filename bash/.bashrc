@@ -22,7 +22,7 @@ export EDITOR=nvim
 export PATH="$HOME/.local/bin:$PATH"
 export PATH=$PATH:/home/leoz/.spicetify
 # Seperate file for api key env variables
-[ -f ~/.bash_secrets ] && . ~/.bash_secrets
+[ -f "$HOME/.bash_secrets" ] && . "$HOME/.bash_secrets"
 
 # Zoxide
 eval "$(zoxide init bash)"
@@ -52,6 +52,7 @@ if [ -z "$TMUX" ]; then
 		if [ -n "$last_session" ]; then
 			tmux attach-session -t "$last_session"
 		else
+			sleep 3
 			tmux new-session -s "main"
 		fi
 fi
