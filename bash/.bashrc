@@ -17,6 +17,11 @@ function git_branch() {
 # Prompt
 export PS1="${Blue}[\A]${Blue_Bold}\u ${Gold_Bold}\w${Gold}\$(git_branch)${Blue}: ${Reset}"
 
+# Bash Tab Completion
+if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+fi
+
 # Environment Variables
 export EDITOR=nvim
 export PATH="$HOME/.local/bin:$PATH"
