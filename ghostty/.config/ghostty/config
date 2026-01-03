@@ -26,7 +26,7 @@ selection-background = #264f78
 selection-foreground = #c0caf5
 
 # Background
-background-opacity = 0.9
+background-opacity = 0.95
 background-blur = true
 
 # Cursor
