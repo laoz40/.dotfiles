@@ -5,6 +5,10 @@
 alias ls="ls --color=auto"
 alias grep="grep --color=auto"
 
+# Colours
+export TERM=xterm-256color
+export COLORTERM=truecolor
+
 # Prompt Variables
 Blue="\[\e[0;34m\]"
 Blue_Bold="\[\e[1;34m\]"
@@ -26,6 +30,7 @@ fi
 export EDITOR=nvim
 export PATH="$HOME/.local/bin:$PATH"
 export PATH=$PATH:/home/leoz/.spicetify
+. "$HOME/.cargo/env"
 # Seperate file for api key env variables
 [ -f "$HOME/.bash_secrets" ] && . "$HOME/.bash_secrets"
 
