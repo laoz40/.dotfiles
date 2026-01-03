@@ -52,7 +52,6 @@ if [ -z "$TMUX" ]; then
 		if [ -n "$last_session" ]; then
 			tmux attach-session -t "$last_session"
 		else
-			sleep 3
 			tmux new-session -s "main"
 		fi
 fi
