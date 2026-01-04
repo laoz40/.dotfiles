@@ -7,6 +7,7 @@ vim.o.backup = false
 vim.o.swapfile = false
 vim.o.undofile = true
 vim.o.scrolloff = 10
+vim.opt.sessionoptions = "curdir,folds,globals,help,tabpages,terminal,winsize"
 
 -- ui
 vim.opt.background = "dark"
