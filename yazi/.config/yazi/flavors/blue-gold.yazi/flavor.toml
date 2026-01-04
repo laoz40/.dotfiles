@@ -7,8 +7,11 @@
 cwd = { fg = "#dfb46a" }
 
 # Hovered
-hovered         = { bg = "#264f78" }
-preview_hovered = { bold = true, underline = false }
+[indicator]
+parent          = { bg = "#264f78" }
+current         = { bg = "#264f78" }
+preview					= { bold = true, underline = false }
+padding					= { open = "█", close = "█" }
 
 # Find
 find_keyword  = { fg = "#dfb46a", bold = true, italic = true, underline = true }
@@ -172,8 +175,8 @@ rules = [
 
     # Fallback Logic:
     # Directories are GOLD, Normal files are BLUE
-    { name = "*/", fg = "#dfb46a" }, 
-    { name = "*",  fg = "#6A95DF" }
+    { url = "*/", fg = "#dfb46a" }, 
+    { url = "*",  fg = "#6A95DF" }
 ]
 
 # : }}}
