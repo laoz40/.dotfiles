@@ -35,7 +35,7 @@ end)
 
 -- snacks picker
 vim.keymap.set("n", "<C-P>", function()
-	Snacks.picker.smart()
+	Snacks.picker.smart({ title = "Search"})
 end, { desc = "Smart Find Files" })
 -- grep
 vim.keymap.set("n", "<leader>ff", function()
@@ -76,10 +76,6 @@ end, { desc = "Git files" })
 -- git log
 vim.keymap.set("n", "<leader>gl", function()
 	Snacks.picker.git_log()
-end, { desc = "Git log" })
--- git branches
-vim.keymap.set("n", "<leader>gb", function()
-	Snacks.picker.git_branches()
 end, { desc = "Git log" })
 -- gitbrowse
 vim.keymap.set("n", "<leader>gh", function()
