@@ -70,16 +70,6 @@ function y() {
 alias lg="lazygit"
 
 # Autostart tmux and attach to the last session
-if [ -z "$TMUX" ]; then
-	last_session=$(tmux list-sessions -F '#{session_last_attached} #S' 2>/dev/null | \
-		sort -rn | \
-		head -1 | \
-		awk '{print $2}')
-
-		if [ -n "$last_session" ]; then
-			tmux attach-session -t "$last_session"
-		else
-			tmux new-session -s "main"
-		fi
+if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
+  tmux attach-session -t main || tmux new-session -s main
 fi
-
