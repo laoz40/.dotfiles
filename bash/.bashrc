@@ -47,7 +47,7 @@ fi
 export EDITOR=nvim
 export PATH="$HOME/.local/bin:$PATH"
 export PATH=$PATH:/home/leoz/.spicetify
-. "$HOME/.cargo/env"
+[[ -f "$HOME/.cargo/env" ]] && source "$HOME/.cargo/env"
 # pnpm
 export PNPM_HOME="/home/leoz/.local/share/pnpm"
 case ":$PATH:" in
