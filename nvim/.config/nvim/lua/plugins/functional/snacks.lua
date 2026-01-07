@@ -6,11 +6,11 @@ return {
 		bigfile = { enabled = true },
 
 		picker = {
-			layout = "custom",
+			layout = "sidebar_up",
 			layouts = {
-				custom = {
+				sidebar_up = {
 					preview = "main",
-					reverse = "true",
+					reverse = true,
 					layout = {
 						backdrop = false,
 						width = 40,
@@ -30,17 +30,46 @@ return {
 						{ win = "preview", title = "{preview}", height = 0.4, border = "top" },
 					},
 				},
+				sidebar_down = {
+					preview = "main",
+					reverse = false,
+					layout = {
+						backdrop = false,
+						width = 40,
+						min_width = 40,
+						height = 0,
+						position = "left",
+						border = "none",
+						box = "vertical",
+						{
+							win = "input",
+							height = 1,
+							border = "top_bottom",
+							title = "{title} {live} {flags}",
+							title_pos = "left",
+						},
+						{ win = "list", border = "none" },
+						{ win = "preview", title = "{preview}", height = 0.4, border = "top" },
+					},
+				},
 			},
 			formatters = {
 				file = {
 					filename_first = true, -- display filename before the file path
-					--- * left: truncate the beginning of the path
-					--- * center: truncate the middle of the path
-					--- * right: truncate the end of the path
-					---@type "left"|"center"|"right"
 					truncate = "center",
 					min_width = 40, -- minimum length of the truncated path
 				},
+			},
+			matcher = {
+				frecency = true, -- frecency bonus
+			},
+			sources = {
+				lsp_symbols = { layout = "sidebar_down" },
+				lsp_references = { layout = "sidebar_down" },
+				diagnostics = { layout = "sidebar_down" },
+				git_log = { layout = "sidebar_down" },
+				undo = { layout = "sidebar_down" },
+				grep_word = { layout = "sidebar_down" },
 			},
 		},
 
