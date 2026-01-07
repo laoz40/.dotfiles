@@ -389,6 +389,22 @@ function M.colorscheme()
 
 	hl("SnacksPickerMatch", { fg = p.blue })
 	hl("SnacksPickerPrompt", { fg = p.blue })
+
+	-- Diff (+ core diff)
+	hl("DiffAdd", { fg = p.blue, bg = p.none })
+	hl("SnacksDiffAdd", { fg = p.blue, bg = p.none })
+
+	hl("DiffDelete", { fg = p.red, bg = p.none })
+	hl("SnacksDiffDelete", { fg = p.red, bg = p.none })
+
+	hl("DiffChange", { fg = p.fg, bg = p.none })
+	hl("SnacksDiffChange", { fg = p.fg, bg = p.none })
+
+	-- Conflict
+	hl("SnacksDiffConflict", { fg = p.fg, bg = p.none, bold = true })
+
+	-- Optional: changed text inside changed lines
+	hl("DiffText", { fg = p.fg, bg = p.none, bold = true })
 end
 
 return M
