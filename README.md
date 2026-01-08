@@ -82,5 +82,7 @@ sudo systemctl enable --now bluetooth
 
 TLP for laptop:
 
-`sudo systemctl enable tlp.service`
+```
+sudo systemctl enable tlp.service
+```
 
