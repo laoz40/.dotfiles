@@ -15,7 +15,9 @@ Essential stuff:
 - **fzf**: `fzf`
 - **Zen Browser**: `zen-browser-bin` (AUR)
 
-`paru -S neovim tmux ghostty lazygit yazi fzf zen-browser-bin`
+```
+paru -S neovim tmux ghostty lazygit yazi fzf zen-browser-bin
+```
 
 Linux stuff and other stuff:
 
@@ -30,7 +32,9 @@ Linux stuff and other stuff:
 - **fastfetch**: `fastfetch`
 - **WezTerm** (for Windows)
 
-`paru -S hyprland hyprpaper hyprlock hypridle hyprshot rofi waybar dunst fastfetch`
+```
+paru -S hyprland hyprpaper hyprlock hypridle hyprshot rofi waybar dunst fastfetch
+```
 
 System stuff:
 
@@ -44,7 +48,9 @@ System stuff:
 - **TLP** (for laptop): `tlp`
 - Timeshift and GRUB btrfs for backing up and restoring
 
-`paru -S ly networkmanager pavucontrol playerctl btop cliphist`
+```
+paru -S ly networkmanager pavucontrol playerctl btop cliphist
+```
 
 Appearance stuff:
 
@@ -54,7 +60,9 @@ Appearance stuff:
 - **cmatrix**: `cmatrix`
 - **batcat**: `bat`
 
-`paru -S bibata-cursor-theme-bin tela-icon-theme ttf-jetbrains-mono cmatrix bat`
+```
+paru -S bibata-cursor-theme-bin tela-icon-theme ttf-jetbrains-mono cmatrix bat
+```
 
 ## Setup stuff:
 
