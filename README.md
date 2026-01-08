@@ -2,7 +2,31 @@
 
 Everything uses my custom blue and gold colorscheme, based off my keycaps.
 
-## Stuff I use
+## Setup stuff:
+
+GNU Stow:
+
+```
+paru -S stow
+```
+
+Install dotfiles:
+
+```
+git clone https://github.com/laoz40/.dotfiles.git
+cd .dotfiles
+```
+
+stow + directory name to make symlink:
+```
+# e.g. nvim
+stow nvim
+
+# all
+stow .
+```
+
+## Stuff I use:
 
 Essential stuff:
 
@@ -64,7 +88,7 @@ Appearance stuff:
 paru -S bibata-cursor-theme-bin tela-icon-theme ttf-jetbrains-mono cmatrix bat
 ```
 
-## Setup stuff:
+## Enable stuff:
 
 ly Display Manager (Login screen):
 
