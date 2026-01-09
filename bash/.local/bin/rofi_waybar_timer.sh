@@ -108,6 +108,8 @@ elif [[ $input =~ ^([0-9]*\.?[0-9]+)([[:space:]?]*min|m)?$ ]]; then
 	minutes=${BASH_REMATCH[1]}
 	start_timer $minutes
 	exit 0
+elif [[ -z $input ]]; then
+	exit 0
 else
 	notify-send "Input Error" -u critical
 	exit 1
