@@ -36,11 +36,12 @@ Essential stuff:
 - **Ghostty**: `ghostty`
 - **Lazygit**: `lazygit`
 - **Yazi**: `yazi`
+- **Zoxide**: `zoxide`
 - **fzf**: `fzf`
 - **Zen Browser**: `zen-browser-bin` (AUR)
 
 ```
-paru -S neovim tmux ghostty lazygit yazi fzf zen-browser-bin
+paru -S neovim tmux ghostty lazygit yazi zoxide fzf zen-browser-bin
 ```
 
 Linux stuff and other stuff:
