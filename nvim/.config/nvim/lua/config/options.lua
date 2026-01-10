@@ -7,7 +7,12 @@ vim.o.backup = false
 vim.o.swapfile = false
 vim.o.undofile = true
 vim.o.scrolloff = 10
-vim.opt.sessionoptions = "curdir,folds,globals,help,tabpages,terminal,winsize"
+vim.o.foldenable = true
+vim.o.foldmethod = "manual"
+vim.o.foldcolumn = 0
+vim.o.foldlevel = 99
+vim.o.foldlevelstart = 99
+vim.o.sessionoptions = "curdir,folds,globals,help,tabpages,terminal,winsize"
 
 -- ui
 vim.opt.background = "dark"
