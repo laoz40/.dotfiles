@@ -36,7 +36,7 @@ function git_branch() {
      git branch 2> /dev/null | sed -e "/^[^*]/d" -e "s/* \(.*\)/ (\1)/"
 }
 # Prompt
-export PS1="${Blue}[\A]${Blue_Bold}\u ${Gold_Bold}\w${Gold}\$(git_branch)${Blue}: ${Reset}"
+export PS1="${Blue}[\A] ${Gold_Bold}\w${Gold}\$(git_branch)${Blue}: ${Reset}"
 
 # Bash Tab Completion
 if [ -f /usr/share/bash-completion/bash_completion ]; then
