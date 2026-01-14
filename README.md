@@ -10,6 +10,8 @@ Everything uses my custom blue and gold colorscheme, based off my keycaps.
   <img src="./previews/hyprlock.png" width="32%" />
 </div>
 
+> Everything below here is for if I need to install again. If you are a stranger, hi, and don't randomly install my config.
+
 ## Setup stuff:
 
 Get paru or yay.
