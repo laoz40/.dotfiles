@@ -2,9 +2,19 @@
 
 Everything uses my custom blue and gold colorscheme, based off my keycaps.
 
+![Preview](./previews/terminal.png)
+
+<div align="center">
+  <img src="./previews/rofi.png" width="32%" />
+  <img src="./previews/programs.png" width="32%" />
+  <img src="./previews/hyprlock.png" width="32%" />
+</div>
+
 ## Setup stuff:
 
-GNU Stow:
+Get paru or yay.
+
+GNU Stow for managing config files:
 
 ```
 paru -S stow
