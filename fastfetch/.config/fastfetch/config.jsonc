@@ -18,11 +18,13 @@
   "modules": [
     {
       "type": "os",
-      "keyIcon": ""
+      "keyIcon": "",
+      "format": "{name}"
     },
     {
       "type": "host",
-      "keyIcon": "󰌢"
+      "keyIcon": "󰌢",
+      "format": "{family}"
     },
     {
       "type": "kernel",
@@ -46,10 +48,12 @@
     },
     {
       "type": "display",
+			"key": "Display",
       "keyIcon": "󰍹",
       "compactType": "none",
       "preciseRefreshRate": false,
-      "order": null
+      "order": null,
+			"format": "{inch}\" {width}x{height} {refresh-rate}hz"
     },
     {
       "type": "de",
@@ -62,20 +66,9 @@
       "detectPlugin": false
     },
     {
-      "type": "wmtheme",
-      "keyIcon": "󰓸"
-    },
-    {
-      "type": "theme",
-      "keyIcon": "󰉼"
-    },
-    {
-      "type": "icons",
-      "keyIcon": ""
-    },
-    {
       "type": "font",
-      "keyIcon": ""
+      "keyIcon": "",
+			"format": "{font1}"
     },
     {
       "type": "cursor",
@@ -93,7 +86,8 @@
       "type": "cpu",
       "keyIcon": "",
       "temp": false,
-      "showPeCoreCount": false
+      "showPeCoreCount": false,
+			"format": "{name}"
     },
     {
       "type": "gpu",
@@ -106,7 +100,8 @@
         "green": 50,
         "yellow": 80,
         "type": 0
-      }
+      },
+			"format": "{name}"
     },
     {
       "type": "disk",
