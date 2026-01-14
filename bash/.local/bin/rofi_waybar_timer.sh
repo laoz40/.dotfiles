@@ -106,6 +106,7 @@ elif [[ $input =~ ^([0-9]*\.?[0-9]+)([[:space:]?]*min|m)?$ ]]; then
 	fi
 
 	minutes=${BASH_REMATCH[1]}
+	notify-send "Timer Started" "$minutes min" -i alarm-clock -u normal
 	start_timer $minutes
 	exit 0
 elif [[ -z $input ]]; then
