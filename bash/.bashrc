@@ -6,11 +6,11 @@ export FZF_DEFAULT_OPTS="
 if [ -d {} ]; then
   ls --color=always {};
 else
-  batcat --style=plain --color=always --theme=ansi {};
+  bat --style=plain --color=always --theme=ansi {};
 fi
 '
 --preview-window='right:50%'
---color='bg:#0e2133,bg+:#132a40,fg:#c0caf5,fg+:#c0caf5'
+--color='bg:-1,bg+:#132a40,fg:#c0caf5,fg+:#c0caf5'
 --color='hl:#6A95DF,hl+:#9DB9F5,info:#dfb46a,prompt:#6A95DF'
 --color='pointer:#dfb46a,marker:#dfb46a,spinner:#dfb46a,header:#3a415c'
 "
