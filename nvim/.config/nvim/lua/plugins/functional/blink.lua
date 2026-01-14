@@ -5,6 +5,7 @@ return {
 			"L3MON4D3/LuaSnip",
 			"rafamadriz/friendly-snippets",
 			{ "mlaursen/vim-react-snippets", opts = {} },
+			"huijiro/blink-cmp-supermaven",
 		},
 		version = "1.*",
 		opts = {
@@ -35,6 +36,14 @@ return {
 					"path",
 					"snippets",
 					"buffer",
+					"supermaven",
+				},
+				providers = {
+					supermaven = {
+						name = "supermaven",
+						module = "blink-cmp-supermaven",
+						async = true,
+					},
 				},
 			},
 			snippets = { preset = "luasnip" },
