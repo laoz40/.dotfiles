@@ -8,8 +8,6 @@
   "margin-bottom": 0,
   "margin-left": 8,
   "margin-right": 8,
-  "on-sigusr1": "hide",
-  "on-sigusr2": "show",
   "exclusive": true,
   "gtk-layer-shell": true,
   "passthrough": false,
