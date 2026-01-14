@@ -1,8 +1,10 @@
 /* https://github.com/brunoanesio/waybar-config */
 
 @define-color foreground #9DB9F5;
-@define-color background #0e2133;
-@define-color hover #132a40;
+@define-color background rgba(14, 33, 51, 0.5);
+@define-color background_tooltip rgba(14, 33, 51, 0.8);
+@define-color hover rgba(19, 42, 64, 0.8);
+@define-color border rgba(38, 79, 120, 0.5);
 
 @define-color gold #dfb46a;
 @define-color gold_alt #D39834;
@@ -29,12 +31,12 @@ window#waybar {
 #workspaces button {
   padding: 0.1rem 0.6rem;
   margin: 0 0.25rem 0 0.25rem;
-  border-radius: 6px;
+  border-radius: 4px;
   color: @foreground;
 	background: @background;
   box-shadow: none;
   text-shadow: none;
-  border: none;
+  border: 1px solid @border;
   transition: none;
 }
 
@@ -71,6 +73,7 @@ window#waybar {
   padding: 0.1rem 0.6rem;
   margin: 0 0.25rem 0 0.25rem;
   border-radius: 4px;
+  border: 1px solid @border;
 	background:  @background;
 }
 
@@ -176,6 +179,6 @@ window#waybar.empty #window {
 }
 
 tooltip {
-  background-color: @background;
-  border: 2px solid @blue;
+  background-color: @background_tooltip;
+  border: 1px solid @border;
 }
