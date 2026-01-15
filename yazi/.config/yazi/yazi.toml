@@ -3,11 +3,41 @@ show_hidden = true
 
 [opener]
 edit = [
-    { run = 'nvim "$@"', block = true, for = "unix" },
+    { run = 'nvim "$@"', block = true },
+]
+play = [
+	{ run = "xdg-open %s1",                desc = "Play", for = "linux" },
+	{ run = 'start "" %s1', orphan = true, desc = "Play", for = "windows" },
+	{ run = "mediainfo %s1; echo 'Press enter to exit'; read _", block = true, desc = "Show media info", for = "unix" },
+	{ run = "mediainfo %s1 & pause", block = true, desc = "Show media info", for = "windows" },
+]
+image_view = [
+    { run = 'qview "$@"', block = true },
+]
+open = [
+	{ run = "xdg-open %s1",    desc = "Open", for = "linux" },
+	{ run = 'start "" %s1',    desc = "Open", for = "windows", orphan = true },
 ]
 
 [open]
 rules = [
-    { mime = "text/*", use = "edit" },
-    { name = "*", use = "edit" },
+	# Folder
+	{ url = "*/", use = [ "edit", "open", "reveal" ] },
+	# Text
+	{ mime = "text/*", use = [ "edit", "reveal" ] },
+# Image - Updated to use the 'image_view' (nomacs) opener first
+    { mime = "image/*", use = [ "image_view", "open", "reveal" ] },
+	# Media
+	{ mime = "{audio,video}/*", use = [ "play", "reveal" ] },
+	# Archive
+	{ mime = "application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}", use = [ "extract", "reveal" ] },
+	# JSON
+	{ mime = "application/{json,ndjson}", use = [ "edit", "reveal" ] },
+	{ mime = "*/javascript", use = [ "edit", "reveal" ] },
+	# Empty file
+	{ mime = "inode/empty", use = [ "edit", "reveal" ] },
+	# Virtual file system
+	{ mime = "vfs/{absent,stale}", use = "download" },
+	# Fallback
+	{ url = "*", use = [ "open", "reveal" ] },
 ]

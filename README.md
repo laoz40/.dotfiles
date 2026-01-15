@@ -12,7 +12,7 @@ Everything uses my custom blue and gold colorscheme, based off my keycaps.
 
 ---
 
-> Everything below here is for if I need to install again. If you are a stranger, hi, and don't randomly install my config.
+> Everything below here is for if I need to install again. If you are a stranger, hi, and don't randomly install my config. This isn't a guide.
 
 ## Setup stuff:
 
@@ -84,11 +84,13 @@ System stuff:
 - **mpris**: `playerctl`
 - **btop**: `btop`
 - **cliphist**: `cliphist`
+- **QView**: `qview` (AUR)
+- **mpv**: `mpv`
 - **TLP** (for laptop): `tlp`
 - Timeshift and GRUB btrfs for backing up and restoring
 
 ```
-paru -S ly networkmanager pavucontrol playerctl btop cliphist
+paru -S ly networkmanager pavucontrol playerctl btop cliphist qview mpv
 ```
 
 Appearance stuff:
