@@ -95,14 +95,14 @@ paru -S ly networkmanager pavucontrol playerctl btop cliphist qview mpv
 
 Appearance stuff:
 
-- **JetBrains Mono**: `ttf-jetbrains-mono`
+- **JetBrains Mono**: `ttf-jetbrains-mono` `ttf-jetbrains-mono-nerd`
 - **Bibata cursor**: `bibata-cursor-theme-bin` (AUR)
 - **Tela icons**: `tela-icon-theme` (AUR)
 - **cmatrix**: `cmatrix`
 - **batcat**: `bat`
 
 ```
-paru -S bibata-cursor-theme-bin tela-icon-theme ttf-jetbrains-mono cmatrix bat
+paru -S bibata-cursor-theme-bin tela-icon-theme ttf-jetbrains-mono ttf-jetbrains-mono-nerd cmatrix bat
 ```
 
 ## Enable stuff:
