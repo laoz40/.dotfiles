@@ -65,6 +65,7 @@ Linux stuff and other stuff:
 - **hyprlock**: `hyprlock`
 - **hypridle**: `hypridle`
 - **hyprshot**: `hyprshot`
+- **hyprpicker**: `hyprpicker`
 - **rofi**: `rofi`
 - **waybar**: `waybar`
 - **dunst**: `dunst`
@@ -72,7 +73,7 @@ Linux stuff and other stuff:
 - **WezTerm** (for Windows)
 
 ```
-paru -S hyprland hyprpaper hyprlock hypridle hyprshot rofi waybar dunst fastfetch
+paru -S hyprland hyprpaper hyprlock hypridle hyprshot hyprpicker rofi waybar dunst fastfetch
 ```
 
 System stuff:
