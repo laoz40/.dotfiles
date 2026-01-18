@@ -62,14 +62,6 @@
       "format": "{name}",
     },
     {
-      "type": "display",
-      "key": "├󰍹",
-      "compactType": "none",
-      "preciseRefreshRate": false,
-      "order": null,
-      "format": "{inch}\" {width}x{height} {refresh-rate}hz",
-    },
-    {
       "type": "cpu",
       "key": "├",
       "temp": false,
@@ -89,6 +81,14 @@
         "type": 0,
       },
       "format": "{name}",
+    },
+    {
+      "type": "display",
+      "key": "├󰍹",
+      "compactType": "none",
+      "preciseRefreshRate": false,
+      "order": null,
+      "format": "{inch}\" {width}x{height} {refresh-rate}hz",
     },
     {
       "type": "disk",
