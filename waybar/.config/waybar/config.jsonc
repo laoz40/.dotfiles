@@ -147,7 +147,7 @@
     "format-linked": "<span color='#dfb46a'>󱘖 </span> {ifname} (No IP)",
     "format-disconnected": "<span color='#e06c75'> </span> Disconnected",
     "interval": 1,
-    "on-click": "bash ~/.local/bin/rofi_wifi_menu.sh",
+    "on-click": "networkmanager_dmenu",
   },
   "custom/privacy-dots": {
     "exec": "~/.local/bin/privacy_dots.sh",
