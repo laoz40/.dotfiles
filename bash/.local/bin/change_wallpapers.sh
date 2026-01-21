@@ -11,13 +11,9 @@ if [ -z "$WALLPAPER" ]; then
     exit 1
 fi
 
-hyprctl hyprpaper preload "$WALLPAPER"
 MONITORS=$(hyprctl monitors | grep "Monitor" | awk '{print $2}')
 
-for MONITOR in $MONITORS; do             
+for MONITOR in $MONITORS; do
 	hyprctl hyprpaper wallpaper "$MONITOR,$WALLPAPER"
+	notify-send "Wallpaper changed to $(basename $WALLPAPER)" -u low
 done
-
-sleep 1
-
-hyprctl hyprpaper unload unused
