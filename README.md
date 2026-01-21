@@ -53,6 +53,7 @@ Essential stuff:
 - **Zoxide**: `zoxide`
 - **fzf**: `fzf`
 - **Zen Browser**: `zen-browser-bin` (AUR)
+    - Betterfox
 
 ```
 paru -S neovim tmux ghostty lazygit yazi zoxide fzf zen-browser-bin
