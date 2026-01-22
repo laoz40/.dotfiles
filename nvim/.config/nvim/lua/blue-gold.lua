@@ -11,7 +11,7 @@ M.palette = {
 	fg = "#c0caf5",
 	fg_dim = "#8b95c9",
 	selection = "#264f78",
-	comment = "#3a415c",
+	comment = "#57628E",
 
 	blue = "#6A95DF",
 	blue_alt = "#4f73b8",
