@@ -17,12 +17,6 @@ return {
 			})
 		end,
 	},
-	-- Autopairs
-	{
-		"windwp/nvim-autopairs",
-		event = "InsertEnter",
-		config = true,
-	},
 	-- CSS Colorizer
 	{
 		"catgoose/nvim-colorizer.lua",
@@ -79,5 +73,11 @@ return {
 		dependencies = {
 			"MunifTanjim/nui.nvim",
 		},
+	},
+	-- TODO comments
+	{
+		"folke/todo-comments.nvim",
+		dependencies = { "nvim-lua/plenary.nvim" },
+		opts = {},
 	},
 }
