@@ -129,3 +129,7 @@ TLP for laptop:
 sudo systemctl enable tlp.service
 ```
 
+tmux:
+```
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+```
