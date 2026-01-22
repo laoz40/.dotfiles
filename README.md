@@ -12,11 +12,16 @@ Everything uses my custom blue and gold colorscheme, based off my keycaps.
 
 ---
 
-> Everything below here is for if I need to install again. If you are a stranger, hi, and don't randomly install my config. This isn't a guide.
+> Everything below here is for if I need to install again. If you are a stranger, hi,
+> and don't randomly install my config. This isn't a guide.
 
 ## Setup stuff:
 
 Get paru or yay.
+
+```
+sudo pacman -S --needed base-devel && git clone https://aur.archlinux.org/paru.git && cd paru && makepkg -si
+```
 
 GNU Stow for managing config files:
 
@@ -27,11 +32,11 @@ paru -S stow
 Install dotfiles:
 
 ```
-git clone https://github.com/laoz40/.dotfiles.git
-cd .dotfiles
+git clone https://github.com/laoz40/.dotfiles.git && cd .dotfiles
 ```
 
 stow + directory name to make symlink:
+
 ```
 # e.g. nvim
 stow nvim
@@ -46,14 +51,14 @@ Essential stuff:
 
 - **Neovim**: `neovim`
 - **tmux**: `tmux`
-    - tmux-sessionizer
+  - tmux-sessionizer
 - **Ghostty**: `ghostty`
 - **Lazygit**: `lazygit`
 - **Yazi**: `yazi`
 - **Zoxide**: `zoxide`
 - **fzf**: `fzf`
 - **Zen Browser**: `zen-browser-bin` (AUR)
-    - Betterfox
+  - Betterfox
 
 ```
 paru -S neovim tmux ghostty lazygit yazi zoxide fzf zen-browser-bin
@@ -89,10 +94,13 @@ System stuff:
 - **QView**: `qview` (AUR)
 - **mpv**: `mpv`
 - **TLP** (for laptop): `tlp`
-- Timeshift and GRUB btrfs for backing up and restoring
+- **Timeshift**: `timeshift`
+  - **Timeshift-autosnap**: `timeshift-autosnap`
+  - **Grub-btrfs**: `grub-btrfs`
+  - **Inotify-tools**: `inotify-tools`
 
 ```
-paru -S ly networkmanager pavucontrol playerctl btop cliphist qview mpv
+paru -S ly networkmanager pavucontrol playerctl btop cliphist qview mpv timeshift timeshift-autosnap grub-btrfs inotify-tools
 ```
 
 Appearance stuff:
@@ -130,6 +138,18 @@ sudo systemctl enable tlp.service
 ```
 
 tmux:
+
 ```
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+```
+
+Timeshift + grub-btrfs:
+
+```
+sudo /etc/grub.d/41_snapshots-btrfs
+grub-mkconfig -o /boot/grub/grub.cfg
+sudo systemctl start grub-btrfsd
+sudo systemctl enable grub-btrfsd
+sudo systemctl edit --full grub-btrfsd
+sudo systemctl restart grub-btrfsd
 ```
