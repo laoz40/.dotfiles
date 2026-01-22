@@ -70,6 +70,11 @@ return {
 				git_log = { layout = "sidebar_down" },
 				undo = { layout = "sidebar_down" },
 				grep_word = { layout = "sidebar_down" },
+				grep = {
+					follow = true,
+					hidden = true,
+					root = false,
+				},
 			},
 		},
 
