@@ -106,13 +106,16 @@ paru -S ly networkmanager pavucontrol playerctl btop cliphist qview mpv timeshif
 Appearance stuff:
 
 - **JetBrains Mono**: `ttf-jetbrains-mono` `ttf-jetbrains-mono-nerd`
-- **Bibata cursor**: `bibata-cursor-theme-bin` (AUR)
-- **Tela icons**: `tela-icon-theme` (AUR)
 - **cmatrix**: `cmatrix`
 - **batcat**: `bat`
+- **Bibata cursor**: `bibata-cursor-theme-bin` (AUR)
+- **Arc-theme**: `arc-gtk-theme` (AUR)
+    - **nwg-look**: `nwg-look`
+    - **qt**: `qt5ct` `qt6ct` (AUR)
+    - **kvantum**: `kvantum` `kvantum-qt5` (AUR)
 
 ```
-paru -S bibata-cursor-theme-bin tela-icon-theme ttf-jetbrains-mono ttf-jetbrains-mono-nerd cmatrix bat
+paru -S ttf-jetbrains-mono ttf-jetbrains-mono-nerd cmatrix bat bibata-cursor-theme-bin arc-gtk-theme nwg-look qt5ct qt6ct kvantum kvantum-qt5
 ```
 
 ## Enable stuff:
