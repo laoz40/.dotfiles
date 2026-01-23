@@ -24,7 +24,6 @@
     "network",
     "bluetooth",
     "pulseaudio",
-    "backlight/slider",
     "cpu",
     "memory",
     "battery",
@@ -141,15 +140,15 @@
     },
     "interval": 10,
   },
-	"idle_inhibitor": {
-		"format": "{icon}",
-		"format-icons": {
-			"activated": "󰈈",
-			"deactivated": "󰈉"
-		},
-		"tooltip-format-activated": "Idle inhibitor: Activated",
-		"tooltip-format-deactivated": "Idle inhibitor: Deactivated",
-	},
+  "idle_inhibitor": {
+    "format": "{icon}",
+    "format-icons": {
+      "activated": "󰈈",
+      "deactivated": "󰈉",
+    },
+    "tooltip-format-activated": "Idle inhibitor: Activated",
+    "tooltip-format-deactivated": "Idle inhibitor: Deactivated",
+  },
   "clock#simpleclock": {
     "tooltip": false,
     "format": "<span color='#dfb46a'> </span>{:%I:%M%p}",
