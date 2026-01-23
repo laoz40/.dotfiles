@@ -28,6 +28,7 @@
     "cpu",
     "memory",
     "battery",
+    "idle_inhibitor",
     "clock",
     "clock#simpleclock",
     "custom/power",
@@ -121,6 +122,34 @@
     "format": "<span color='#dfb46a'></span> {percentage}%",
     "interval": 10,
   },
+  "battery": {
+    "states": {
+      "warning": 30,
+      "critical": 15,
+    },
+    "format": "<span color='#dfb46a'>{icon}</span> {capacity}%",
+    "format-time": "{H}h {M}min",
+    "format-icons": ["󰂎", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+    "format-charging": "<span color='#4f73b8'>󰉁 {capacity}%</span>",
+    "max-length": 7,
+    "tooltip-format": "<b>Discharging</b>: {time}",
+    "tooltip-format-charging": "<b>Charging</b>: {time}",
+    "events": {
+      "on-discharging-warning": "notify-send 'Battery Low' -u critical -i 'battery-020' -r 1525",
+      "on-discharging-critical": "notify-send 'PLUG IN A CHARGER IM GONNA DIE' -u critical -i 'battery-010' -r 1525",
+      "on-charging-100": "notify-send 'Battery Full (100%)' -i 'battery-100-charged'",
+    },
+    "interval": 10,
+  },
+	"idle_inhibitor": {
+		"format": "{icon}",
+		"format-icons": {
+			"activated": "󰈈",
+			"deactivated": "󰈉"
+		},
+		"tooltip-format-activated": "Idle inhibitor: Activated",
+		"tooltip-format-deactivated": "Idle inhibitor: Deactivated",
+	},
   "clock#simpleclock": {
     "tooltip": false,
     "format": "<span color='#dfb46a'> </span>{:%I:%M%p}",
@@ -147,24 +176,5 @@
     "tooltip": false,
     "on-click": "bash ~/.local/bin/rofi_power_menu.sh",
     "format": "<span color='#dfb46a'>⏻</span>",
-  },
-  "battery": {
-    "states": {
-      "warning": 30,
-      "critical": 15,
-    },
-    "format": "<span color='#dfb46a'>{icon}</span> {capacity}%",
-    "format-time": "{H}h {M}min",
-    "format-icons": ["󰂎", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
-    "format-charging": "<span color='#4f73b8'>󰉁 {capacity}%</span>",
-    "max-length": 7,
-    "tooltip-format": "<b>Discharging</b>: {time}",
-    "tooltip-format-charging": "<b>Charging</b>: {time}",
-    "events": {
-      "on-discharging-warning": "notify-send 'Battery Low' -u critical -i 'battery-020' -r 1525",
-      "on-discharging-critical": "notify-send 'PLUG IN A CHARGER IM GONNA DIE' -u critical -i 'battery-010' -r 1525",
-      "on-charging-100": "notify-send 'Battery Full (100%)' -i 'battery-100-charged'",
-    },
-    "interval": 10,
   },
 }
