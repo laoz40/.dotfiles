@@ -66,8 +66,6 @@ paru -S neovim tmux ghostty lazygit yazi zoxide fzf zen-browser-bin
 
 Linux stuff and other stuff:
 
-- **hyprland**: `hyprland`
-- **hyprpaper**: `hyprpaper`
 - **hyprlock**: `hyprlock`
 - **hypridle**: `hypridle`
 - **hyprshot**: `hyprshot`
@@ -86,6 +84,7 @@ System stuff:
 
 - **ly**: `ly`
 - **Network Manager**: `networkmanager`
+- **brightnessctl**: `brightnessctl`
 - **pavucontrol**: `pavucontrol`
 - **blueman** (if bluetooth): `blueman`
 - **mpris**: `playerctl`
@@ -100,7 +99,7 @@ System stuff:
   - **Inotify-tools**: `inotify-tools`
 
 ```
-paru -S ly networkmanager pavucontrol playerctl btop cliphist qview mpv timeshift timeshift-autosnap grub-btrfs inotify-tools
+paru -S ly networkmanager brightnessctl pavucontrol playerctl btop cliphist qview mpv timeshift timeshift-autosnap grub-btrfs inotify-tools
 ```
 
 Appearance stuff:

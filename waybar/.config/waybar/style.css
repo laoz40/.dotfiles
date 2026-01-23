@@ -69,6 +69,7 @@ window#waybar {
 #battery,
 #bluetooth,
 #network,
+#backlight-slider,
 #custom-privacy-dots {
   padding: 0.1rem 0.6rem;
   margin: 0 0.25rem 0 0.25rem;
@@ -176,6 +177,27 @@ window#waybar.empty #window {
   font-size: 12px;
   letter-spacing: 0px;
 	color: gold
+}
+
+#backlight-slider slider {
+    min-height: 0px;
+    min-width: 0px;
+    opacity: 0;
+    background-image: none;
+    border: none;
+    box-shadow: none;
+    background: none;
+}
+#backlight-slider trough {
+    min-height: 10px;
+    min-width: 80px;
+    border-radius: 5px;
+    background: black;
+}
+#backlight-slider highlight {
+    min-width: 10px;
+    border-radius: 5px;
+    background: red;
 }
 
 tooltip {
