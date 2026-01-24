@@ -59,7 +59,7 @@
     "player": "spotify",
     "dynamic-order": ["artist", "title"],
     "format": "<span color='#dfb46a'>{player_icon}</span> {dynamic}",
-    "format-paused": "<span color='#dfb46a'>{status_icon}</span> <i>{dynamic}</i>",
+    "format-paused": "<span color='#dfb46a'>{status_icon}</span> {dynamic}",
     "status-icons": {
       "paused": "",
     },
