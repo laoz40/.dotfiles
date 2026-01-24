@@ -116,10 +116,12 @@
     "format": "<span color='#dfb46a'></span> {usage}%",
     "tooltip": true,
     "interval": 10,
+    "on-click": "ghostty --class=com.btop.float -e btop",
   },
   "memory": {
     "format": "<span color='#dfb46a'></span> {percentage}%",
     "interval": 10,
+    "on-click": "ghostty --class=com.btop.float -e btop",
   },
   "battery": {
     "states": {
