@@ -90,8 +90,8 @@
     "format": "<span color='#dfb46a'>󰂲</span>",
     "format-on": "<span color='#dfb46a'>{icon}</span>",
     "format-off": "<span color='#dfb46a'>{icon}</span>",
-    "format-connected": " <span color='#dfb46a'></span> {device_alias} ",
-    "format-connected-battery": " <span color='#dfb46a'></span> {device_alias}",
+    "format-connected": "<span color='#dfb46a'></span> {device_alias}",
+    "format-connected-battery": "<span color='#dfb46a'></span> {device_alias}",
     "format-icons": {
       "on": "󰂯",
       "off": "󰂲",
@@ -132,7 +132,6 @@
     "format-time": "{H}h {M}min",
     "format-icons": ["󰂎", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
     "format-charging": "<span color='#4f73b8'>󰉁 {capacity}%</span>",
-    "max-length": 7,
     "tooltip-format": "<b>Discharging</b>: {time}",
     "tooltip-format-charging": "<b>Charging</b>: {time}",
     "events": {
