@@ -1,19 +1,21 @@
-# I use arch btw
+# Leo's configuration files for Linux (arch btw)
 
 Everything uses my custom blue and gold colorscheme, based off my keycaps.
 
-![Preview](./previews/terminal.png)
+![Preview](./previews/terminal.webp)
 
 <div align="center">
-  <img src="./previews/rofi.png" width="32%" />
-  <img src="./previews/programs.png" width="32%" />
-  <img src="./previews/hyprlock.png" width="32%" />
+  <img src="./previews/rofi.webp" width="32%" />
+  <img src="./previews/programs.webp" width="32%" />
+  <img src="./previews/hyprlock.webp" width="32%" />
 </div>
 
 ---
 
-> Everything below here is for if I need to install again. If you are a stranger, hi,
-> and don't randomly install my config. This isn't a guide.
+> Everything below here is for my convenience if I need to install again.
+> If you are a stranger, hi, and this is not a guide.
+
+---
 
 ## Setup stuff:
 
@@ -109,9 +111,9 @@ Appearance stuff:
 - **batcat**: `bat`
 - **Bibata cursor**: `bibata-cursor-theme-bin` (AUR)
 - **Arc-theme**: `arc-gtk-theme` (AUR)
-    - **nwg-look**: `nwg-look`
-    - **qt**: `qt5ct` `qt6ct` (AUR)
-    - **kvantum**: `kvantum` `kvantum-qt5` (AUR)
+  - **nwg-look**: `nwg-look`
+  - **qt**: `qt5ct` `qt6ct` (AUR)
+  - **kvantum**: `kvantum` `kvantum-qt5` (AUR)
 
 ```
 paru -S ttf-jetbrains-mono ttf-jetbrains-mono-nerd cmatrix bat bibata-cursor-theme-bin arc-gtk-theme nwg-look qt5ct qt6ct kvantum kvantum-qt5
