@@ -63,8 +63,21 @@ start_timer() {
 	if [[ -f $timer_file ]]; then
 		echo "Done" > $timer_file
 		notify-send "Time is up!" "Go do the thing you were supposed to do." -i alarm-clock -u critical
-		sleep 10
-		rm $timer_file
+
+		done_input=$(rofi -dmenu -p "Timer Finished!" <<-EOF
+			Done
+			Snooze 5 min
+		EOF
+		)
+
+		case $done_popup in
+			"Snooze 5 min")
+				start_timer 5
+				;;
+			*)
+				rm -f $timer_file
+				;;
+		esac
 	fi
 }
 
@@ -76,11 +89,11 @@ else
 fi
 
 # NOTE: Auto selects from results if part of input matches string, need to type m after for custom time
-input=$(rofi -dmenu -p "Set Timer:" <<EOF
-25 min
-5 min
-$pause_option
-Cancel Timer
+input=$(rofi -dmenu -p "Set Timer:" <<-EOF
+	25 min
+	5 min
+	$pause_option
+	Cancel Timer
 EOF
 )
 
@@ -97,6 +110,10 @@ elif [[ $input == "Cancel Timer" ]]; then
 	rm $timer_file
 	notify-send "Timer Cancelled" -i alarm-clock -u normal
 	exit 0
+elif [[ $input == "Done" ]]; then
+	rm $timer_file
+elif [[ $input == "Snooze 5 min" ]]; then
+	start_timer 5
 # If input is numbers followed by space min/m (optional)
 elif [[ $input =~ ^([0-9]*\.?[0-9]+)([[:space:]?]*min|m)?$ ]]; then
 	# Find and kill any existing timer processes so they stop writing to the file
@@ -115,3 +132,5 @@ else
 	notify-send "Input Error" -u critical
 	exit 1
 fi
+
+
