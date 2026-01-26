@@ -64,7 +64,7 @@ start_timer() {
 		echo "Done" > $timer_file
 		notify-send "Time is up!" "Go do the thing you were supposed to do." -i alarm-clock -u critical
 
-		done_input=$(rofi -dmenu -p "Timer Finished!" <<-EOF
+		done_popup=$(rofi -dmenu -p "Timer Finished!" <<-EOF
 			Done
 			Snooze 5 min
 		EOF
@@ -74,8 +74,35 @@ start_timer() {
 			"Snooze 5 min")
 				start_timer 5
 				;;
+
+			"Done")
+				sleep 5
+				rm $timer_file
+				;;
+
+			"")
+				sleep 5
+				rm $timer_file
+				;;
+
 			*)
-				rm -f $timer_file
+				if [[ $done_popup =~ ^([0-9]*\.?[0-9]+)([[:space:]?]*min|m)?$ ]]; then
+					# Find and kill any existing timer processes so they stop writing to the file
+					OTHER_PIDS=$(pgrep -f "$(basename "$0")" | grep -v "^$$$")
+					if [ -n "$OTHER_PIDS" ]; then
+						echo "$OTHER_PIDS" | xargs kill
+					fi
+
+					minutes=${BASH_REMATCH[1]}
+					notify-send "Timer Started" "$minutes min" -i alarm-clock -u normal
+					start_timer $minutes
+					exit 0
+				else
+					notify-send "Input Error" -u critical
+					sleep 5
+					rm $timer_file
+					exit 1
+				fi
 				;;
 		esac
 	fi
@@ -97,40 +124,42 @@ input=$(rofi -dmenu -p "Set Timer:" <<-EOF
 EOF
 )
 
-if [[ $input == "$pause_option" ]]; then
-	if [[ -f $timer_paused ]]; then
-		rm $timer_paused
-		notify-send "Timer Resumed" -i alarm-clock -u normal
-	else
-		touch $timer_paused
-		notify-send "Timer Paused" -i alarm-clock -u normal
-	fi
-	exit 0
-elif [[ $input == "Cancel Timer" ]]; then
-	rm $timer_file
-	notify-send "Timer Cancelled" -i alarm-clock -u normal
-	exit 0
-elif [[ $input == "Done" ]]; then
-	rm $timer_file
-elif [[ $input == "Snooze 5 min" ]]; then
-	start_timer 5
-# If input is numbers followed by space min/m (optional)
-elif [[ $input =~ ^([0-9]*\.?[0-9]+)([[:space:]?]*min|m)?$ ]]; then
-	# Find and kill any existing timer processes so they stop writing to the file
-	OTHER_PIDS=$(pgrep -f "$(basename "$0")" | grep -v "^$$$")
-	if [ -n "$OTHER_PIDS" ]; then
-		echo "$OTHER_PIDS" | xargs kill
-	fi
+case $input in
+	$pause_option)
+		if [[ -f $timer_paused ]]; then
+			rm $timer_paused
+			notify-send "Timer Resumed" -i alarm-clock -u normal
+		else
+			touch $timer_paused
+			notify-send "Timer Paused" -i alarm-clock -u normal
+		fi
+		exit 0
+		;;
 
-	minutes=${BASH_REMATCH[1]}
-	notify-send "Timer Started" "$minutes min" -i alarm-clock -u normal
-	start_timer $minutes
-	exit 0
-elif [[ -z $input ]]; then
-	exit 0
-else
-	notify-send "Input Error" -u critical
-	exit 1
-fi
+	"Cancel Timer")
+		rm $timer_file
+		notify-send "Timer Cancelled" -i alarm-clock -u normal
+		exit 0
+		;;
 
+	"")
+		exit 0
+		;;
 
+	*)
+		if [[ $input =~ ^([0-9]*\.?[0-9]+)([[:space:]?]*min|m)?$ ]]; then
+			# Find and kill any existing timer processes so they stop writing to the file
+			OTHER_PIDS=$(pgrep -f "$(basename "$0")" | grep -v "^$$$")
+			if [ -n "$OTHER_PIDS" ]; then
+				echo "$OTHER_PIDS" | xargs kill
+			fi
+
+			minutes=${BASH_REMATCH[1]}
+			notify-send "Timer Started" "$minutes min" -i alarm-clock -u normal
+			start_timer $minutes
+			exit 0
+		else
+			notify-send "Input Error" -u critical
+			exit 1
+		fi
+esac
