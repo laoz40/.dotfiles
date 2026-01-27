@@ -7,6 +7,7 @@ return {
 					enabled = false,
 				},
 				heading = {
+					icons = { "󰄾 ", "󰘍 ", " ", " ", " ", " " },
 					width = "block",
 				},
 			})
