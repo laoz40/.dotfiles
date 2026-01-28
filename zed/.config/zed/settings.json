@@ -23,7 +23,7 @@
     "button": false,
   },
   "git_panel": {
-    "button": true,
+    "button": false,
     "scrollbar": {
       "show": "never",
     },
