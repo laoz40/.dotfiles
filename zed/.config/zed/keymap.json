@@ -1,11 +1,5 @@
 [
   {
-    "context": "Workspace",
-    "bindings": {
-      // "shift shift": "file_finder::Toggle"
-    },
-  },
-  {
     "context": "Editor && vim_mode == insert",
     "bindings": {
       "ctrl-c": "vim::NormalBefore",
@@ -18,7 +12,13 @@
     },
   },
   {
-    "context": "Workspace",
+    "context": "Editor && vim_mode == normal && !VimWaiting",
+    "bindings": {
+      "space e": "workspace::ToggleLeftDock",
+    },
+  },
+  {
+    "context": "ProjectPanel",
     "bindings": {
       "space e": "workspace::ToggleLeftDock",
     },
