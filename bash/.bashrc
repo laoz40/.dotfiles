@@ -58,6 +58,9 @@ esac
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# LAZYGIT - Use multiple config files
+export LG_CONFIG_FILE="$HOME/.config/lazygit/lazycommit/config.yml,\
+$HOME/.config/lazygit/config.yml"
 # Seperate file for api key env variables
 [ -f "$HOME/.bash_secrets" ] && . "$HOME/.bash_secrets"
 
