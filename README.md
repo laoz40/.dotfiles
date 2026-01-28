@@ -53,6 +53,7 @@ Essential stuff:
   - tmux-sessionizer
 - **Ghostty**: `ghostty`
 - **Lazygit**: `lazygit`
+    - LazyCommit
 - **Yazi**: `yazi`
 - **Zoxide**: `zoxide`
 - **fzf**: `fzf`
