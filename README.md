@@ -71,19 +71,20 @@ Linux stuff and other stuff:
 - **hyprshot**: `hyprshot`
 - **hyprpicker**: `hyprpicker`
 - **rofi**: `rofi`
+    - **rofi-emoji**: `rofi-emoji noto-fonts-emoji`
+    - **networkmanager-dmenu**: `networkmanager-dmenu`
 - **waybar**: `waybar`
 - **dunst**: `dunst`
 - **fastfetch**: `fastfetch`
 
 ```
-paru -S hyprland hyprpaper hyprlock hypridle hyprshot hyprpicker rofi waybar dunst fastfetch
+paru -S hyprland hyprpaper hyprlock hypridle hyprshot hyprpicker rofi rofi-emoji noto-fonts-emoji networkmanager-dmenu waybar dunst fastfetch
 ```
 
 System stuff:
 
 - **ly**: `ly`
 - **Network Manager**: `networkmanager`
-- **brightnessctl**: `brightnessctl`
 - **pavucontrol**: `pavucontrol`
 - **blueman** (if bluetooth): `blueman`
 - **mpris**: `playerctl`
@@ -93,13 +94,14 @@ System stuff:
 - **mpv**: `mpv`
 - ** GNOME Keyring**: `gnome-keyring`
 - **TLP** (for laptop): `tlp`
+- **brightnessctl** (for laptop): `brightnessctl`
 - **Timeshift**: `timeshift`
   - **Timeshift-autosnap**: `timeshift-autosnap`
   - **Grub-btrfs**: `grub-btrfs`
   - **Inotify-tools**: `inotify-tools`
 
 ```
-paru -S ly networkmanager brightnessctl pavucontrol playerctl btop cliphist qview mpv gnome-keyring timeshift timeshift-autosnap grub-btrfs inotify-tools
+paru -S ly networkmanager pavucontrol playerctl btop cliphist qview mpv gnome-keyring timeshift timeshift-autosnap grub-btrfs inotify-tools
 ```
 
 Appearance stuff:
