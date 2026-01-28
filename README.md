@@ -13,9 +13,6 @@ Everything uses my custom blue and gold colorscheme, based off my keycaps.
 ---
 
 > Everything below here is for my convenience if I need to install again.
-> If you are a stranger, hi, and this is not a guide.
-
----
 
 ## Setup stuff:
 
@@ -94,6 +91,7 @@ System stuff:
 - **cliphist**: `cliphist`
 - **QView**: `qview` (AUR)
 - **mpv**: `mpv`
+- ** GNOME Keyring**: `gnome-keyring`
 - **TLP** (for laptop): `tlp`
 - **Timeshift**: `timeshift`
   - **Timeshift-autosnap**: `timeshift-autosnap`
@@ -101,7 +99,7 @@ System stuff:
   - **Inotify-tools**: `inotify-tools`
 
 ```
-paru -S ly networkmanager brightnessctl pavucontrol playerctl btop cliphist qview mpv timeshift timeshift-autosnap grub-btrfs inotify-tools
+paru -S ly networkmanager brightnessctl pavucontrol playerctl btop cliphist qview mpv gnome-keyring timeshift timeshift-autosnap grub-btrfs inotify-tools
 ```
 
 Appearance stuff:
