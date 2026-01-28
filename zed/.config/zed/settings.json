@@ -39,15 +39,9 @@
   "cursor_shape": "block",
   "cursor_blink": false,
   "agent": {
-    "default_profile": "write",
-    "default_model": {
-      "provider": "openrouter",
-      "model": "qwen/qwen3-coder:free",
-    },
+    "default_profile": "ask",
     "button": true,
-    "favorite_models": [],
     "play_sound_when_agent_done": true,
-    "model_parameters": [],
   },
   "disable_ai": false,
   "terminal": {
