@@ -1,9 +1,9 @@
 {
   "tabs": {
-    "git_status": false
+    "git_status": false,
   },
   "edit_predictions": {
-    "mode": "subtle",
+    "mode": "eager",
   },
   "outline_panel": {
     "button": false,
@@ -33,7 +33,7 @@
   "agent": {
     "default_model": {
       "provider": "copilot_chat",
-      "model": "gpt-4.1",
+      "model": "gpt-4o",
     },
     "button": true,
     "favorite_models": [],
@@ -107,5 +107,8 @@
   },
   "experimental.theme_overrides": {
     "background.appearance": "transparent",
+  },
+  "features": {
+    "edit_prediction_provider": "supermaven",
   },
 }
