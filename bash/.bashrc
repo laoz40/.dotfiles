@@ -85,4 +85,4 @@ if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
 fi
 
 # Zed alias
-alias zed="zeditor ."
+alias zed="zeditor --wait ."
