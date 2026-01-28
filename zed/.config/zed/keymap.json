@@ -19,7 +19,7 @@
     },
   },
   {
-    "context": "Workspace",
+    "context": "Editor",
     "bindings": {
       "ctrl-6": "pane::AlternateFile",
     },
