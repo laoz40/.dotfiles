@@ -50,15 +50,15 @@ Essential stuff:
 
 - **Neovim**: `neovim`
 - **tmux**: `tmux`
-  - tmux-sessionizer
+  - [tmux-sessionizer](https://github.com/ThePrimeagen/.dotfiles/blob/master/bin/.local/scripts/tmux-sessionizer)
 - **Ghostty**: `ghostty`
 - **Lazygit**: `lazygit`
-    - LazyCommit
+    - [LazyCommit](https://github.com/Hamxter/lazycommit)
 - **Yazi**: `yazi`
 - **Zoxide**: `zoxide`
 - **fzf**: `fzf`
 - **Zen Browser**: `zen-browser-bin` (AUR)
-  - Betterfox
+  - [Betterfox](https://github.com/yokoffing/BetterFox)
 
 ```
 paru -S neovim tmux ghostty lazygit yazi zoxide fzf zen-browser-bin
@@ -74,7 +74,6 @@ Linux stuff and other stuff:
 - **waybar**: `waybar`
 - **dunst**: `dunst`
 - **fastfetch**: `fastfetch`
-- **WezTerm** (for Windows)
 
 ```
 paru -S hyprland hyprpaper hyprlock hypridle hyprshot hyprpicker rofi waybar dunst fastfetch
