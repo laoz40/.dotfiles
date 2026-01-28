@@ -1,0 +1,108 @@
+{
+  "edit_predictions": {
+    "mode": "subtle",
+  },
+  "outline_panel": {
+    "button": false,
+  },
+  "collaboration_panel": {
+    "button": false,
+  },
+  "notification_panel": {
+    "button": false,
+  },
+  "git_panel": {
+    "button": false,
+    "scrollbar": {
+      "show": "auto",
+    },
+  },
+  "search": {
+    "button": false,
+  },
+  "status_bar": {
+    "cursor_position_button": false,
+    "active_encoding_button": "disabled",
+    "active_language_button": false,
+  },
+  "cursor_shape": "block",
+  "cursor_blink": false,
+  "agent": {
+    "default_model": {
+      "provider": "copilot_chat",
+      "model": "gpt-4.1",
+    },
+    "button": true,
+    "favorite_models": [],
+    "play_sound_when_agent_done": true,
+    "model_parameters": [],
+  },
+  "disable_ai": false,
+  "terminal": {
+    "shell": {
+      "program": "sh",
+    },
+  },
+  "git": {
+    "inline_blame": {
+      "enabled": false,
+    },
+  },
+  "relative_line_numbers": "enabled",
+  "ui_font_family": "JetBrainsMono Nerd Font",
+  "buffer_line_height": "comfortable",
+  "buffer_font_weight": 350.0,
+  "buffer_font_family": "JetBrainsMono Nerd Font",
+  "buffer_font_features": {
+    "calt": false,
+  },
+  "tab_bar": {
+    "show_tab_bar_buttons": false,
+    "show_nav_history_buttons": false,
+    "show": false,
+  },
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false,
+  },
+  "vim_mode": true,
+  "icon_theme": "Catppuccin Macchiato",
+  "ui_font_size": 16.0,
+  "buffer_font_size": 22.0,
+  "theme": "blue-gold",
+  "current_line_highlight": "none",
+  "show_whitespaces": "trailing",
+  "title_bar": {
+    "show_user_picture": false,
+    "show_branch_icon": false,
+    "show_onboarding_banner": false,
+    "show_branch_name": false,
+    "show_project_items": false,
+    "show_user_menu": false,
+  },
+  "toolbar": {
+    "breadcrumbs": false,
+    "quick_actions": false,
+  },
+  "project_panel": {
+    "button": true,
+    "hide_root": true,
+    "auto_fold_dirs": false,
+    "indent_guides": {
+      "show": "never",
+    },
+  },
+  "file_finder": {
+    "modal_max_width": "small",
+  },
+  "gutter": {
+    "min_line_number_digits": 0,
+    "folds": false,
+  },
+  "indent_guides": {
+    "enabled": false,
+  },
+  "experimental.theme_overrides": {
+    "background.appearance": "transparent",
+  },
+}
