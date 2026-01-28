@@ -1,4 +1,7 @@
 {
+  "tabs": {
+    "git_status": false
+  },
   "edit_predictions": {
     "mode": "subtle",
   },
@@ -12,7 +15,7 @@
     "button": false,
   },
   "git_panel": {
-    "button": false,
+    "button": true,
     "scrollbar": {
       "show": "auto",
     },
