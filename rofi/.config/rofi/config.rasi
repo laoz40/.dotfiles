@@ -2,8 +2,17 @@ configuration {
   display-drun: "Applications:";
   display-window: "Windows:";
   display-emoji: "Emoji:";
-  drun-display-format: "{name}";
-  show-icons: true;
+  display-calc: "Calculator:";
+    calc {
+        no-bold: false;
+        terse: false;
+        no-persist-history: true;
+        calc-command: "notify-send {result}";
+        hint-result: "Result: ";
+        hint-welcome: "";
+    }
+	drun-display-format: "{name}";
+	show-icons: true;
   font: "JetBrainsMono Nerd Font Medium 12";
   modi: "window,run,drun,emoji";
 }
@@ -19,8 +28,8 @@ configuration {
   fg-alt: #8b95c9;
 
 	gold: #dfb46a;
-	blue: #4f73b8; 
-  
+	blue: #4f73b8;
+
   border: 0;
   margin: 0;
   padding: 0;
@@ -76,7 +85,7 @@ listview {
 }
 
 mainbox {
-  children: [inputbar, listview];
+  children: [inputbar, message, listview];
   background-color: @bg;
 }
 
@@ -85,4 +94,15 @@ prompt {
   padding: 12 0 0 12;
   background-color: @bg-alt;
   text-color: @gold;
+}
+
+message {
+  padding: 0;
+  background-color: @bg-alt;
+}
+
+textbox {
+  padding: 0 12 12 12;
+  background-color: transparent;
+  text-color: @fg;
 }

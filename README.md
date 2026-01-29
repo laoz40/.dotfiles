@@ -72,6 +72,7 @@ Linux stuff and other stuff:
 - **hyprpicker**: `hyprpicker`
 - **rofi**: `rofi`
     - **rofi-emoji**: `rofi-emoji noto-fonts-emoji`
+    - **rofi-calc**: `rofi-calc`
     - **networkmanager-dmenu**: `networkmanager-dmenu`
 - **waybar**: `waybar`
 - **dunst**: `dunst`
