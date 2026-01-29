@@ -11,7 +11,7 @@
     "git_status": false,
   },
   "edit_predictions": {
-    "mode": "eager",
+    "mode": "subtle",
   },
   "outline_panel": {
     "button": false,
@@ -120,6 +120,6 @@
     "background.appearance": "transparent",
   },
   "features": {
-    "edit_prediction_provider": "supermaven",
+    "edit_prediction_provider": "zed",
   },
 }
