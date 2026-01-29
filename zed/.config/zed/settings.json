@@ -34,10 +34,11 @@
   "status_bar": {
     "cursor_position_button": false,
     "active_encoding_button": "disabled",
-    "active_language_button": false,
+    "active_language_button": true,
   },
   "cursor_shape": "block",
   "cursor_blink": false,
+  "hover_popover_enabled": false,
   "agent": {
     "default_profile": "ask",
     "button": true,
@@ -45,6 +46,7 @@
   },
   "disable_ai": false,
   "terminal": {
+    "button": false,
     "shell": {
       "program": "sh",
     },
@@ -88,8 +90,8 @@
     "show_user_picture": false,
     "show_branch_icon": false,
     "show_onboarding_banner": false,
-    "show_branch_name": false,
-    "show_project_items": false,
+    "show_branch_name": true,
+    "show_project_items": true,
     "show_user_menu": false,
   },
   "toolbar": {
