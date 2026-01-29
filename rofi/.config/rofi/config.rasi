@@ -2,15 +2,11 @@ configuration {
   display-drun: "Applications:";
   display-window: "Windows:";
   display-emoji: "Emoji:";
-  display-calc: "Calculator:";
-    calc {
-        no-bold: false;
-        terse: false;
-        no-persist-history: true;
-        calc-command: "notify-send {result}";
-        hint-result: "Result: ";
-        hint-welcome: "";
-    }
+	display-calc: "Calculator:";
+	calc {
+		hint-result: "Result: ";
+		hint-welcome: "";
+	}
 	drun-display-format: "{name}";
 	show-icons: true;
   font: "JetBrainsMono Nerd Font Medium 12";
