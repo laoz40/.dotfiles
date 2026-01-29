@@ -1,8 +1,14 @@
 #!/usr/bin/env bash
 
-chosen=$(printf "  Power Off\n  Reboot\n󰤄  Sleep\n  Lock" | rofi -dmenu -i -p "Power Menu:")
+input=$(rofi -dmenu -i -p "Power Menu:" <<-EOF
+	  Power Off
+	  Reboot
+	󰤄  Sleep
+	  Lock
+EOF
+)
 
-case "$chosen" in
+case "$input" in
 	"  Power Off") poweroff ;;
 	"  Reboot") reboot ;;
 	"󰤄  Sleep") systemctl suspend ;;
