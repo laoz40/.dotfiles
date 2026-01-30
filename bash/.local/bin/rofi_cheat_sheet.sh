@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-query=$(rofi -dmenu -i \
-  -theme-str 'window {width: 20%; height: 20%;}' \
+query=$(rofi -dmenu -i -no-fixed-num-lines \
+  -theme-str 'window {width: 20%; }'\
   -p "Cheat Sheet:")
 
 if [[ -n $query ]]; then
