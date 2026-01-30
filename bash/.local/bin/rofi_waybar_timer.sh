@@ -64,8 +64,8 @@ start_timer() {
 		echo "Done" > $timer_file
 		notify-send "Time is up!" "Go do the thing you were supposed to do." -i alarm-clock -u critical
 
-		done_popup=$(rofi -dmenu -i \
-			-theme-str 'window {width: 20%; height: 20%;}' \
+		done_popup=$(rofi -dmenu -i -no-fixed-num-lines \
+			-theme-str 'window {width: 20%; }' \
 			-p "Timer Finished!" <<-EOF
 				Done
 				Snooze 5 min
@@ -118,8 +118,8 @@ else
 fi
 
 # NOTE: Auto selects from results if part of input matches string, need to type m after for custom time
-input=$(rofi -dmenu -i \
-  -theme-str 'window {width: 20%; height: 20%;}' \
+input=$(rofi -dmenu -i -no-fixed-num-lines \
+  -theme-str 'window {width: 20%; }' \
   -p "Timer:" <<-EOF
 		25 min
 		5 min
