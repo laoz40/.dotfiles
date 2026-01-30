@@ -2,7 +2,13 @@
 
 query=$(rofi -dmenu -i -no-fixed-num-lines \
   -theme-str 'window {width: 20%; }'\
-  -p "Cheat Sheet:")
+  -p "Cheat Sheet:" <<- EOF
+		react
+		js
+		bash
+		lua
+	EOF
+)
 
 if [[ -n $query ]]; then
 	TMUX_SESSION="cheat_sh"
