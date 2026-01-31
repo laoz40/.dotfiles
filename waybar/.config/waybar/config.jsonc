@@ -34,10 +34,12 @@
   ],
   "hyprland/workspaces": {
     "on-click": "activate",
-    "format": "{id}",
+		"format": "{name}",
     "all-outputs": true,
     "disable-scroll": false,
     "active-only": false,
+		"show-special": true,
+		"special-visible-only": true,
   },
   "custom/timer": {
     "exec": "~/.local/bin/rofi_waybar_timer.sh get",
