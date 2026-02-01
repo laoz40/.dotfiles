@@ -67,6 +67,11 @@ $HOME/.config/lazygit/config.yml"
 # Zoxide
 eval "$(zoxide init bash)"
 
+# Autostart tmux and attach to the last session
+if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
+  tmux attach-session -t main || tmux new-session -s main
+fi
+
 # Fastfetch
 fastfetch
 
@@ -82,10 +87,8 @@ function y() {
 # Lazygit alias
 alias lg="lazygit"
 
-# Autostart tmux and attach to the last session
-if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
-  tmux attach-session -t main || tmux new-session -s main
-fi
-
 # Zed alias
 alias zed="zeditor --wait ."
+
+# opencode alias
+alias oc="opencode --port"
