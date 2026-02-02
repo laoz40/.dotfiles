@@ -11,10 +11,7 @@ find_wallpapers() {
     \) "$@"
 }
 
-if ! find_wallpapers | read -r _; then
-    notify-send "No wallpapers found in $WALLPAPER_DIRECTORY" -u critical
-    exit 1
-fi
+find_wallpapers | read -r _ || { notify-send "No wallpapers found in $WALLPAPER_DIRECTORY" -u critical; exit 1; }
 
 set_wallpaper() {
 	local wallpaper="$1"
