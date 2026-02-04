@@ -1,11 +1,21 @@
 #!/usr/bin/env bash
 
-wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
-
-STATE=$(wpctl get-volume @DEFAULT_AUDIO_SOURCE@)
-
-if [[ $STATE == *"MUTED"* ]]; then
-    notify-send -r 1000 -u low "Microphone" "Muted"
-else
-    notify-send -r 1000 -u low "Microphone" "Active"
+if [[ $1 != "waybar_fetch" ]]; then
+    wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
 fi
+
+state=$(wpctl get-volume @DEFAULT_AUDIO_SOURCE@)
+
+if [[ $state == *"MUTED"* ]]; then
+    icon=""
+    class="muted"
+    tooltip="Microphone Muted"
+    [[ $1 != "waybar_fetch" ]] && notify-send -r 1000 -u low "Microphone" "Muted"
+else
+    icon=""
+    class="active"
+    tooltip="Microphone Active"
+    [[ $1 != "waybar_fetch" ]] && notify-send -r 1000 -u low "Microphone" "Active"
+fi
+
+printf '{"text": "%s", "class": "%s", "tooltip": "%s"}\n' "$icon" "$class" "$tooltip"
