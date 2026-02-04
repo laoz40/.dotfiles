@@ -17,8 +17,7 @@ kill_running_timers() {
 	fi
 }
 
-# waybar get timer
-if [[ $1 == "get" ]]; then
+if [[ $1 == "waybar_fetch" ]]; then
 	[[ ! -f $TIMER_FILE ]] && echo '{"text": "", "class": "stopped"}' && exit 0
 
 	content=$(<"$TIMER_FILE")
@@ -29,8 +28,7 @@ if [[ $1 == "get" ]]; then
 	exit 0
 fi
 
-# waybar pause/resume on-click
-if [[ $1 == "toggle" && -f $TIMER_FILE ]]; then
+if [[ $1 == "waybar_toggle" && -f $TIMER_FILE ]]; then
 	if [[ -f $TIMER_PAUSED ]]; then
 		rm "$TIMER_PAUSED"
 	else
