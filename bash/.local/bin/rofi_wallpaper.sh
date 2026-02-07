@@ -16,7 +16,6 @@ find_wallpapers | read -r _ || { notify-send "No wallpapers found in $WALLPAPER_
 set_wallpaper() {
 	local wallpaper="$1"
 	hyprctl hyprpaper wallpaper ",$wallpaper"
-	notify-send -r 2000 "Wallpaper changed to $(basename "$wallpaper")" -u low
 }
 
 if [[ $1 == "get_random" ]]; then
