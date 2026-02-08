@@ -154,10 +154,9 @@ title_error = { fg = "#e06c75" }
 [filetype]
 
 rules = [
-    # Images (Gold tones)
-    { mime = "image/*", fg = "#F2D28B" },
 
     # Media (Blue tones)
+    { mime = "image/*", fg = "#4f73b8" },
     { mime = "video/*", fg = "#4f73b8" },
     { mime = "audio/*", fg = "#4f73b8" },
 
