@@ -5,9 +5,9 @@ Everything uses my custom blue and gold colorscheme, based off my keycaps.
 ![Preview](./previews/terminal.webp)
 
 <div align="center">
-  <img src="./previews/rofi.webp" width="32%" />
-  <img src="./previews/programs.webp" width="32%" />
-  <img src="./previews/hyprlock.webp" width="32%" />
+  <img src="./.previews/rofi.webp" width="32%" />
+  <img src="./.previews/programs.webp" width="32%" />
+  <img src="./.previews/hyprlock.webp" width="32%" />
 </div>
 
 ---
