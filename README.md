@@ -2,7 +2,7 @@
 
 Everything uses my custom blue and gold colorscheme, based off my keycaps.
 
-![Preview](./previews/terminal.webp)
+![Preview](./.previews/terminal.webp)
 
 <div align="center">
   <img src="./.previews/rofi.webp" width="32%" />
