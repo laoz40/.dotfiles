@@ -30,6 +30,7 @@ return {
 				eslint = {},
 				marksman = {},
 				bashls = {},
+				astro = {},
 			},
 		},
 
