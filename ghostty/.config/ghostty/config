@@ -44,5 +44,7 @@ gtk-tabs-location = hidden
 window-padding-x = 0
 window-padding-y = 0
 
-# Close without confirm
+# No confirmations
 confirm-close-surface = false
+clipboard-read = allow
+clipboard-write = allow
