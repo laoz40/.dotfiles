@@ -23,5 +23,5 @@ require("lazy").setup({
 		{ import = "plugins.functional" },
 		{ import = "plugins.cosmetic" },
 	},
-	checker = { enabled = true },
+	checker = { enabled = true, notify = false },
 })
