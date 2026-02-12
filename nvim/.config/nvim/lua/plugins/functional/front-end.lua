@@ -78,6 +78,10 @@ return {
 	{
 		"folke/todo-comments.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },
-		opts = {},
+		opts = {
+			highlight = {
+				comments_only = false,
+			}
+		},
 	},
 }
