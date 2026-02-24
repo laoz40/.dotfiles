@@ -7,11 +7,14 @@ TIMER_PAUSED=/tmp/timer_paused
 
 cleanup_timer_file() {
 	# how long before the timer dissappears from waybar
-	sleep 5 && rm -f "$TIMER_FILE"
+	sleep 10 && rm -f "$TIMER_FILE"
 }
 
+# Stop other instances of this script while keeping the current process alive.
 kill_running_timers() {
-	OTHER_PIDS=$(pgrep -f "$(basename "$0")" | grep -v "^$$$")
+	local self_pid
+	self_pid="${BASHPID:-$$}"
+	OTHER_PIDS=$(pgrep -f "$(basename "$0")" | grep -v -x "$self_pid" || true)
 	if [ -n "$OTHER_PIDS" ]; then
 		echo "$OTHER_PIDS" | xargs kill
 	fi
@@ -66,7 +69,7 @@ start_timer() {
 
 	if [[ -f $TIMER_FILE ]]; then
 		echo "Done" > $TIMER_FILE
-		handle_timer_finished
+		handle_timer_finished &
 		notify-send "Time is up!" "Go do the thing you were supposed to do." -u critical
 	fi
 }
@@ -92,10 +95,8 @@ handle_timer_finished() {
 			return
 			;;
 	esac
-
-if [[ $done_popup =~ $regex ]]; then
+	if [[ $done_popup =~ $regex ]]; then
 		minutes=${BASH_REMATCH[1]}
-		kill_running_timers
 		start_timer "$minutes" &
 		notify-send "Timer Snoozed" "$minutes min" -u normal
 		return
