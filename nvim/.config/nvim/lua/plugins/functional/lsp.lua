@@ -31,6 +31,7 @@ return {
 				marksman = {},
 				bashls = {},
 				astro = {},
+				svelte = {},
 			},
 		},
 
