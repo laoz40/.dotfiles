@@ -328,10 +328,11 @@ user_pref("mousewheel.default.delta_multiplier_y", 300); // 250-400; adjust this
 
 user_pref("zen.view.compact.enable-at-startup", true);
 user_pref("zen.view.compact.hide-toolbar", true);
-user_pref("zen.view.compact.toolbar-flash-popup", true);
+user_pref("zen.view.compact.toolbar-flash-popup", false);
+user_pref("zen.view.compact.toolbar-flash-popup.duration", 450);
 user_pref("zen.view.show-newtab-button-top", false);
-user_pref("zen.view.sidebar-expanded", false);
-user_pref("zen.view.use-single-toolbar", false);
+user_pref("zen.view.sidebar-expanded", true);
+user_pref("zen.view.use-single-toolbar", true);
 user_pref("zen.view.window.scheme", 0);
 user_pref("zen.welcome-screen.seen", true);
 user_pref("zen.widget.linux.transparency", true);
