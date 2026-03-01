@@ -27,6 +27,7 @@ return {
 				html = {},
 				cssls = {},
 				tailwindcss = {},
+				eslint = {},
 				oxlint = {},
 				oxfmt = {},
 				marksman = {},

@@ -20,7 +20,7 @@ return {
 					graphql = { "oxfmt" },
 					handlebars = { "oxfmt" },
 					toml = { "oxfmt" },
-					svelte = { "oxfmt" },
+					svelte = { "prettier" },
 				},
 			})
 		end,
