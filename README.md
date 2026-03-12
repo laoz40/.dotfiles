@@ -70,6 +70,7 @@ Linux stuff and other stuff:
 - **hypridle**: `hypridle`
 - **hyprshot**: `hyprshot`
 - **hyprpicker**: `hyprpicker`
+- **hyprwhspr**: `hyprwhspr` (AUR)
 - **rofi**: `rofi`
     - **rofi-emoji**: `rofi-emoji noto-fonts-emoji`
     - **rofi-calc**: `rofi-calc`
@@ -79,7 +80,7 @@ Linux stuff and other stuff:
 - **fastfetch**: `fastfetch`
 
 ```
-paru -S hyprland hyprpaper hyprlock hypridle hyprshot hyprpicker rofi rofi-emoji noto-fonts-emoji networkmanager-dmenu waybar dunst fastfetch
+paru -S hyprland hyprpaper hyprlock hypridle hyprshot hyprpicker hyprwhspr rofi rofi-emoji noto-fonts-emoji networkmanager-dmenu waybar dunst fastfetch
 ```
 
 System stuff:
