@@ -30,12 +30,6 @@ return {
 			{ "folke/snacks.nvim", opts = { input = {}, picker = {}, terminal = {} } },
 		},
 		config = function()
-			vim.g.opencode_opts = {
-				provider = {
-					enabled = "tmux",
-					tmux = {},
-				},
-			}
 			vim.o.autoread = true
 			vim.keymap.set({ "n", "x" }, "<leader>oa", function()
 				require("opencode").ask("@this: ", { submit = true })
