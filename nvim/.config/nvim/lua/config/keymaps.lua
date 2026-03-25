@@ -33,6 +33,10 @@ vim.keymap.set("n", "<leader>e", function()
 	MiniFiles.reveal_cwd()
 end)
 
+vim.keymap.set("n", "<leader>gd", function()
+	MiniDiff.toggle_overlay()
+end)
+
 -- Snacks
 vim.keymap.set("n", "<C-P>", function()
 	Snacks.picker.smart({ title = "Search" })
@@ -114,11 +118,11 @@ vim.keymap.set("n", "<leader>ct", ":ColorizerToggle<CR>", { noremap = true, sile
 
 -- Supermaven
 vim.keymap.set("i", "<A-y>", function()
-    require("supermaven-nvim.completion_preview").on_accept_suggestion()
+	require("supermaven-nvim.completion_preview").on_accept_suggestion()
 end, { desc = "Supermaven Accept" })
 vim.keymap.set("i", "<A-e>", function()
-    require("supermaven-nvim.completion_preview").on_accept_word()
+	require("supermaven-nvim.completion_preview").on_accept_word()
 end, { desc = "Supermaven Accept Word" })
 vim.keymap.set("i", "<A-c>", function()
-    require("supermaven-nvim.completion_preview").on_dispose_inlay_hint()
+	require("supermaven-nvim.completion_preview").on_dispose_inlay_hint()
 end, { desc = "Supermaven Clear" })
