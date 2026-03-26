@@ -126,3 +126,21 @@ end, { desc = "Supermaven Accept Word" })
 vim.keymap.set("i", "<A-c>", function()
 	require("supermaven-nvim.completion_preview").on_dispose_inlay_hint()
 end, { desc = "Supermaven Clear" })
+
+-- copy line number range to clipboard for llms
+vim.keymap.set("v", "<leader>lr", function()
+	local s = vim.fn.line("'<")
+	local e = vim.fn.line("'>")
+	local file = vim.fn.expand("%:p")
+	local git_root = vim.fn.systemlist("git rev-parse --show-toplevel")[1]
+
+	if git_root and git_root ~= "" then
+		file = file:sub(#git_root + 2)
+	end
+
+	local range = (s == e) and tostring(s) or (s .. "-" .. e)
+	local text = file .. ":" .. range
+
+	vim.fn.setreg("+", text)
+	print(text)
+end, { desc = "Copy file:path with line range" })
