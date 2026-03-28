@@ -131,16 +131,11 @@ end, { desc = "Supermaven Clear" })
 vim.keymap.set("v", "<leader>lr", function()
 	local s = vim.fn.line("'<")
 	local e = vim.fn.line("'>")
-	local file = vim.fn.expand("%:p")
-	local git_root = vim.fn.systemlist("git rev-parse --show-toplevel")[1]
-
-	if git_root and git_root ~= "" then
-		file = file:sub(#git_root + 2)
-	end
+	local file = vim.fn.expand("%:t")
 
 	local range = (s == e) and tostring(s) or (s .. "-" .. e)
 	local text = file .. ":" .. range
 
 	vim.fn.setreg("+", text)
 	print(text)
-end, { desc = "Copy file:path with line range" })
+end, { desc = "Copy file name with line range" })
