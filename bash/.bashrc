@@ -63,7 +63,9 @@ $HOME/.config/lazygit/config.yml"
 eval "$(zoxide init bash)"
 
 # Autostart tmux and attach to the last session
-if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
+if command -v tmux &> /dev/null \
+  && [ -z "$TMUX" ] \
+  && [ "$TERM_PROGRAM" = "ghostty" ]; then
   tmux attach-session -t main || tmux new-session -s main
 fi
 
