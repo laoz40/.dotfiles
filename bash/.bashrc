@@ -90,4 +90,4 @@ alias lg="lazygit"
 alias zed="zeditor --wait ."
 
 # opencode alias
-alias oc="opencode --port"
+alias oc="opencode"
