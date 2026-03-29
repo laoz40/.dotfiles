@@ -68,6 +68,7 @@ Linux stuff and other stuff:
 
 - **hyprlock**: `hyprlock`
 - **hypridle**: `hypridle`
+- **hyprsunset**: `hyprsunset`
 - **hyprshot**: `hyprshot`
 - **hyprpicker**: `hyprpicker`
 - **hyprwhspr**: `hyprwhspr` (AUR)
@@ -80,7 +81,7 @@ Linux stuff and other stuff:
 - **fastfetch**: `fastfetch`
 
 ```
-paru -S hyprland hyprpaper hyprlock hypridle hyprshot hyprpicker hyprwhspr rofi rofi-emoji noto-fonts-emoji networkmanager-dmenu waybar dunst fastfetch
+paru -S hyprland hyprpaper hyprlock hypridle hyprsunset hyprshot hyprpicker hyprwhspr rofi rofi-emoji noto-fonts-emoji networkmanager-dmenu waybar dunst fastfetch
 ```
 
 System stuff:
