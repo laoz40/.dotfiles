@@ -56,6 +56,9 @@ export NVM_DIR="$HOME/.nvm"
 # LAZYGIT - Use multiple config files
 export LG_CONFIG_FILE="$HOME/.config/lazygit/lazycommit/config.yml,\
 $HOME/.config/lazygit/config.yml"
+# OpenClaude
+export CLAUDE_CODE_USE_OPENAI=1
+export OPENAI_MODEL=codexplan
 # Seperate file for api key env variables
 [ -f "$HOME/.bash_secrets" ] && . "$HOME/.bash_secrets"
 
