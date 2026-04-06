@@ -48,18 +48,24 @@ return {
 				eslint = {},
 				oxlint = {},
 				oxfmt = {},
+
 				marksman = {},
 				bashls = {},
 				astro = {},
 				svelte = {},
+
+				pyright = {},
+				ruff = {
+					cmd = { "ruff", "server" },
+				},
 			},
 		},
 
 		config = function(_, opts)
 			require("mason").setup()
-			for server, config in pairs(opts.servers) do
-				vim.lsp.config(server, config)
-				vim.lsp.enable(server)
+			for lsp, config in pairs(opts.servers) do
+				vim.lsp.config(lsp, config)
+				vim.lsp.enable(lsp)
 			end
 		end,
 	},

@@ -21,6 +21,7 @@ return {
 					handlebars = { "oxfmt" },
 					toml = { "oxfmt" },
 					svelte = { "prettier" },
+					python = { "black" },
 				},
 			})
 		end,
