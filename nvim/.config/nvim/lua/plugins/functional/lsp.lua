@@ -54,7 +54,7 @@ return {
 				astro = {},
 				svelte = {},
 
-				pyright = {},
+				basedpyright = {},
 				ruff = {
 					cmd = { "ruff", "server" },
 				},
