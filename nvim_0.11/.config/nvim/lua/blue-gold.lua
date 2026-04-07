@@ -1,6 +1,6 @@
 -- blue-gold.nvim
 -- A vibe-coded blue & gold Neovim colorscheme
--- Full Treesitter + Neovim 0.12 highlight support
+-- Full Treesitter + Neovim 0.11 highlight support
 
 local M = {}
 
@@ -26,46 +26,6 @@ M.palette = {
 	none = "NONE",
 }
 
-local function lualine_theme(p)
-	local transparent = { fg = p.fg, bg = p.none }
-	local inactive = { fg = p.fg_dim, bg = p.none }
-
-	return {
-		normal = {
-			a = { fg = p.fg, bg = p.none, gui = "bold" },
-			b = transparent,
-			c = transparent,
-		},
-		insert = {
-			a = { fg = p.fg, bg = p.none, gui = "bold" },
-			b = transparent,
-			c = transparent,
-		},
-		visual = {
-			a = { fg = p.fg, bg = p.none, gui = "bold" },
-			b = transparent,
-			c = transparent,
-		},
-		replace = {
-			a = { fg = p.fg, bg = p.none, gui = "bold" },
-			b = transparent,
-			c = transparent,
-		},
-		command = {
-			a = { fg = p.fg, bg = p.none, gui = "bold" },
-			b = transparent,
-			c = transparent,
-		},
-		inactive = {
-			a = inactive,
-			b = inactive,
-			c = inactive,
-		},
-	}
-end
-
-M.lualine_theme = lualine_theme(M.palette)
-
 local function hl(group, opts)
 	vim.api.nvim_set_hl(0, group, opts)
 end
@@ -80,11 +40,6 @@ function M.colorscheme()
 	vim.g.colors_name = "blue-gold"
 
 	local p = M.palette
-	local diff = {
-		add = p.blue,
-		change = p.gold_alt,
-		delete = p.red,
-	}
 
 	-----------------------------------------------------------------------------
 	-- Core UI
@@ -285,30 +240,10 @@ function M.colorscheme()
 	-----------------------------------------------------------------------------
 	-- Diff
 	-----------------------------------------------------------------------------
-	hl("Added", { fg = diff.add, bg = p.none })
-	hl("Changed", { fg = diff.change, bg = p.none })
-	hl("Removed", { fg = diff.delete, bg = p.none })
-	hl("diffAdded", { fg = diff.add, bg = p.none })
-	hl("diffChanged", { fg = diff.change, bg = p.none })
-	hl("diffRemoved", { fg = diff.delete, bg = p.none })
-	hl("DiffAdd", { fg = diff.add, bg = p.none }) -- added lines
-	hl("DiffChange", { fg = diff.change, bg = p.none }) -- changed lines
-	hl("DiffDelete", { fg = diff.delete, bg = p.none }) -- deleted lines
-	hl("DiffText", { fg = diff.change, bg = p.none, bold = true }) -- changed text inside line
-
-	hl("LuaLineDiffAdd", { fg = diff.add, bg = p.none })
-	hl("LuaLineDiffChange", { fg = diff.change, bg = p.none })
-	hl("LuaLineDiffDelete", { fg = diff.delete, bg = p.none })
-
-	hl("MiniDiffSignAdd", { fg = diff.add, bg = p.none })
-	hl("MiniDiffSignChange", { fg = diff.change, bg = p.none })
-	hl("MiniDiffSignDelete", { fg = diff.delete, bg = p.none })
-	hl("MiniDiffOverAdd", { fg = diff.add, bg = p.none, bold = true })
-	hl("MiniDiffOverChange", { fg = diff.change, bg = p.none, bold = true })
-	hl("MiniDiffOverChangeBuf", { fg = diff.change, bg = p.none, bold = true })
-	hl("MiniDiffOverContext", { fg = p.fg_dim, bg = p.none })
-	hl("MiniDiffOverContextBuf", { fg = p.fg_dim, bg = p.none })
-	hl("MiniDiffOverDelete", { fg = diff.delete, bg = p.none, bold = true })
+	hl("DiffAdd", { fg = p.blue_light }) -- added lines
+	hl("DiffChange", { fg = p.gold_alt }) -- changed lines
+	hl("DiffDelete", { fg = p.red }) -- deleted lines
+	hl("DiffText", { fg = p.gold, bold = true }) -- changed text inside line
 
 	-----------------------------------------------------------------------------
 	-- TODO
@@ -329,6 +264,30 @@ function M.colorscheme()
 	-- Quickfix
 	-----------------------------------------------------------------------------
 	hl("QuickFixLine", { bg = p.bg_alt, bold = true })
+
+	-----------------------------------------------------------------------------
+	-- Lualine support (transparent)
+	-----------------------------------------------------------------------------
+	hl("lualine_a_normal", { fg = p.bg, bg = p.blue, bold = true })
+	hl("lualine_a_insert", { fg = p.bg, bg = p.gold, bold = true })
+	hl("lualine_a_visual", { fg = p.bg, bg = p.gold_alt, bold = true })
+	hl("lualine_a_replace", { fg = p.bg, bg = p.blue_alt, bold = true })
+	hl("lualine_a_command", { fg = p.bg, bg = p.gold, bold = true })
+
+	hl("lualine_b_normal", { fg = p.fg, bg = p.bg_alt })
+	hl("lualine_c_normal", { fg = p.fg, bg = p.none })
+
+	hl("lualine_b_insert", { fg = p.fg, bg = p.bg_alt })
+	hl("lualine_c_insert", { fg = p.fg, bg = p.none })
+
+	hl("lualine_b_visual", { fg = p.fg, bg = p.bg_alt })
+	hl("lualine_c_visual", { fg = p.fg, bg = p.none })
+
+	hl("lualine_b_replace", { fg = p.fg, bg = p.bg_alt })
+	hl("lualine_c_replace", { fg = p.fg, bg = p.none })
+
+	hl("lualine_b_command", { fg = p.fg, bg = p.none })
+	hl("lualine_c_command", { fg = p.fg, bg = p.none })
 
 	local segments = { "a", "b", "c", "x", "y", "z" }
 	local modes = { "normal", "insert", "visual", "replace", "inactive" }
@@ -351,9 +310,9 @@ function M.colorscheme()
 
 	-- Git diff colors
 	local diffs = {
-		added = diff.add,
-		modified = diff.change,
-		removed = diff.delete,
+		added = p.blue_light,
+		modified = p.gold_alt,
+		removed = p.red,
 	}
 
 	for _, seg in ipairs(segments) do
@@ -431,16 +390,21 @@ function M.colorscheme()
 	hl("SnacksPickerMatch", { fg = p.blue })
 	hl("SnacksPickerPrompt", { fg = p.blue })
 
-	-- Diff
-	hl("SnacksDiffAdd", { fg = diff.add, bg = p.none, bold = true })
-	hl("SnacksDiffChange", { fg = diff.change, bg = p.none, bold = true })
-	hl("SnacksDiffDelete", { fg = diff.delete, bg = p.none, bold = true })
-	hl("SnacksDiffContext", { fg = diff.change, bg = p.none })
-	hl("SnacksDiffHeader", { fg = p.blue_light, bg = p.none, bold = true })
-	hl("SnacksDiffLabel", { fg = p.gold, bg = p.none, bold = true })
+	-- Diff (+ core diff)
+	hl("DiffAdd", { fg = p.blue, bg = p.none })
+	hl("SnacksDiffAdd", { fg = p.blue, bg = p.none })
+
+	hl("DiffDelete", { fg = p.red, bg = p.none })
+	hl("SnacksDiffDelete", { fg = p.red, bg = p.none })
+
+	hl("DiffChange", { fg = p.fg, bg = p.none })
+	hl("SnacksDiffChange", { fg = p.fg, bg = p.none })
 
 	-- Conflict
 	hl("SnacksDiffConflict", { fg = p.fg, bg = p.none, bold = true })
+
+	-- Optional: changed text inside changed lines
+	hl("DiffText", { fg = p.fg, bg = p.none, bold = true })
 end
 
 return M
