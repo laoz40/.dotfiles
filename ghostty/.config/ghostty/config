@@ -20,13 +20,13 @@ palette = 13=#6A95DF
 palette = 14=#9DB9F5
 palette = 15=#ffffff
 
-background = #0e2133
+background = #0B1C2B
 foreground = #c0caf5
 selection-background = #264f78
 selection-foreground = #c0caf5
 
 # Background
-background-opacity = 0.8
+background-opacity = 0.95
 background-blur = true
 
 # Cursor

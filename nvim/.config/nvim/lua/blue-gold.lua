@@ -6,7 +6,7 @@ local M = {}
 
 -- Color palette (restricted to blue & gold tones)
 M.palette = {
-	bg = "#0e2133",
+	bg = "#0B1C2B",
 	bg_alt = "#132a40",
 	fg = "#c0caf5",
 	fg_dim = "#8b95c9",
