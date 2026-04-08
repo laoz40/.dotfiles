@@ -22,5 +22,6 @@ require("conform").setup({
 		toml = { "oxfmt" },
 		svelte = { "prettier" },
 		python = { "black" },
+		typst = { "typstyle" },
 	},
 })

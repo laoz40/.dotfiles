@@ -53,6 +53,7 @@ local servers = {
   oxlint = {},
   oxfmt = {},
   marksman = {},
+	tinymist = {},
   bashls = {},
   astro = {},
   svelte = {},
