@@ -97,6 +97,10 @@ alias zed="zeditor --wait ."
 # opencode alias
 alias oc="opencode"
 
+# python virtual env
+alias py="python"
+alias venv="source .venv/bin/activate"
+
 # Select and go to t3 code worktreee
 wt() {
   local project_name t3_dir selected
