@@ -58,7 +58,7 @@ local servers = {
   astro = {},
   svelte = {},
 
-  basedpyright = {},
+  pyrefly = {},
 
   ruff = {
     cmd = { "ruff", "server" },
