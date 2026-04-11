@@ -163,7 +163,7 @@ vim.g.maplocalleader = "\\"
 vim.keymap.set({ "i", "v" }, "<C-c>", "<Esc>")
 
 -- tab management (note: <C-w>+c to close tab)
-vim.keymap.set("n", "<C-t>", "<Cmd>tabnew<CR>", { desc = "Open new tab" })
+vim.keymap.set("n", "<C-t>", "<Cmd>tab split<CR>", { desc = "Duplicate current window in new tab" })
 -- tab switching
 for i = 1, 9 do
 	vim.keymap.set("n", "<leader>" .. i, function()
