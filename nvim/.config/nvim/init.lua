@@ -32,7 +32,38 @@ vim.opt.guicursor = "n-v-i-c:block-Cursor"
 vim.api.nvim_set_hl(0, "Cursor", { bg = "#ffd700" })
 vim.lsp.document_color.enable(true, nil, { style = "virtual" })
 
--- tab stuff
+-- native tabline: show only file names
+vim.o.showtabline = 1
+vim.o.tabline = "%!v:lua.TabLine()"
+
+function _G.TabLine()
+	local s = ""
+	local current_tab = vim.fn.tabpagenr()
+	local last_tab = vim.fn.tabpagenr("$")
+
+	for i = 1, last_tab do
+		local winnr = vim.fn.tabpagewinnr(i)
+		local bufnr = vim.fn.tabpagebuflist(i)[winnr]
+		local name = vim.fn.fnamemodify(vim.fn.bufname(bufnr), ":t")
+
+		if name == "" then
+			name = "New Tab"
+		end
+
+		if i == current_tab then
+			s = s .. "%#TabLineSel#"
+		else
+			s = s .. "%#TabLine#"
+		end
+
+		s = s .. " " .. i .. ":" .. name .. " "
+	end
+
+	s = s .. "%#TabLineFill#"
+	return s
+end
+
+-- tab/indent stuff
 vim.o.expandtab = false
 vim.o.shiftwidth = 2
 vim.o.tabstop = 2
@@ -131,6 +162,15 @@ vim.g.maplocalleader = "\\"
 -- esc remap
 vim.keymap.set({ "i", "v" }, "<C-c>", "<Esc>")
 
+-- tab management (note: <C-w>+c to close tab)
+vim.keymap.set("n", "<C-t>", "<Cmd>tabnew<CR>", { desc = "Open new tab" })
+-- tab switching
+for i = 1, 9 do
+	vim.keymap.set("n", "<leader>" .. i, function()
+		vim.cmd(i .. "tabnext")
+	end, { desc = "Go to tab " .. i })
+end
+
 -- center screen on jumps
 vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Half page up and center" })
 vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Half page down and center" })
@@ -212,29 +252,6 @@ end, { desc = "Git log" })
 vim.keymap.set("n", "<leader>gh", function()
 	Snacks.gitbrowse()
 end, { desc = "Open file in git repo browser " })
-
--- harpoon
-vim.keymap.set("n", "<leader>ha", function()
-	require("harpoon"):list():add()
-end)
-vim.keymap.set("n", "<C-h>", function()
-	require("harpoon").ui:toggle_quick_menu(require("harpoon"):list())
-end)
-vim.keymap.set("n", "<leader>1", function()
-	require("harpoon"):list():select(1)
-end)
-vim.keymap.set("n", "<leader>2", function()
-	require("harpoon"):list():select(2)
-end)
-vim.keymap.set("n", "<leader>3", function()
-	require("harpoon"):list():select(3)
-end)
-vim.keymap.set("n", "<leader>4", function()
-	require("harpoon"):list():select(4)
-end)
-vim.keymap.set("n", "<leader>5", function()
-	require("harpoon"):list():select(5)
-end)
 
 -- refactoring
 vim.keymap.set("x", "<leader>re", function()
