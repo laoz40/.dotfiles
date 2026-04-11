@@ -1,5 +1,5 @@
 # Font
-font-size = 15
+font-size = 14
 font-feature = -calt
 
 # Theme
@@ -38,7 +38,20 @@ cursor-style-blink = false
 shell-integration-features = no-cursor
 
 # Tabs
-gtk-tabs-location = hidden
+gtk-tabs-location = top
+window-show-tab-bar = auto
+gtk-toolbar-style = flat
+gtk-titlebar-style = native
+
+keybind = ctrl+shift+1=goto_tab:1
+keybind = ctrl+shift+2=goto_tab:2
+keybind = ctrl+shift+3=goto_tab:3
+keybind = ctrl+shift+4=goto_tab:4
+keybind = ctrl+shift+5=goto_tab:5
+keybind = ctrl+shift+6=goto_tab:6
+keybind = ctrl+shift+7=goto_tab:7
+keybind = ctrl+shift+8=goto_tab:8
+keybind = ctrl+shift+9=goto_tab:9
 
 # Window
 window-padding-x = 0
