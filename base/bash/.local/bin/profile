@@ -50,12 +50,14 @@ stow_packages_in_dir "$DOTFILES_DIR/$PROFILE"
 # Reload hyprland and kill profile-dependent services.
 pkill waybar 2>/dev/null || true
 pkill hyprpaper 2>/dev/null || true
+pkill hyprsunset 2>/dev/null || true
 hyprctl reload 2>/dev/null || true
 # Wait for the reload to complete, then start the services.
 sleep 1
 pkill -USR2 -x ghostty 2>/dev/null || true
 nohup waybar >/dev/null 2>&1 &
 nohup hyprpaper >/dev/null 2>&1 &
+nohup hyprsunset >/dev/null 2>&1 &
 nohup bash -lc 'sleep 1 && killall -SIGUSR1 waybar' >/dev/null 2>&1 &
 # note need to manually reload ghostty to fix lag from shader
 
