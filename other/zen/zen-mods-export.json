@@ -1,0 +1,51 @@
+{
+  "ae7868dc-1fa1-469e-8b89-a5edf7ab1f24": {
+    "id": "ae7868dc-1fa1-469e-8b89-a5edf7ab1f24",
+    "name": "Load Bar",
+    "description": "Creates a sleek loading bar and mute status for single toolbar mode.",
+    "homepage": "https://github.com/Tanay-Kar/Zen-Themes/tree/main/LoadBar",
+    "style": "https://raw.githubusercontent.com/zen-browser/theme-store/main/themes/ae7868dc-1fa1-469e-8b89-a5edf7ab1f24/chrome.css",
+    "readme": "https://raw.githubusercontent.com/zen-browser/theme-store/main/themes/ae7868dc-1fa1-469e-8b89-a5edf7ab1f24/readme.md",
+    "image": "https://raw.githubusercontent.com/zen-browser/theme-store/main/themes/ae7868dc-1fa1-469e-8b89-a5edf7ab1f24/image.png",
+    "author": "Tanay-Kar",
+    "version": "1.0.0",
+    "tags": [],
+    "createdAt": "2024-12-21",
+    "updatedAt": "2025-05-10",
+    "enabled": true
+  },
+  "22c9ec3b-7c62-46ae-991f-c8fff5046829": {
+    "id": "22c9ec3b-7c62-46ae-991f-c8fff5046829",
+    "name": "Tab Numbers",
+    "description": "Shows the Number corresponding to each Tab.",
+    "homepage": "https://github.com/philmard/tab-numbers",
+    "style": "https://raw.githubusercontent.com/zen-browser/theme-store/main/themes/22c9ec3b-7c62-46ae-991f-c8fff5046829/chrome.css",
+    "readme": "https://raw.githubusercontent.com/zen-browser/theme-store/main/themes/22c9ec3b-7c62-46ae-991f-c8fff5046829/readme.md",
+    "image": "https://raw.githubusercontent.com/zen-browser/theme-store/main/themes/22c9ec3b-7c62-46ae-991f-c8fff5046829/image.png",
+    "author": "philmard",
+    "version": "1.0.8",
+    "preferences": "https://raw.githubusercontent.com/zen-browser/theme-store/main/themes/22c9ec3b-7c62-46ae-991f-c8fff5046829/preferences.json",
+    "tags": [
+      "tabs"
+    ],
+    "createdAt": "2024-11-09",
+    "updatedAt": "2025-07-15",
+    "enabled": true
+  },
+  "642854b5-88b4-4c40-b256-e035532109df": {
+    "id": "642854b5-88b4-4c40-b256-e035532109df",
+    "name": "Transparent Zen",
+    "description": "Make the Zen Browser's tab background transparent, get smooth animations and more. Enable  features in mod settings and visit the homepage below to learn more about the features. 👇",
+    "homepage": "https://www.sameerasw.com/zen",
+    "style": "https://raw.githubusercontent.com/zen-browser/theme-store/main/themes/642854b5-88b4-4c40-b256-e035532109df/chrome.css",
+    "readme": "https://raw.githubusercontent.com/zen-browser/theme-store/main/themes/642854b5-88b4-4c40-b256-e035532109df/readme.md",
+    "image": "https://raw.githubusercontent.com/zen-browser/theme-store/main/themes/642854b5-88b4-4c40-b256-e035532109df/image.png",
+    "author": "sameerasw",
+    "version": "1.17.3",
+    "tags": [],
+    "createdAt": "2025-02-04",
+    "updatedAt": "2025-10-29",
+    "preferences": "https://raw.githubusercontent.com/zen-browser/theme-store/main/themes/642854b5-88b4-4c40-b256-e035532109df/preferences.json",
+    "enabled": true
+  }
+}
