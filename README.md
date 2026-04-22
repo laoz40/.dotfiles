@@ -34,14 +34,20 @@ Install dotfiles:
 git clone https://github.com/laoz40/.dotfiles.git && cd .dotfiles
 ```
 
-stow + directory name to make symlink:
+Use GNU Stow to symlink configs:
 
-```
-# e.g. nvim
-stow nvim
+```bash
+# 1) Stow everything in base
+stow -d base -t ~ *
 
-# all
-stow .
+# 2) Stow a specific package from main
+stow -d main -t ~ waybar
+
+# -d sets stow directory, -t ~ sets target so symlinks go to home directory
+
+# Switch profiles once bash scripts are setup
+profile main
+profile minimal
 ```
 
 ## Stuff I use:
