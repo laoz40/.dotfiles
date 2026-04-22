@@ -332,7 +332,7 @@ user_pref("zen.view.compact.toolbar-flash-popup", false);
 user_pref("zen.view.compact.toolbar-flash-popup.duration", 450);
 user_pref("zen.view.show-newtab-button-top", false);
 user_pref("zen.view.sidebar-expanded", true);
-user_pref("zen.view.use-single-toolbar", true);
+user_pref("zen.view.use-single-toolbar", false);
 user_pref("zen.view.window.scheme", 0);
 user_pref("zen.welcome-screen.seen", true);
 user_pref("zen.widget.linux.transparency", true);
