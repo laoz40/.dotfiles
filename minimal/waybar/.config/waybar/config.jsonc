@@ -118,7 +118,7 @@
     "format": "<span color='#dfb46a'>{icon}</span>{volume}%",
     "format-muted": "<span color='#dfb46a'>  </span>Muted",
     "format-icons": {
-      "headphone": "",
+      "headphone": " ",
       "default": [" ", " ", " "],
     },
     "on-click": "pavucontrol",
