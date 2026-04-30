@@ -12,6 +12,7 @@ M.palette = {
 	fg_dim = "#8b95c9",
 	selection = "#264f78",
 	comment = "#57628E",
+	code_bg = "#1F2430",
 
 	blue = "#6A95DF",
 	blue_alt = "#4f73b8",
@@ -385,7 +386,7 @@ function M.colorscheme()
 	hl("RenderMarkdownBold", { fg = p.blue, bold = true })
 	hl("RenderMarkdownBold", { fg = p.blue_light, bold = true })
 
-	hl("RenderMarkdownCode", { bg = p.comment })
+	hl("RenderMarkdownCode", { bg = p.code_bg })
 
 	hl("RenderMarkdownLink", { fg = p.blue_alt })
 
