@@ -159,6 +159,9 @@ vim.api.nvim_create_autocmd("RecordingLeave", {
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
+-- save
+vim.keymap.set("n", "<leader>w", "<Cmd>w<CR>", { desc = "Save file" })
+
 -- esc remap
 vim.keymap.set({ "i", "v" }, "<C-c>", "<Esc>")
 
