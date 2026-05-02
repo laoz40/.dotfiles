@@ -1,7 +1,7 @@
 {
-  "lastChangelogVersion": "0.68.0",
+  "lastChangelogVersion": "0.72.0",
   "defaultProvider": "openai-codex",
-  "defaultModel": "gpt-5.4",
+  "defaultModel": "gpt-5.5",
   "packages": [
     "npm:pi-tool-display",
     "npm:@ollama/pi-web-search",
@@ -10,6 +10,7 @@
     "npm:pi-ask-user"
   ],
   "enabledModels": [
+    "openai-codex/gpt-5.5",
     "openai-codex/gpt-5.4",
     "openai-codex/gpt-5.4-mini",
     "openai-codex/gpt-5.3-codex",
@@ -18,18 +19,9 @@
     "openai-codex/gpt-5.2-codex",
     "openai-codex/gpt-5.1-codex-max",
     "openai-codex/gpt-5.1",
-    "openai-codex/gpt-5.1-codex-mini",
-    "google-antigravity/claude-opus-4-6-thinking",
-    "google-antigravity/claude-opus-4-5-thinking",
-    "google-antigravity/claude-sonnet-4-6",
-    "google-antigravity/claude-sonnet-4-5-thinking",
-    "google-antigravity/claude-sonnet-4-5",
-    "google-antigravity/gemini-3.1-pro-high",
-    "google-antigravity/gemini-3.1-pro-low",
-    "google-antigravity/gemini-3-flash",
-    "google-antigravity/gpt-oss-120b-medium"
+    "openai-codex/gpt-5.1-codex-mini"
   ],
-  "defaultThinkingLevel": "medium",
+  "defaultThinkingLevel": "low",
   "theme": "tokyonight-moon",
   "editorPaddingX": 2,
   "hideThinkingBlock": false,
