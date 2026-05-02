@@ -1,4 +1,4 @@
-require("notes-backup")
+local worktree = require("worktree")
 
 -- QOL
 vim.o.clipboard = "unnamedplus"
@@ -253,6 +253,10 @@ end, { desc = "Git log" })
 vim.keymap.set("n", "<leader>gh", function()
 	Snacks.gitbrowse()
 end, { desc = "Open file in git repo browser " })
+
+-- git worktree switch
+vim.keymap.set("n", "<leader>gw", worktree.switch, { desc = "Git worktree switch" })
+vim.keymap.set("n", "<leader>gW", worktree.create, { desc = "Git worktree create" })
 
 -- refactoring
 vim.keymap.set("x", "<leader>re", function()
