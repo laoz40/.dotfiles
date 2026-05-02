@@ -78,5 +78,6 @@ require("snacks").setup({
 		quickfile = { enabled = true },
 		rename = { enabled = true },
 		gitbrowse = { enabled = true },
+		input = { enabled = true },
 	}
 )
