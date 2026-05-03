@@ -61,6 +61,7 @@ require("snacks").setup({
 				frecency = true, -- frecency bonus
 			},
 			sources = {
+				git_worktrees = { layout = "vscode" },
 				lsp_symbols = { layout = "sidebar_down" },
 				lsp_references = { layout = "sidebar_down" },
 				diagnostics = { layout = "sidebar_down" },

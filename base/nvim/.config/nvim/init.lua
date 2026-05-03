@@ -1,5 +1,3 @@
-local worktree = require("worktree")
-
 -- QOL
 vim.o.clipboard = "unnamedplus"
 vim.o.mouse = "a"
@@ -258,8 +256,13 @@ vim.keymap.set("n", "<leader>gh", function()
 end, { desc = "Open file in git repo browser " })
 
 -- git worktree switch
-vim.keymap.set("n", "<leader>gw", worktree.switch, { desc = "Git worktree switch" })
-vim.keymap.set("n", "<leader>gW", worktree.create, { desc = "Git worktree create" })
+vim.keymap.set("n", "<leader>gw", function()
+	require("git-worktree").switch()
+end, { desc = "Git worktree switch" })
+
+vim.keymap.set("n", "<leader>gW", function()
+	require("git-worktree").create()
+end, { desc = "Git worktree create" })
 
 -- refactoring
 vim.keymap.set("x", "<leader>re", function()

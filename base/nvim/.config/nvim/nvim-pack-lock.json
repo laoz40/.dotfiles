@@ -30,6 +30,10 @@
       "rev": "6cd7280adead7f586db6fccbd15d2cac7e2188b9",
       "src": "https://github.com/rafamadriz/friendly-snippets"
     },
+    "git-worktree.nvim": {
+      "rev": "d7ef26e1033f934d9595b269de8837019bb2ce3d",
+      "src": "https://github.com/laoz40/git-worktree.nvim"
+    },
     "harpoon": {
       "rev": "87b1a3506211538f460786c23f98ec63ad9af4e5",
       "src": "https://github.com/ThePrimeagen/harpoon",
