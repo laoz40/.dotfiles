@@ -7,7 +7,8 @@
     "npm:@ollama/pi-web-search",
     "npm:pi-rewind",
     "npm:@juanibiapina/pi-tokyonight",
-    "npm:pi-ask-user"
+    "npm:pi-ask-user",
+    "npm:pi-rtk-optimizer"
   ],
   "enabledModels": [
     "openai-codex/gpt-5.5",
