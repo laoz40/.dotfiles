@@ -1,19 +1,19 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Start a JS project's dev server (bun/pnpm) and, when present, Convex dev
-# in separate tmux windows from anywhere inside the project.
+# Start a JS project's dev server (bun/pnpm) in the current tmux window
+# and, when present, Convex dev in a separate tmux window.
 
 usage() {
   cat <<'EOF'
 Usage: project-dev.sh
 
 Detects the project root from the current working directory, then:
-  - starts `bun dev` if bun.lock or bun.lockb exists at the root
-  - otherwise starts `pnpm dev` if pnpm-lock.yaml exists at the root
-  - otherwise starts `yarn dev` if yarn.lock exists at the root
-  - otherwise starts `npm run dev` if package-lock.json exists at the root
   - starts Convex in another tmux window if a convex/ directory exists
+  - starts `bun dev` in the current window if bun.lock or bun.lockb exists at the root
+  - otherwise starts `pnpm dev` in the current window if pnpm-lock.yaml exists at the root
+  - otherwise starts `yarn dev` in the current window if yarn.lock exists at the root
+  - otherwise starts `npm run dev` in the current window if package-lock.json exists at the root
 
 Requires tmux and an active tmux session.
 EOF
@@ -99,10 +99,12 @@ echo "project: $project"
 echo "root:    $root"
 echo "pm:      $pm"
 
-new_window "dev" "$dev_cmd"
-
 if [[ -d "$root/convex" ]]; then
   new_window "convex" "$convex_cmd"
 else
   echo "skip: no convex/ directory found"
 fi
+
+echo "starting dev server in current window -> $dev_cmd"
+cd "$root"
+exec bash -lc "$dev_cmd"
