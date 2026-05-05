@@ -62,7 +62,7 @@ if [[ -f "$root/bun.lock" || -f "$root/bun.lockb" ]]; then
 elif [[ -f "$root/pnpm-lock.yaml" ]]; then
   pm="pnpm"
   dev_cmd="pnpm dev"
-  convex_cmd="pnpm exec convex dev"
+  convex_cmd="pnpm convex dev"
 elif [[ -f "$root/yarn.lock" ]]; then
   pm="yarn"
   dev_cmd="yarn dev"
