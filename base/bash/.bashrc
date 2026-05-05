@@ -101,6 +101,12 @@ alias oc="opencode"
 alias py="python"
 alias venv="source .venv/bin/activate"
 
+# start dev server script
+alias dev="start-dev-server.sh"
+
+# profile switcher script
+alias profile="profile-switcher.sh"
+
 # Select and go to t3 code worktreee
 wt() {
   local project_name t3_dir selected
