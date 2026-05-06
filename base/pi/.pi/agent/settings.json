@@ -24,7 +24,7 @@
     "openai-codex/gpt-5.1-codex-mini"
   ],
   "defaultThinkingLevel": "low",
-  "theme": "tokyonight-moon",
+  "theme": "blue-gold",
   "editorPaddingX": 2,
   "hideThinkingBlock": false,
   "quietStartup": false,
@@ -32,5 +32,10 @@
   "treeFilterMode": "user-only",
   "images": {
     "autoResize": true
+  },
+  "autocompleteMaxVisible": 7,
+  "enableInstallTelemetry": false,
+  "warnings": {
+    "anthropicExtraUsage": false
   }
 }
