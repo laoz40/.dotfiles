@@ -1,7 +1,6 @@
 vim.pack.add({
   { src = "https://github.com/neovim/nvim-lspconfig" },
   { src = "https://github.com/mason-org/mason.nvim" },
-  { src = "https://github.com/artemave/workspace-diagnostics.nvim" },
 })
 
 require("mason").setup()
@@ -20,11 +19,7 @@ local servers = {
     },
   },
 
-  ts_ls = {
-    on_attach = function(client, bufnr)
-      require("workspace-diagnostics").populate_workspace_diagnostics(client, bufnr)
-    end,
-  },
+  ts_ls = {},
 
   html = {},
 

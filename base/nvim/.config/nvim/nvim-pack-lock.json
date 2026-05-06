@@ -129,10 +129,6 @@
       "rev": "16b5948df9f47d368713e5a86e44bbba14175f70",
       "src": "https://github.com/mlaursen/vim-react-snippets"
     },
-    "workspace-diagnostics.nvim": {
-      "rev": "0dcd7d0a6c8f6e1ddb5bb72e1412aa4c9388718f",
-      "src": "https://github.com/artemave/workspace-diagnostics.nvim"
-    },
     "wtf.nvim": {
       "rev": "ef7c22daf5c99f4c96fc2d0719d6f1848802fc02",
       "src": "https://github.com/piersolenski/wtf.nvim"

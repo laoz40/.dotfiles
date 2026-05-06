@@ -24,11 +24,6 @@ require("lualine").setup({
 
 		lualine_x = {
 			"searchcount",
-			{
-				"diagnostics",
-				sources = { "nvim_workspace_diagnostic" },
-				sections = { "error", "warn" },
-			},
 			-- "filetype",
 			"diff",
 			"branch",
