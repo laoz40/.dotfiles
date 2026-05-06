@@ -62,6 +62,7 @@ window#waybar {
 #cpu,
 #tray,
 #memory,
+#custom-ram-alert,
 #window,
 #mpris,
 #battery,
@@ -91,8 +92,13 @@ window#waybar.empty #window {
   color: @foreground;
 }
 
-#memory {
+#memory,
+#custom-ram-alert {
   color: @foreground;
+}
+
+#custom-ram-alert.critical {
+  color: @red;
 }
 
 #clock {

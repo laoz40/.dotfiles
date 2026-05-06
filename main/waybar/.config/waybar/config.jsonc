@@ -26,7 +26,7 @@
     "custom/microphone",
     "pulseaudio",
     "cpu",
-    "memory",
+    "custom/ram-alert",
     "battery",
     "idle_inhibitor",
     "clock",
@@ -129,9 +129,13 @@
     "interval": 10,
     "on-click": "ghostty --class=com.ghostty.float -e btop",
   },
-  "memory": {
-    "format": "<span color='#dfb46a'></span> {percentage}%",
+  "custom/ram-alert": {
+    "exec": "~/.local/bin/ram-alert.sh waybar",
+    "return-type": "json",
     "interval": 10,
+    "format": "{text}",
+    "tooltip": true,
+    "escape": false,
     "on-click": "ghostty --class=com.ghostty.float -e btop",
   },
   "battery": {
