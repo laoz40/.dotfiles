@@ -1,19 +1,19 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Start a JS project's dev server (bun/pnpm) in the current tmux window
-# and, when present, Convex dev in a separate tmux window.
+# Start a JS project's dev server (bun/pnpm) in the current tmux pane
+# and, when present, Convex dev in a horizontal tmux split.
 
 usage() {
   cat <<'EOF'
 Usage: project-dev.sh
 
 Detects the project root from the current working directory, then:
-  - starts Convex in another tmux window if a convex/ directory exists
-  - starts `bun dev` in the current window if bun.lock or bun.lockb exists at the root
-  - otherwise starts `pnpm dev` in the current window if pnpm-lock.yaml exists at the root
-  - otherwise starts `yarn dev` in the current window if yarn.lock exists at the root
-  - otherwise starts `npm run dev` in the current window if package-lock.json exists at the root
+  - starts Convex in a new horizontal tmux pane if a convex/ directory exists
+  - starts `bun dev` in the current pane if bun.lock or bun.lockb exists at the root
+  - otherwise starts `pnpm dev` in the current pane if pnpm-lock.yaml exists at the root
+  - otherwise starts `yarn dev` in the current pane if yarn.lock exists at the root
+  - otherwise starts `npm run dev` in the current pane if package-lock.json exists at the root
 
 Requires tmux and an active tmux session.
 EOF
@@ -77,34 +77,26 @@ else
   exit 1
 fi
 
-window_exists() {
-  local name="$1"
-  tmux list-windows -F '#W' | grep -Fxq "$name"
-}
-
-new_window() {
+new_horizontal_pane() {
   local name="$1"
   local cmd="$2"
 
-  if window_exists "$name"; then
-    echo "skip: tmux window '$name' already exists"
-    return 0
-  fi
-
-  tmux new-window -n "$name" -c "$root" "$cmd"
-  echo "started: $name -> $cmd"
+  tmux split-window -h -c "$root" "$cmd"
+  echo "started: $name pane -> $cmd"
 }
 
 echo "project: $project"
 echo "root:    $root"
 echo "pm:      $pm"
 
+tmux rename-window "dev"
+
 if [[ -d "$root/convex" ]]; then
-  new_window "convex" "$convex_cmd"
+  new_horizontal_pane "convex" "$convex_cmd"
 else
   echo "skip: no convex/ directory found"
 fi
 
-echo "starting dev server in current window -> $dev_cmd"
+echo "starting dev server in current pane -> $dev_cmd"
 cd "$root"
 exec bash -lc "$dev_cmd"
