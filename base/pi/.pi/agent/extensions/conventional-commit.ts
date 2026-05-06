@@ -15,6 +15,8 @@ Rules:
 - Write commit headers in past tense, e.g. "feat(commit): added model-generated messages" not "feat(commit): add model-generated messages".
 - Bullets describe major changes, not tiny line-by-line edits.
 - Write bullet descriptions in past tense, e.g. "Updated config loading" not "Update config loading".
+- Ignore generated files, lockfiles, minified assets, source maps, snapshots, and build artifacts unless they are the only staged changes.
+- Ignore pure formatting, whitespace, and import-order-only changes unless they are the only staged changes.
 - Do not include markdown fences or commentary.`;
 
 type StagedFile = { status: string; path: string };
@@ -26,6 +28,29 @@ const TYPE_BY_PATH: Array<[RegExp, string]> = [
   [/^(package-lock\.json|pnpm-lock\.yaml|yarn\.lock|bun\.lockb?)$/, "chore"],
   [/^(\.github|ci|\.gitlab-ci|Dockerfile|docker-compose)/, "ci"],
   [/^(styles?|css|.*\.(css|scss|sass|less)$)/, "style"],
+];
+
+const GENERATED_PATH_PATTERNS: RegExp[] = [
+  /(^|\/)dist\//,
+  /(^|\/)build\//,
+  /(^|\/)coverage\//,
+  /(^|\/)\.next\//,
+  /(^|\/)generated\//,
+  /(^|\/)gen\//,
+  /(^|\/)vendor\//,
+  /(^|\/)node_modules\//,
+  /\.min\./,
+  /\.map$/,
+  /(^|\/)(package-lock\.json|pnpm-lock\.yaml|yarn\.lock|bun\.lockb?)$/,
+  /(^|\/)pnpm-workspace\.yaml$/,
+  /(^|\/)\.eslintcache$/,
+  /(^|\/)__snapshots__\//,
+  /\.(snap|generated)\./,
+];
+
+const FORMATTING_ONLY_PATTERNS: RegExp[] = [
+  /^\s*[{}()[\];,]\s*$/,
+  /^\s*(from|import|export)\s*$/,
 ];
 
 function shellQuote(value: string): string {
@@ -42,6 +67,33 @@ function parseStagedFiles(statusOutput: string): StagedFile[] {
       return { status, path: rest.join(" ") };
     })
     .filter((file) => file.path.length > 0);
+}
+
+function isGeneratedPath(path: string): boolean {
+  return GENERATED_PATH_PATTERNS.some((pattern) => pattern.test(path));
+}
+
+function isFormattingOnlyDiff(diff: string): boolean {
+  const lines = diff.split("\n");
+  let sawChange = false;
+
+  for (const line of lines) {
+    if (!line.startsWith("+") && !line.startsWith("-")) continue;
+    if (line.startsWith("+++") || line.startsWith("---")) continue;
+
+    sawChange = true;
+    const content = line.slice(1);
+    if (!content.trim()) continue;
+    if (FORMATTING_ONLY_PATTERNS.some((pattern) => pattern.test(content))) continue;
+    return false;
+  }
+
+  return sawChange;
+}
+
+function filterFilesForCommitSignal(files: StagedFile[]): StagedFile[] {
+  const filtered = files.filter((file) => !isGeneratedPath(file.path));
+  return filtered.length > 0 ? filtered : files;
 }
 
 function scopeFromPath(path: string): string | undefined {
@@ -171,18 +223,34 @@ export default function (pi: ExtensionAPI) {
         return;
       }
 
-      const diff = await pi.exec("git", ["diff", "--cached", "--stat", "--patch"], { signal: ctx.signal, timeout: 10000 });
-      ctx.ui.notify("Generating commit messages with the active model...", "info");
+      const signalFiles = filterFilesForCommitSignal(files);
+      const analyzedPaths = signalFiles.map((file) => file.path);
+      const diffArgs = ["diff", "--cached", "--stat", "--patch", "-w", "--ignore-blank-lines", "--", ...analyzedPaths];
+      const diff = await pi.exec("git", diffArgs, { signal: ctx.signal, timeout: 10000 });
+      const analyzedDiff = diff.stdout || "";
+      const effectiveFiles = analyzedDiff.trim() ? signalFiles : files;
+      const effectiveDiff = analyzedDiff.trim() ? analyzedDiff : (await pi.exec("git", ["diff", "--cached", "--stat", "--patch", "--", ...files.map((file) => file.path)], { signal: ctx.signal, timeout: 10000 })).stdout || "";
+      const formattingOnly = analyzedDiff.trim() && isFormattingOnlyDiff(analyzedDiff);
+      const stagedSummary = effectiveFiles.map((file) => `${file.status}\t${file.path}`).join("\n");
+
+      if (signalFiles.length !== files.length) {
+        ctx.ui.notify("Ignoring generated files and build artifacts for commit message suggestions.", "info");
+      }
+      if (formattingOnly) {
+        ctx.ui.notify("Only formatting changes detected after filtering; generating a formatting-focused commit message.", "info");
+      } else {
+        ctx.ui.notify("Generating commit messages with the active model...", "info");
+      }
 
       let candidates: Candidate[];
       try {
-        candidates = await buildModelCandidates(ctx, status.stdout, diff.stdout || "");
+        candidates = await buildModelCandidates(ctx, stagedSummary, effectiveDiff);
       } catch (error) {
         ctx.ui.notify(`Model generation failed; using local fallback. ${error instanceof Error ? error.message : String(error)}`, "warning");
-        candidates = buildHeuristicCandidates(files, diff.stdout || "");
+        candidates = buildHeuristicCandidates(effectiveFiles, effectiveDiff);
       }
 
-      if (candidates.length === 0) candidates = buildHeuristicCandidates(files, diff.stdout || "");
+      if (candidates.length === 0) candidates = buildHeuristicCandidates(effectiveFiles, effectiveDiff);
       const labels = candidates.map((candidate) => `${candidate.header}\n${candidate.bullets.map((bullet) => `  • ${bullet}`).join("\n")}`);
       const selected = await ctx.ui.select("Choose a conventional commit message", labels);
       if (!selected) return;
