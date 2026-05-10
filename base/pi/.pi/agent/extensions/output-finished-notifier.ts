@@ -78,13 +78,18 @@ function hasFinalTextAssistant(messages: MessageLike[] | undefined): boolean {
   return false;
 }
 
+const USER_PROMPT_TOOL_NAMES = new Set([
+  "ask_user_question",
+  "rpiv_ask_user_question",
+]);
+
 export default function (pi: ExtensionAPI) {
   pi.on("tool_execution_start", async (event, ctx) => {
-    if (event.toolName !== "ask_user") return;
+    if (!USER_PROMPT_TOOL_NAMES.has(event.toolName)) return;
 
     notify(notificationTitle(ctx.cwd, pi.getSessionName()), "Your input is needed.");
     playSound();
-    ctx.ui.notify("ask_user is waiting for your response.", "info");
+    ctx.ui.notify(`${event.toolName} is waiting for your response.`, "info");
   });
 
   pi.on("agent_end", async (event, ctx) => {
