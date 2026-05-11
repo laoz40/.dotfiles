@@ -13,13 +13,23 @@ local servers = {
           globals = { "vim" },
         },
         workspace = {
-          library = vim.api.nvim_get_runtime_file("", true),
+          checkThirdParty = false,
+          library = {
+            vim.env.VIMRUNTIME,
+          },
+        },
+        telemetry = {
+          enable = false,
         },
       },
     },
   },
 
-  ts_ls = {},
+  ts_ls = {
+    init_options = {
+      maxTsServerMemory = 2048,
+    },
+  },
 
   html = {},
 
@@ -46,7 +56,6 @@ local servers = {
   tailwindcss = {},
   eslint = {},
   oxlint = {},
-  oxfmt = {},
   marksman = {},
 	tinymist = {},
   bashls = {},
