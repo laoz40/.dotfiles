@@ -293,10 +293,17 @@ end, { desc = "Supermaven Clear" })
 
 -- copy line number range to clipboard for llms
 vim.keymap.set("v", "<leader>lr", function()
-	local s = vim.fn.line("'<")
-	local e = vim.fn.line("'>")
-	local file = vim.fn.expand("%:t")
+	-- start selection line
+	local s = vim.fn.getpos("v")[2]
+	-- current cursor line
+	local e = vim.fn.line(".")
+	-- swap if start is greater than end
+	if s > e then
+		s, e = e, s
+	end
 
+	-- get file name
+	local file = vim.fn.expand("%:t")
 	local range = (s == e) and tostring(s) or (s .. "-" .. e)
 	local text = file .. ":" .. range
 
