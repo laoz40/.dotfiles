@@ -1,5 +1,8 @@
 -- Window rules
 
+local profile = require("profile")
+local app_opacity = profile.is_minimal() and nil or "0.85 0.85 1.0"
+
 -- Ignore maximize requests from all apps.
 hl.window_rule({
   name = "suppress-maximize-events",
@@ -69,7 +72,7 @@ hl.window_rule({
   name = "spotify",
   match = { class = "^[Ss]potify$" },
   workspace = "2 silent",
-  opacity = "0.85 0.85 1.0",
+  opacity = app_opacity,
 })
 
 hl.window_rule({
@@ -77,7 +80,7 @@ hl.window_rule({
   match = { class = "^(discord|vesktop|com.discordapp.Discord)$" },
   workspace = "8 silent",
   no_initial_focus = true,
-  opacity = "0.85 0.85 1.0",
+  opacity = app_opacity,
 })
 
 hl.window_rule({
