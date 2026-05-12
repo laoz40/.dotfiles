@@ -45,6 +45,16 @@ hl.monitor({
 	scale = 1,
 })
 
+-- TV (only when using laptop)
+if main_monitor == "eDP-1" then
+	hl.monitor({
+		output = "HDMI-A-1",
+		mode = "3840x2160@24",
+		position = "auto",
+		scale = 2,
+	})
+end
+
 -- Fallback for any other connected monitors
 hl.monitor({
 	output = "",
