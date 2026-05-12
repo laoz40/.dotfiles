@@ -54,7 +54,8 @@ hl.bind("CTRL + SUPER + M", hl.dsp.exec_cmd("~/.local/bin/toggle_mic.sh"))
 -- Screenshots.
 hl.bind("Print", hl.dsp.exec_cmd("hyprshot -m output -m $MONITOR"))
 hl.bind("ALT + Print", hl.dsp.exec_cmd("hyprshot -m window"))
-hl.bind("SUPER + SHIFT + S", hl.dsp.exec_cmd("hyprshot -m region --raw | satty --filename -"))
+hl.bind("CTRL + SUPER + SHIFT + S", hl.dsp.exec_cmd("hyprshot -m region --raw | satty --filename -"))
+hl.bind("SUPER + SHIFT + S", hl.dsp.exec_cmd("hyprshot -m region --clipboard-only"))
 
 -- Image to text.
 hl.bind("SUPER + SHIFT + T", hl.dsp.exec_cmd("~/.local/bin/ocr-screenshot.sh"))

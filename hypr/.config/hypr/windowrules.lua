@@ -84,6 +84,13 @@ hl.window_rule({
 })
 
 hl.window_rule({
+  name = "floating-satty",
+  match = { class = "^([Ss]atty|com\\.gabm\\.[Ss]atty)$" },
+  float = true,
+  center = true,
+})
+
+hl.window_rule({
   name = "floating-ghostty",
   match = { initial_class = "com.ghostty.float" },
   float = true,
