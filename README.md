@@ -37,17 +37,14 @@ git clone https://github.com/laoz40/.dotfiles.git && cd .dotfiles
 Use GNU Stow to symlink configs:
 
 ```bash
-# 1) Stow everything in base
-stow -d base -t ~ *
+# Stow all packages from the repo root
+stow -t ~ bash dunst fastfetch ghostty hypr nvim pi rofi tmux wallpapers waybar yazi zed
 
-# 2) Stow a specific package from main
-stow -d main -t ~ waybar
+# Or stow one package
+stow -t ~ waybar
 
-# -d sets stow directory, -t ~ sets target so symlinks go to home directory
-
-# Switch profiles once bash scripts are setup
-profile main
-profile minimal
+# Hyprland main/minimal visuals are switched at runtime with:
+hypr-profile-toggle.sh
 ```
 
 ## Stuff I use:
