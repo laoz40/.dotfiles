@@ -35,6 +35,7 @@ local function detect_main_monitor()
 end
 
 local main_monitor = detect_main_monitor()
+local other_monitor = "HDMI-A-1"
 -- env for compatibility for now
 hl.env("MONITOR", main_monitor)
 
@@ -63,7 +64,8 @@ hl.monitor({
 	scale = 1,
 })
 
-hl.workspace_rule({ workspace = "1", monitor = main_monitor })
+hl.workspace_rule({ workspace = "1", monitor = main_monitor, default = true, persistent = true })
+hl.workspace_rule({ workspace = "2", monitor = other_monitor, default = true, persistent = true })
 
 -- Input
 
