@@ -63,7 +63,7 @@ hl.monitor({
 	scale = 1,
 })
 
-hl.workspace_rule({ workspace = "1", monitor = "main_monitor" })
+hl.workspace_rule({ workspace = "1", monitor = main_monitor })
 
 -- Input
 
