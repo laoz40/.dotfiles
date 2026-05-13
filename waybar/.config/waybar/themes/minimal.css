@@ -170,7 +170,8 @@ window#waybar.empty #window {
   color: @foreground;
 }
 
-#custom-timer {
+#custom-timer,
+#custom-workspace-windows {
   color: @foreground;
 }
 

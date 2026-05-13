@@ -15,9 +15,9 @@
   "modules-left": [
     "hyprland/workspaces",
     "custom/workspace-windows",
-    "custom/timer",
     // "hyprland/window",
     "mpris",
+    "custom/timer",
   ],
   "modules-center": [],
   "modules-right": [
