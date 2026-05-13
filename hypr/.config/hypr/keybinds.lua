@@ -7,12 +7,15 @@ hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen({ mode = "fullscreen" }))
 hl.bind(mainMod .. " + T", hl.dsp.window.float({ action = "toggle" }))
 
-local directions = { h = "l", l = "r", k = "u", j = "d" }
+hl.bind(mainMod .. " + h", hl.dsp.layout("focus l"))
+hl.bind(mainMod .. " + l", hl.dsp.layout("focus r"))
+hl.bind(mainMod .. " + k", hl.dsp.focus({ direction = "u" }))
+hl.bind(mainMod .. " + j", hl.dsp.focus({ direction = "d" }))
 
-for key, direction in pairs(directions) do
-	hl.bind(mainMod .. " + " .. key, hl.dsp.focus({ direction = direction }))
-	hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ direction = direction }))
-end
+hl.bind(mainMod .. " + SHIFT + h", hl.dsp.window.move({ direction = "l" }))
+hl.bind(mainMod .. " + SHIFT + l", hl.dsp.window.move({ direction = "r" }))
+hl.bind(mainMod .. " + SHIFT + k", hl.dsp.window.move({ direction = "u" }))
+hl.bind(mainMod .. " + SHIFT + j", hl.dsp.window.move({ direction = "d" }))
 
 for workspace = 1, 10 do
 	local number = tostring(workspace % 10)
