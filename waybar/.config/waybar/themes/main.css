@@ -61,6 +61,7 @@ window#waybar {
 #custom-spotify,
 #custom-notification,
 #custom-timer,
+#custom-workspace-windows,
 #custom-microphone,
 #cpu,
 #tray,
@@ -175,7 +176,8 @@ window#waybar.empty #window {
   color: @foreground;
 }
 
-#custom-timer {
+#custom-timer,
+#custom-workspace-windows {
   color: @foreground;
 }
 

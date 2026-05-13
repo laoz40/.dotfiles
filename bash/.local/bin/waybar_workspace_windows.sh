@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+active_ws="$(hyprctl activeworkspace -j 2>/dev/null | jq -r '.id // empty')"
+active_addr="$(hyprctl activewindow -j 2>/dev/null | jq -r '.address // empty')"
+
+if [[ -z "${active_ws}" ]]; then
+  printf '{"text":"","tooltip":""}\n'
+  exit 0
+fi
+
+hyprctl clients -j 2>/dev/null | jq -c \
+  --argjson ws "$active_ws" \
+  --arg active "$active_addr" '
+  def clean:
+    tostring
+    | gsub("[\\n\\r\\t]+"; " ")
+    | gsub("  +"; " ")
+    | if length > 42 then .[0:39] + "…" else . end;
+
+  def esc: @html;
+
+  [.[] | select(.workspace.id == $ws and .floating == false)]
+  | sort_by(.at[0], .at[1])
+  | if length == 0 then
+      { text: "", tooltip: "No tiled windows on this workspace" }
+    else
+      {
+        text: (
+          map(
+            (.title // .class // "window" | clean | esc) as $title
+            | if .address == $active then
+                "<span color=\"#dfb46a\">" + $title + "</span>"
+              else
+                $title
+              end
+          )
+          | join(" <span color=\"#6A95DF\">-</span> ")
+        ),
+        tooltip: (
+          map(
+            (if .address == $active then "● " else "  " end)
+            + (.title // .class // "window" | clean)
+          )
+          | join("\n")
+        )
+      }
+    end
+  '

@@ -14,6 +14,7 @@
   "fixed-center": true,
   "modules-left": [
     "hyprland/workspaces",
+    "custom/workspace-windows",
     "custom/timer",
     // "hyprland/window",
     "mpris",
@@ -41,6 +42,16 @@
     "active-only": false,
     "show-special": true,
     "special-visible-only": true,
+  },
+  "custom/workspace-windows": {
+    "exec": "~/.local/bin/waybar_workspace_windows.sh",
+    "return-type": "json",
+    "interval": 1,
+    "format": "{text}",
+    "tooltip": true,
+    "escape": false,
+    "markup": "pango",
+    "max-length": 120,
   },
   "custom/timer": {
     "exec": "~/.local/bin/rofi_waybar_timer/rofi_waybar_timer.sh waybar_fetch",
