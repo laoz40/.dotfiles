@@ -23,8 +23,8 @@ hyprctl clients -j 2>/dev/null | jq -c \
 
   [.[] | select(.workspace.id == $ws and .floating == false)]
   | sort_by(.at[0], .at[1])
-  | if length == 0 then
-      { text: "", tooltip: "No tiled windows on this workspace" }
+  | if length <= 1 then
+      { text: "", tooltip: "" }
     else
       {
         text: (
