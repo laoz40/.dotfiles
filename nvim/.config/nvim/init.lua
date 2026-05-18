@@ -264,17 +264,6 @@ vim.keymap.set("n", "<leader>gW", function()
 	require("git-worktree").create()
 end, { desc = "Git worktree create" })
 
--- refactoring
-vim.keymap.set("x", "<leader>re", function()
-	require("refactoring").select_refactor()
-end)
-vim.keymap.set({ "x", "n" }, "<leader>rp", function()
-	require("refactoring").debug.print_var()
-end)
-vim.keymap.set("n", "<leader>rc", function()
-	require("refactoring").debug.cleanup({})
-end)
-
 -- css convert
 vim.keymap.set("n", "<leader>co", function()
 	vim.lsp.document_color.color_presentation()
