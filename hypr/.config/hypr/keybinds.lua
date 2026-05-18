@@ -27,9 +27,9 @@ end
 hl.bind("ALT + SHIFT + A", hl.dsp.workspace.move({ monitor = "-1" }))
 hl.bind("ALT + SHIFT + F", hl.dsp.workspace.move({ monitor = "+1" }))
 
--- Move/resize windows with mainMod + LMB/RMB and dragging.
-hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
-hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
+-- Move/resize windows with SUPER + LMB/RMB and dragging.
+hl.bind("SUPER + mouse:272", hl.dsp.window.drag(), { mouse = true })
+hl.bind("SUPER + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
 -- Laptop multimedia keys for volume and LCD brightness.
 local media_binds = {
