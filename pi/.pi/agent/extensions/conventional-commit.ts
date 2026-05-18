@@ -13,7 +13,10 @@ Rules:
 - Use Conventional Commit types: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert.
 - Keep headers under 72 characters when possible.
 - Write commit headers in past tense, e.g. "feat(commit): added model-generated messages" not "feat(commit): add model-generated messages".
-- Bullets describe major changes, not tiny line-by-line edits.
+- Use any user focus notes to decide what the header and bullets should emphasize, but do not invent changes that are not in the diff.
+- Bullets should cover the meaningful staged changes, especially distinct files or behavior changes, rather than only the changes most related to the header.
+- Use one bullet per meaningful change in the diff.
+- Combine only edits that are part of the same meaningful change; omit noise such as formatting/import order or generated artifacts.
 - Write bullet descriptions in past tense, e.g. "Updated config loading" not "Update config loading".
 - Ignore generated files, lockfiles, minified assets, source maps, snapshots, and build artifacts unless they are the only staged changes.
 - Ignore pure formatting, whitespace, and import-order-only changes unless they are the only staged changes.
@@ -135,7 +138,7 @@ function formatPaths(paths: string[]): string {
 function extractDiffBullets(diff: string): string[] {
   const files = [...diff.matchAll(/^diff --git a\/(.*?) b\/(.*?)$/gm)].map((match) => match[2]);
   const bullets: string[] = [];
-  for (const file of files.slice(0, 5)) {
+  for (const file of files.slice(0, 10)) {
     const fileBlock = diff.split(` b/${file}`)[1] ?? "";
     const additions = (fileBlock.match(/^\+(?!\+\+)/gm) ?? []).length;
     const deletions = (fileBlock.match(/^-(?!--)/gm) ?? []).length;
@@ -151,7 +154,7 @@ function buildHeuristicCandidates(files: StagedFile[], diff: string): Candidate[
   const typeScope = scope ? `${type}(${scope})` : type;
   const statusBullets = summarizeStatus(files);
   const diffBullets = extractDiffBullets(diff);
-  const bullets = [...statusBullets, ...diffBullets].slice(0, 6);
+  const bullets = [...statusBullets, ...diffBullets].slice(0, 10);
   const noun = scope && scope !== "repo" ? scope : files.length === 1 ? files[0].path.split("/").pop()?.replace(/\.[^.]+$/, "") : "staged changes";
 
   const subjects = [
@@ -173,21 +176,22 @@ function parseModelCandidates(text: string): Candidate[] {
     .filter((candidate) => typeof candidate.header === "string" && Array.isArray(candidate.bullets))
     .map((candidate) => ({
       header: candidate.header.trim(),
-      bullets: candidate.bullets.filter((bullet) => typeof bullet === "string").map((bullet) => bullet.trim()).filter(Boolean).slice(0, 6),
+      bullets: candidate.bullets.filter((bullet) => typeof bullet === "string").map((bullet) => bullet.trim()).filter(Boolean).slice(0, 10),
     }))
     .filter((candidate) => candidate.header.length > 0)
     .slice(0, 5);
 }
 
-async function buildModelCandidates(ctx: ExtensionCommandContext, stagedSummary: string, diff: string): Promise<Candidate[]> {
+async function buildModelCandidates(ctx: ExtensionCommandContext, stagedSummary: string, diff: string, focusNotes: string): Promise<Candidate[]> {
   if (!ctx.model) throw new Error("No active model selected");
 
   const auth = await ctx.modelRegistry.getApiKeyAndHeaders(ctx.model);
   if (!auth.ok || !auth.apiKey) throw new Error(auth.ok ? `No API key for ${ctx.model.provider}` : auth.error);
 
+  const focusSection = focusNotes.trim() ? `User focus notes:\n${focusNotes.trim()}\n\n` : "";
   const userMessage: Message = {
     role: "user",
-    content: [{ type: "text", text: `Staged files:\n${stagedSummary}\n\nStaged diff:\n${diff.slice(0, 60000)}` }],
+    content: [{ type: "text", text: `${focusSection}Staged files:\n${stagedSummary}\n\nStaged diff:\n${diff.slice(0, 60000)}` }],
     timestamp: Date.now(),
   };
 
@@ -208,8 +212,9 @@ async function buildModelCandidates(ctx: ExtensionCommandContext, stagedSummary:
 }
 
 export default function (pi: ExtensionAPI) {
-  const handler = async (_args: string, ctx: ExtensionCommandContext) => {
+  const handler = async (args: string, ctx: ExtensionCommandContext) => {
       await ctx.waitForIdle();
+      const focusNotes = args.trim();
 
       const status = await pi.exec("git", ["diff", "--cached", "--name-status"], { signal: ctx.signal, timeout: 5000 });
       if (status.code !== 0) {
@@ -219,7 +224,7 @@ export default function (pi: ExtensionAPI) {
 
       const files = parseStagedFiles(status.stdout);
       if (files.length === 0) {
-        ctx.ui.notify("No staged changes found. Stage files first, then run /commitmsg.", "warning");
+        ctx.ui.notify("No staged changes found. Stage files first, then run /commit.", "warning");
         return;
       }
 
@@ -236,6 +241,9 @@ export default function (pi: ExtensionAPI) {
       if (signalFiles.length !== files.length) {
         ctx.ui.notify("Ignoring generated files and build artifacts for commit message suggestions.", "info");
       }
+      if (focusNotes) {
+        ctx.ui.notify(`Using commit focus notes: ${focusNotes}`, "info");
+      }
       if (formattingOnly) {
         ctx.ui.notify("Only formatting changes detected after filtering; generating a formatting-focused commit message.", "info");
       } else {
@@ -244,7 +252,7 @@ export default function (pi: ExtensionAPI) {
 
       let candidates: Candidate[];
       try {
-        candidates = await buildModelCandidates(ctx, stagedSummary, effectiveDiff);
+        candidates = await buildModelCandidates(ctx, stagedSummary, effectiveDiff, focusNotes);
       } catch (error) {
         ctx.ui.notify(`Model generation failed; using local fallback. ${error instanceof Error ? error.message : String(error)}`, "warning");
         candidates = buildHeuristicCandidates(effectiveFiles, effectiveDiff);
@@ -264,7 +272,7 @@ export default function (pi: ExtensionAPI) {
     };
 
   pi.registerCommand("commit", {
-    description: "Pick a conventional commit message from staged changes",
+    description: "Pick a conventional commit message from staged changes; optional args guide what to emphasize",
     handler,
   });
 }
