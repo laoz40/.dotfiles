@@ -1,26 +1,23 @@
 [
   {
-    "context": "Editor && vim_mode == insert",
+    "context": "Editor && vim_mode == normal && !VimWaiting",
     "bindings": {
-      "ctrl-c": "vim::NormalBefore",
+      "ctrl-j": "terminal_panel::Toggle",
+      "space a": "agent::Toggle",
+      "space e": "workspace::ToggleLeftDock",
+    },
+  },
+  {
+    "context": "ProjectPanel && vim_mode == normal && !VimWaiting",
+    "bindings": {
+      "space a": "agent::Toggle",
+      "space e": "workspace::ToggleLeftDock",
     },
   },
   {
     "context": "Workspace",
     "bindings": {
       "ctrl-6": "pane::AlternateFile",
-    },
-  },
-  {
-    "context": "Editor && vim_mode == normal && !VimWaiting",
-    "bindings": {
-      "space e": "workspace::ToggleLeftDock",
-    },
-  },
-  {
-    "context": "ProjectPanel",
-    "bindings": {
-      "space e": "workspace::ToggleLeftDock",
     },
   },
 ]
