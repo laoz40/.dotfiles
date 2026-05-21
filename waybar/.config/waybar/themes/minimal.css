@@ -10,47 +10,23 @@
 @define-color gold_alt #D39834;
 @define-color blue #6A95DF;
 @define-color blue_alt #4f73b8;
-
 @define-color red #e06c75;
 
 * {
   min-height: 0;
   min-width: 0;
+  color: @foreground;
   font-family: JetBrainsMono Nerd Font Propo;
   font-size: 13px;
   font-weight: 600;
-
 }
 
 window#waybar {
   transition-property: background-color;
-  background-color: @background
-}
-
-#workspaces button {
-  padding: 0.1rem 0.3rem;
-  margin: 0 0.15rem 0 0.15rem;
-  color: @foreground;
-	background: @background;
-  box-shadow: none;
-  text-shadow: none;
-  transition: none;
-}
-
-#workspaces button:hover {
-  background-color: @hover;
-}
-
-#workspaces button.active {
-  background-color: @hover;
-	color: @gold;
-}
-
-#workspaces button.urgent {
   background-color: @background;
-  color: @red;
 }
 
+#workspaces button,
 #clock,
 #pulseaudio,
 #custom-logo,
@@ -72,66 +48,40 @@ window#waybar {
 #backlight-slider,
 #custom-privacy-dots {
   padding: 0.1rem 0.3rem;
-  margin: 0 0.15rem 0 0.15rem;
-	background: @background;
+  margin: 0 0.15rem;
+  background: @background;
 }
 
-#mpris.playing {
-  color: @foreground;
+#workspaces button {
+  box-shadow: none;
+  text-shadow: none;
+  transition: none;
 }
 
-#mpris.paused {
-  color: @foreground;
+#workspaces button:hover,
+#workspaces button.active {
+  background-color: @hover;
+}
+
+#workspaces button.active,
+#workspaces button.active *,
+#idle_inhibitor,
+#custom-microphone {
+  color: @gold;
+}
+
+#workspaces button.urgent,
+#custom-ram-alert.critical,
+#battery.critical {
+  color: @red;
+}
+
+#clock.simpleclock {
+  font-feature-settings: "tnum";
 }
 
 window#waybar.empty #window {
   background-color: transparent;
-}
-
-#cpu {
-  color: @foreground;
-}
-
-#memory,
-#custom-ram-alert {
-  color: @foreground;
-}
-
-#custom-ram-alert.critical {
-  color: @red;
-}
-
-#clock {
-  color: @foreground;
-}
-
-#clock.simpleclock {
-  color: @foreground;
-  font-feature-settings: "tnum";
-}
-
-#window {
-  color: @foreground;
-}
-
-#pulseaudio {
-  color: @foreground;
-}
-
-#pulseaudio.muted {
-  color: @foreground;
-}
-
-#custom-logo {
-  color: @foreground;
-}
-
-#custom-power {
-  color: @foreground;
-}
-
-#battery {
-  color: @foreground;
 }
 
 #battery.charging {
@@ -143,7 +93,6 @@ window#waybar.empty #window {
 }
 
 #battery.critical {
-  color: @red;
   animation-name: blink;
   animation-duration: 1s;
   animation-timing-function: linear;
@@ -151,42 +100,20 @@ window#waybar.empty #window {
   animation-direction: alternate;
 }
 
-/* Optional: Define a blinking animation for critical state */
 @keyframes blink {
   to {
-  color: @foreground;
+    color: @foreground;
   }
-}
-
-#idle_inhibitor {
-  color: @gold;
-}
-
-#bluetooth {
-  color: @foreground;
-}
-
-#network {
-  color: @foreground;
-}
-
-#custom-timer,
-#custom-workspace-windows {
-  color: @foreground;
-}
-
-#custom-microphone {
-  color: @gold;
 }
 
 #custom-privacy-dots {
   padding: 0 10px;
+  color: gold;
   font-size: 12px;
-  letter-spacing: 0px;
-	color: gold
+  letter-spacing: 0;
 }
 
 tooltip {
-  background-color: @background_tooltip;
   border: 1px solid @border;
+  background-color: @background_tooltip;
 }

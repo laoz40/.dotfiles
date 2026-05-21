@@ -1,59 +1,33 @@
 /* https://github.com/brunoanesio/waybar-config */
 
 @define-color foreground #9DB9F5;
-@define-color background rgba(14, 33, 51, 0.6);
+@define-color background rgba(14, 33, 51, 0.8);
 @define-color background_tooltip rgba(14, 33, 51, 0.8);
-@define-color hover rgba(19, 42, 64, 0.8);
-@define-color border rgba(38, 79, 120, 0.5);
+@define-color hover rgba(19, 42, 64, 1);
+@define-color border rgba(38, 79, 120, 1);
 
 @define-color gold #dfb46a;
 @define-color gold_alt #D39834;
 @define-color blue #6A95DF;
 @define-color blue_alt #4f73b8;
-
 @define-color red #e06c75;
 
 * {
   min-height: 0;
   min-width: 0;
+  color: @foreground;
   font-family: JetBrainsMono Nerd Font Propo;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
-
 }
 
 window#waybar {
   transition-property: background-color;
   transition-duration: 0.5s;
-  background-color: rgba(0, 0, 0, 0);
+  background-color: transparent;
 }
 
-#workspaces button {
-  padding: 0.1rem 0.6rem;
-  margin: 0 0.25rem 0 0.25rem;
-  border-radius: 8px;
-  color: @foreground;
-	background: @background;
-  box-shadow: none;
-  text-shadow: none;
-  border: 1px solid @border;
-  transition: none;
-}
-
-#workspaces button:hover {
-  background-color: @hover;
-}
-
-#workspaces button.active {
-  background-color: @hover;
-	color: @gold;
-}
-
-#workspaces button.urgent {
-  background-color: @background;
-  color: @red;
-}
-
+#workspaces button,
 #clock,
 #pulseaudio,
 #custom-logo,
@@ -76,68 +50,63 @@ window#waybar {
 #backlight-slider,
 #custom-privacy-dots {
   padding: 0.1rem 0.6rem;
-  margin: 0 0.25rem 0 0.25rem;
-  border-radius: 8px;
+  margin: 0 0.25rem;
   border: 1px solid @border;
-	background: @background;
+  border-radius: 8px;
+  background: @background;
 }
 
-#mpris.playing {
-  color: @foreground;
+#workspaces button {
+  box-shadow: none;
+  text-shadow: none;
+  transition: none;
 }
 
-#mpris.paused {
-  color: @foreground;
+#workspaces button:hover,
+#workspaces button.active,
+#clock:hover,
+#pulseaudio:hover,
+#custom-logo:hover,
+#custom-power:hover,
+#custom-spotify:hover,
+#custom-notification:hover,
+#custom-timer:hover,
+#custom-workspace-windows:hover,
+#custom-microphone:hover,
+#cpu:hover,
+#tray:hover,
+#memory:hover,
+#custom-ram-alert:hover,
+#window:hover,
+#mpris:hover,
+#battery:hover,
+#bluetooth:hover,
+#network:hover,
+#idle_inhibitor:hover,
+#backlight-slider:hover,
+#custom-privacy-dots:hover {
+  background-color: @hover;
+}
+
+#workspaces button.active,
+#workspaces button.active *,
+#idle_inhibitor,
+#custom-microphone {
+  color: @gold;
+}
+
+#workspaces button.urgent,
+#custom-ram-alert.critical,
+#battery.critical {
+  color: @red;
+}
+
+#clock.simpleclock {
+  font-feature-settings: "tnum";
 }
 
 window#waybar.empty #window {
   background-color: transparent;
-}
-
-#cpu {
-  color: @foreground;
-}
-
-#memory,
-#custom-ram-alert {
-  color: @foreground;
-}
-
-#custom-ram-alert.critical {
-  color: @red;
-}
-
-#clock {
-  color: @foreground;
-}
-
-#clock.simpleclock {
-  color: @foreground;
-  font-feature-settings: "tnum";
-}
-
-#window {
-  color: @foreground;
-}
-
-#pulseaudio {
-  color: @foreground;
-}
-
-#pulseaudio.muted {
-  color: @foreground;
-}
-
-#custom-logo {
-  color: @foreground;
-}
-
-#custom-power {
-  color: @foreground;
-}
-
-#battery {
-  color: @foreground;
 }
 
 #battery.charging {
@@ -149,7 +118,6 @@ window#waybar.empty #window {
 }
 
 #battery.critical {
-  color: @red;
   animation-name: blink;
   animation-duration: 1s;
   animation-timing-function: linear;
@@ -157,42 +125,20 @@ window#waybar.empty #window {
   animation-direction: alternate;
 }
 
-/* Optional: Define a blinking animation for critical state */
 @keyframes blink {
   to {
-  color: @foreground;
+    color: @foreground;
   }
-}
-
-#idle_inhibitor {
-  color: @gold;
-}
-
-#bluetooth {
-  color: @foreground;
-}
-
-#network {
-  color: @foreground;
-}
-
-#custom-timer,
-#custom-workspace-windows {
-  color: @foreground;
-}
-
-#custom-microphone {
-  color: @gold;
 }
 
 #custom-privacy-dots {
   padding: 0 10px;
+  color: gold;
   font-size: 12px;
-  letter-spacing: 0px;
-	color: gold
+  letter-spacing: 0;
 }
 
 tooltip {
-  background-color: @background_tooltip;
   border: 1px solid @border;
+  background-color: @background_tooltip;
 }
