@@ -22,6 +22,9 @@ fi
 alias ls="ls --color=auto"
 alias grep="grep --color=auto"
 
+# Vi mode for command line editing
+set -o vi
+
 # Colours
 export TERM=xterm-256color
 export COLORTERM=truecolor
@@ -56,9 +59,6 @@ export NVM_DIR="$HOME/.nvm"
 # LAZYGIT - Use multiple config files
 export LG_CONFIG_FILE="$HOME/.config/lazygit/lazycommit/config.yml,\
 $HOME/.config/lazygit/config.yml"
-# OpenClaude
-export CLAUDE_CODE_USE_OPENAI=1
-export OPENAI_MODEL=codexplan
 # Seperate file for api key env variables
 [ -f "$HOME/.bash_secrets" ] && . "$HOME/.bash_secrets"
 
