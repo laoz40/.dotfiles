@@ -104,5 +104,8 @@ alias venv="source .venv/bin/activate"
 # start dev server script
 alias dev="start-dev-server.sh"
 
+# open nvim + pi layout in tmux (vim + ai)
+alias va="open-nvim-pi-layout.sh"
+
 # Select and go to t3 code worktree
 alias wt="source t3code-wt-switcher.sh"
