@@ -45,7 +45,7 @@ export default function (pi: ExtensionAPI) {
           const tokenText = `↑${fmtTokens(usage.input)} ↓${fmtTokens(usage.output)} context ${fmtTokens(usage.contextTokens)} (${contextPct}) $${usage.cost.toFixed(3)}`;
           const thinking = pi.getThinkingLevel();
           const modelText = `${ctx.model?.id ?? "no-model"}${thinking && thinking !== "off" ? ` • ${thinking}` : ""}`;
-          const codexText = `Codex ${plainStatus(last)}`;
+          const codexText = plainStatus(last);
 
           return [
             line(width, theme.fg("dim", modelText), theme.fg(last.error ? "warning" : "dim", codexText)),
@@ -149,7 +149,7 @@ function formatWindow(w?: LimitWindow | null): string {
   if (!w) return "?";
   const pct = typeof w.usedPercent === "number" ? `${Math.max(0, 100 - Math.round(w.usedPercent))}%` : "?";
   const reset = formatReset(w.resetsAt);
-  return reset ? `${pct} (resets ${reset})` : pct;
+  return reset ? `${pct} (${reset})` : pct;
 }
 
 function formatReset(epochSeconds?: number | null): string {

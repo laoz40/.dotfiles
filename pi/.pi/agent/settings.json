@@ -1,7 +1,7 @@
 {
-  "lastChangelogVersion": "0.74.1",
+  "lastChangelogVersion": "0.75.4",
   "defaultProvider": "openai-codex",
-  "defaultModel": "gpt-5.5",
+  "defaultModel": "gpt-5.4-mini",
   "packages": [
     "npm:pi-tool-display",
     "npm:@ollama/pi-web-search",
@@ -16,12 +16,7 @@
     "openai-codex/gpt-5.4",
     "openai-codex/gpt-5.4-mini",
     "openai-codex/gpt-5.3-codex",
-    "openai-codex/gpt-5.3-codex-spark",
-    "openai-codex/gpt-5.2",
-    "openai-codex/gpt-5.2-codex",
-    "openai-codex/gpt-5.1-codex-max",
-    "openai-codex/gpt-5.1",
-    "openai-codex/gpt-5.1-codex-mini"
+    "openai-codex/gpt-5.3-codex-spark"
   ],
   "defaultThinkingLevel": "low",
   "theme": "blue-gold",
