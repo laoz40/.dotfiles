@@ -138,6 +138,8 @@ function M.colorscheme()
 	-- Standard Syntax
 	-----------------------------------------------------------------------------
 	hl("Comment", { fg = p.comment, italic = true })
+	hl("MiniIndentscopeSymbol", { link = "Comment" })
+	hl("MiniIndentscopeSymbolOff", { link = "Comment" })
 	hl("Keyword", { fg = p.blue })
 	hl("Conditional", { fg = p.blue })
 	hl("Repeat", { fg = p.blue })
