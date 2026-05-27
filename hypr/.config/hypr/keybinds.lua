@@ -52,7 +52,7 @@ hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = tru
 hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
 
 -- Toggle mic mute.
-hl.bind("CTRL + SUPER + M", hl.dsp.exec_cmd("~/.local/bin/toggle_mic.sh"))
+hl.bind("CTRL + SUPER + M", hl.dsp.exec_cmd("toggle_mic.sh"))
 
 -- Screenshots.
 hl.bind("Print", hl.dsp.exec_cmd("hyprshot -m output -m $MONITOR"))
@@ -61,10 +61,11 @@ hl.bind("CTRL + SUPER + SHIFT + S", hl.dsp.exec_cmd("hyprshot -m region --raw | 
 hl.bind("SUPER + SHIFT + S", hl.dsp.exec_cmd("hyprshot -m region --clipboard-only"))
 
 -- Image to text.
-hl.bind("SUPER + SHIFT + T", hl.dsp.exec_cmd("~/.local/bin/ocr-screenshot.sh"))
+hl.bind("SUPER + SHIFT + T", hl.dsp.exec_cmd("ocr-screenshot.sh"))
 
 -- Hyprpicker.
 hl.bind("SUPER + C", hl.dsp.exec_cmd("hyprpicker -a"))
+
 
 -- hyprwhspr - Toggle mode.
 hl.bind(
@@ -76,20 +77,20 @@ hl.bind(
 -- Rofi.
 hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd("rofi -show drun"))
 hl.bind("SUPER + period", hl.dsp.exec_cmd("rofi -show emoji"))
-hl.bind("SUPER + P", hl.dsp.exec_cmd("~/.local/bin/rofi_power_menu.sh"))
-hl.bind("SUPER + V", hl.dsp.exec_cmd("~/.local/bin/rofi_cliphist.sh"))
-hl.bind("SUPER + T", hl.dsp.exec_cmd("~/.local/bin/rofi_waybar_timer/rofi_waybar_timer.sh"))
+hl.bind("SUPER + P", hl.dsp.exec_cmd("rofi_power_menu.sh"))
+hl.bind("SUPER + V", hl.dsp.exec_cmd("rofi_cliphist.sh"))
+hl.bind("SUPER + T", hl.dsp.exec_cmd("rofi_waybar_timer/rofi_waybar_timer.sh"))
 hl.bind("SUPER + M", hl.dsp.exec_cmd("rofi -show calc -modi calc -no-show-match -no-sort"))
-hl.bind("SUPER + slash", hl.dsp.exec_cmd("~/.local/bin/rofi_cheat_sheet.sh"))
-hl.bind("SUPER + D", hl.dsp.exec_cmd("~/.local/bin/rofi_define.sh"))
-hl.bind("SUPER + W", hl.dsp.exec_cmd("~/.local/bin/rofi_wallpaper.sh"))
-hl.bind("SUPER + SHIFT + W", hl.dsp.exec_cmd("~/.local/bin/rofi_wallpaper.sh get_random"))
+hl.bind("SUPER + slash", hl.dsp.exec_cmd("rofi_cheat_sheet.sh"))
+hl.bind("SUPER + D", hl.dsp.exec_cmd("rofi_define.sh"))
+hl.bind("SUPER + W", hl.dsp.exec_cmd("rofi_wallpaper.sh"))
+hl.bind("SUPER + SHIFT + W", hl.dsp.exec_cmd("rofi_wallpaper.sh get_random"))
 
 -- Toggle waybar.
 hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("killall -SIGUSR1 waybar"))
 
 -- Toggle Hyprland visual profile (main/minimal).
-hl.bind("CTRL + SUPER + P", hl.dsp.exec_cmd("~/.local/bin/hypr-profile-toggle.sh"))
+hl.bind("CTRL + SUPER + P", hl.dsp.exec_cmd("hypr-profile-toggle.sh"))
 
 -- App shortcuts.
 hl.bind("SUPER + 1", hl.dsp.exec_cmd("zen-browser"))

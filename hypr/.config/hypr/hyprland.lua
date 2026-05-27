@@ -99,7 +99,7 @@ local autostart = {
 
 	-- hyprpaper, then get random wallpaper
 	"hyprpaper",
-	"sleep 1 && ~/.local/bin/rofi_wallpaper.sh get_random",
+	"sleep 1 && rofi_wallpaper.sh get_random",
 
 	"hypridle",
 	"hyprsunset",
@@ -111,6 +111,7 @@ local autostart = {
 	-- keyring
 	"dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP HYPRLAND_INSTANCE_SIGNATURE MONITOR",
 	"gnome-keyring-daemon --start --components=secrets",
+
 }
 
 local desktop_autostart = {
@@ -133,6 +134,7 @@ end)
 -- Environment variables
 
 hl.env("HYPRSHOT_DIR", os.getenv("HOME") .. "/Pictures/Screenshots")
+hl.env("PATH", os.getenv("HOME") .. "/.local/bin:/usr/local/bin:/usr/bin:/bin")
 
 hl.env("XCURSOR_SIZE", "20")
 hl.env("XCURSOR_THEME", "Bibata-Modern-Classic")
