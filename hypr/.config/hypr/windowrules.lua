@@ -1,7 +1,16 @@
 -- Window rules
 
 local profile = require("profile")
-local app_opacity = profile.is_minimal() and nil or "0.85 0.85 1.0"
+local minimal = profile.is_minimal()
+local app_opacity = "0.85 0.85 1.0"
+
+local function with_app_opacity(rule)
+  if not minimal then
+    rule.opacity = app_opacity
+  end
+
+  return rule
+end
 
 -- Ignore maximize requests from all apps.
 hl.window_rule({
@@ -68,20 +77,18 @@ hl.window_rule({
   no_initial_focus = true,
 })
 
-hl.window_rule({
+hl.window_rule(with_app_opacity({
   name = "spotify",
   match = { class = "^[Ss]potify$" },
   workspace = "2 silent",
-  opacity = app_opacity,
-})
+}))
 
-hl.window_rule({
+hl.window_rule(with_app_opacity({
   name = "discord",
   match = { class = "^(discord|vesktop|com.discordapp.Discord)$" },
   workspace = "8 silent",
   no_initial_focus = true,
-  opacity = app_opacity,
-})
+}))
 
 hl.window_rule({
   name = "floating-satty",
