@@ -28,6 +28,61 @@ run = "plugin restore"
 desc = "Restore last deleted files/folders"
 
 [[mgr.prepend_keymap]]
+on = "t"
+run = "tab_create --current"
+desc = "Create a new tab in CWD"
+
+[[mgr.prepend_keymap]]
+on = [ "t", "r" ]
+run = "noop"
+desc = "Disable rename tab"
+
+[[mgr.prepend_keymap]]
+on = "!"
+run = "tab_switch 0"
+desc = "Switch to first tab"
+
+[[mgr.prepend_keymap]]
+on = "@"
+run = "tab_switch 1"
+desc = "Switch to second tab"
+
+[[mgr.prepend_keymap]]
+on = "#"
+run = "tab_switch 2"
+desc = "Switch to third tab"
+
+[[mgr.prepend_keymap]]
+on = "$"
+run = "tab_switch 3"
+desc = "Switch to fourth tab"
+
+[[mgr.prepend_keymap]]
+on = "%"
+run = "tab_switch 4"
+desc = "Switch to fifth tab"
+
+[[mgr.prepend_keymap]]
+on = "^"
+run = "tab_switch 5"
+desc = "Switch to sixth tab"
+
+[[mgr.prepend_keymap]]
+on = "&"
+run = "tab_switch 6"
+desc = "Switch to seventh tab"
+
+[[mgr.prepend_keymap]]
+on = "*"
+run = "tab_switch 7"
+desc = "Switch to eighth tab"
+
+[[mgr.prepend_keymap]]
+on = "("
+run = "tab_switch 8"
+desc = "Switch to ninth tab"
+
+[[mgr.prepend_keymap]]
 on = [ "1" ]
 run = "plugin relative-motions 1"
 desc = "Move in relative steps"
