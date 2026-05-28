@@ -56,7 +56,6 @@ Essential stuff:
   - [tmux-sessionizer](https://github.com/ThePrimeagen/.dotfiles/blob/master/bin/.local/scripts/tmux-sessionizer)
 - **Ghostty**: `ghostty`
 - **Lazygit**: `lazygit`
-    - [LazyCommit](https://github.com/Hamxter/lazycommit)
 - **Yazi**: `yazi`
 - **Zoxide**: `zoxide`
 - **fzf**: `fzf`
