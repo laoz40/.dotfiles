@@ -102,8 +102,9 @@ hl.bind("SUPER + 8", hl.dsp.exec_cmd("vesktop"))
 hl.bind("SUPER + N", hl.dsp.workspace.toggle_special("Notes"))
 hl.workspace_rule({ workspace = "special:Notes", on_created_empty = "obsidian" })
 
--- Yazi.
+-- File managers.
 hl.bind("SUPER + E", hl.dsp.exec_cmd("ghostty -e yazi"))
+hl.bind("SUPER + SHIFT + E", hl.dsp.exec_cmd("nautilus"))
 
 -- Btop.
 hl.bind("CTRL + SHIFT + escape", hl.dsp.exec_cmd("ghostty --class=com.ghostty.float -e btop"))
