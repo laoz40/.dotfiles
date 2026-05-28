@@ -66,6 +66,9 @@ hl.bind("SUPER + SHIFT + T", hl.dsp.exec_cmd("ocr-screenshot.sh"))
 -- Hyprpicker.
 hl.bind("SUPER + C", hl.dsp.exec_cmd("hyprpicker -a"))
 
+-- Waybar module launchers.
+hl.bind("SUPER + SHIFT + A", hl.dsp.exec_cmd("pavucontrol"))
+hl.bind("SUPER + SHIFT + N", hl.dsp.exec_cmd("networkmanager_dmenu"))
 
 -- hyprwhspr - Toggle mode.
 hl.bind(
