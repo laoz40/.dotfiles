@@ -57,13 +57,14 @@ Essential stuff:
 - **Ghostty**: `ghostty`
 - **Lazygit**: `lazygit`
 - **Yazi**: `yazi`
+  - **trash-cli**: `trash-cli` for Yazi trash restore plugin
 - **Zoxide**: `zoxide`
 - **fzf**: `fzf`
 - **Zen Browser**: `zen-browser-bin` (AUR)
   - [Betterfox](https://github.com/yokoffing/BetterFox)
 
 ```
-paru -S neovim tmux ghostty lazygit yazi zoxide fzf zen-browser-bin
+paru -S neovim tmux ghostty lazygit yazi trash-cli zoxide fzf zen-browser-bin
 ```
 
 Linux stuff and other stuff:
