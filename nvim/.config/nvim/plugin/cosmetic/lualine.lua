@@ -4,6 +4,15 @@ vim.pack.add({
 
 local colors = require("blue-gold")
 
+local function diagnostic_count(severity, icon)
+	local count = vim.diagnostic.count(nil)[severity] or 0
+	if count == 0 then
+		return ""
+	end
+
+	return icon .. " " .. count
+end
+
 require("lualine").setup({
 	options = {
 		icons_enabled = true,
@@ -24,7 +33,18 @@ require("lualine").setup({
 
 		lualine_x = {
 			"searchcount",
-			-- "filetype",
+			{
+				function()
+					return diagnostic_count(vim.diagnostic.severity.ERROR, "󰅚")
+				end,
+				color = { fg = colors.palette.red },
+			},
+			{
+				function()
+					return diagnostic_count(vim.diagnostic.severity.WARN, "󰀪")
+				end,
+				color = { fg = colors.palette.gold_alt },
+			},
 			"diff",
 			"branch",
 		},
