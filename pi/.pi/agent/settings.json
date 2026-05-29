@@ -6,9 +6,7 @@
     "npm:pi-tool-display",
     "npm:@ollama/pi-web-search",
     "npm:pi-rewind",
-    "npm:@juanibiapina/pi-tokyonight",
     "npm:pi-rtk-optimizer",
-    "npm:pi-btw",
     "npm:@juicesharp/rpiv-ask-user-question"
   ],
   "enabledModels": [
