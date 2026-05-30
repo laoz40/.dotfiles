@@ -107,6 +107,10 @@
       "rev": "31e3c38ce9b29781e4422fc0322eb0a21f4e8668",
       "src": "https://github.com/folke/todo-comments.nvim"
     },
+    "ts-error-translator.nvim": {
+      "rev": "558abff11b9e8f4cefc0de09df780c56841c7a4b",
+      "src": "https://github.com/dmmulroy/ts-error-translator.nvim"
+    },
     "typst-preview.nvim": {
       "rev": "325036ee145ca51d9efb145c09ac16bce3bc8b7d",
       "src": "https://github.com/chomosuke/typst-preview.nvim",
@@ -115,10 +119,6 @@
     "vim-react-snippets": {
       "rev": "16b5948df9f47d368713e5a86e44bbba14175f70",
       "src": "https://github.com/mlaursen/vim-react-snippets"
-    },
-    "workspace-diagnostics.nvim": {
-      "rev": "a35321d8401878cc9558e357acfd0da58b582739",
-      "src": "https://github.com/artemave/workspace-diagnostics.nvim"
     },
     "wtf.nvim": {
       "rev": "ef7c22daf5c99f4c96fc2d0719d6f1848802fc02",

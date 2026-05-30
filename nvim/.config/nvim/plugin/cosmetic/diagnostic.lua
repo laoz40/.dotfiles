@@ -1,6 +1,19 @@
 vim.pack.add({
 	{ src = "https://github.com/rachartier/tiny-inline-diagnostic.nvim" },
-	{ src = "https://github.com/artemave/workspace-diagnostics.nvim" },
+	{ src = "https://github.com/dmmulroy/ts-error-translator.nvim" },
+})
+
+require("ts-error-translator").setup({
+	auto_attach = true,
+	servers = {
+		"astro",
+		"svelte",
+		"ts_ls",
+		"tsserver",
+		"typescript-tools",
+		"volar",
+		"vtsls",
+	},
 })
 
 -- shadcn files live in components/ui. Ignore diagnostics from there.
@@ -18,31 +31,6 @@ rawset(vim.diagnostic, "set", function(namespace, bufnr, diagnostics, opts)
 
 	return diagnostic_set(namespace, bufnr, diagnostics, opts)
 end)
-
-require("workspace-diagnostics").setup({
-	workspace_files = function()
-		local root = vim.fs.root(0, ".git") or vim.uv.cwd()
-		local files = vim.fn.systemlist({ "git", "-C", root, "ls-files" })
-
-		-- Do not scan components/ui when loading project-wide diagnostics.
-		return vim.tbl_filter(function(file)
-			return not is_shadcn_ui_path(root .. "/" .. file)
-		end, files)
-	end,
-})
-
-vim.api.nvim_create_autocmd("LspAttach", {
-	group = vim.api.nvim_create_augroup("WorkspaceDiagnostics", { clear = true }),
-	desc = "Populate project-wide LSP diagnostics",
-	callback = function(event)
-		local client = vim.lsp.get_client_by_id(event.data.client_id)
-		if not client then
-			return
-		end
-
-		require("workspace-diagnostics").populate_workspace_diagnostics(client, event.buf)
-	end,
-})
 
 require("tiny-inline-diagnostic").setup({
 	preset = "powerline", -- minimal, powerline
