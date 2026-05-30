@@ -1,0 +1,7 @@
+#navigator-toolbox {
+  pointer-events: none;
+}
+
+#navigator-toolbox > * {
+  pointer-events: auto;
+}
