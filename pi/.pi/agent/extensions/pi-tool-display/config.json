@@ -1,11 +1,11 @@
 {
   "registerToolOverrides": {
-    "read": true,
+    "read": false,
     "grep": true,
     "find": true,
     "ls": true,
     "bash": true,
-    "edit": true,
+    "edit": false,
     "write": true
   },
   "enableNativeUserMessageBox": true,
