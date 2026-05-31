@@ -2,14 +2,14 @@
 
 @define-color foreground #9DB9F5;
 @define-color background #111416;
-@define-color background_tooltip rgba(14, 33, 51, 0.8);
+@define-color background_tooltip #111416;
 @define-color hover rgba(19, 42, 64, 0.8);
-@define-color border rgba(38, 79, 120, 0.5);
+@define-color border rgba(18, 63, 102, 0.5);
 
 @define-color gold #dfb46a;
 @define-color gold_alt #D39834;
-@define-color blue #6A95DF;
-@define-color blue_alt #4f73b8;
+@define-color blue #2A69B5;
+@define-color blue_alt #1B46A1;
 @define-color red #e06c75;
 
 * {

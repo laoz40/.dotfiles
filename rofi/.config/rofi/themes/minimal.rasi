@@ -16,15 +16,15 @@ configuration {
 @theme "/dev/null"
 
 * {
-  bg: #0e2133;
+  bg: #0B1C2B;
   bg-alt: #132a40;
-  bg-selected: #264f78;
+  bg-selected: #123f66;
 
   fg: #c0caf5;
-  fg-alt: #8b95c9;
+  fg-alt: #9aa8d6;
 
 	gold: #dfb46a;
-	blue: #4f73b8;
+	blue: #2A69B5;
 
   border: 0;
   margin: 0;

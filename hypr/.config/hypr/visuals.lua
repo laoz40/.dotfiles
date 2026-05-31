@@ -10,8 +10,8 @@ hl.config({
 
     border_size = minimal and 0 or 1,
     col = {
-      active_border = "rgba(38,79,120,1)",
-      inactive_border = "rgba(14,33,51,0.5)",
+      active_border = "rgba(18,63,102,1)",
+      inactive_border = "rgba(11,28,43,0.5)",
     },
     resize_on_border = true,
     extend_border_grab_area = minimal and 8 or 0,
