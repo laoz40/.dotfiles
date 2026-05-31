@@ -29,17 +29,9 @@ set -o vi
 export TERM=xterm-256color
 export COLORTERM=truecolor
 
-# Prompt Variables
-Blue="\[\e[0;34m\]"
-Blue_Bold="\[\e[1;34m\]"
-Gold="\[\e[0;33m\]"
-Gold_Bold="\[\e[1;33m\]"
-Reset="\[\e[0m\]"
-function git_branch() {
-     git branch 2> /dev/null | sed -e "/^[^*]/d" -e "s/* \(.*\)/ (\1)/"
-}
 # Prompt
-export PS1="${Blue}[\A] ${Gold_Bold}\w${Gold}\$(git_branch)${Blue}: ${Reset}"
+PROMPT_COMMAND='PS1_GIT_BRANCH=$(git branch --show-current 2>/dev/null); PS1_GIT=${PS1_GIT_BRANCH:+ ($PS1_GIT_BRANCH)}'
+PS1='\n\[\e[38;5;25m\][\A]\[\e[0m\] \[\e[38;5;214;1m\]\w\[\e[0m\]\[\e[38;5;222m\]${PS1_GIT}\n\[\e[0m\]> '
 
 # Environment Variables
 export EDITOR=nvim
