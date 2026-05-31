@@ -38,7 +38,7 @@ Use GNU Stow to symlink configs:
 
 ```bash
 # Stow all packages from the repo root
-stow -t ~ bash dunst fastfetch ghostty hypr nvim pi rofi tmux wallpapers waybar yazi zed
+stow -t ~ bash dunst fastfetch ghostty herdr hypr nvim pi rofi tmux wallpapers waybar yazi zed
 
 # Or stow one package
 stow -t ~ waybar
@@ -52,10 +52,12 @@ hypr-profile-toggle.sh
 Essential stuff:
 
 - **Neovim**: `neovim`
+- **Herdr**: `herdr`
 - **tmux**: `tmux`
-  - [tmux-sessionizer](https://github.com/ThePrimeagen/.dotfiles/blob/master/bin/.local/scripts/tmux-sessionizer)
 - **Ghostty**: `ghostty`
 - **Lazygit**: `lazygit`
+- **Pi**: `npm install -g @earendil-works/pi-coding-agent`
+  - **RTK**: `rtk` (AUR)
 - **Yazi**: `yazi`
   - **trash-cli**: `trash-cli` for Yazi trash restore plugin
 - **Zoxide**: `zoxide`
@@ -64,8 +66,9 @@ Essential stuff:
   - [Betterfox](https://github.com/yokoffing/BetterFox)
 
 ```
-paru -S neovim tmux ghostty lazygit yazi trash-cli zoxide fzf zen-browser-bin
+paru -S neovim herdr ghostty lazygit rtk yazi trash-cli zoxide fzf zen-browser-bin
 ```
+
 
 Linux stuff and other stuff:
 
@@ -74,6 +77,8 @@ Linux stuff and other stuff:
 - **hyprsunset**: `hyprsunset`
 - **hyprshot**: `hyprshot`
     -**satty**: `satty`
+- **ocr-screenshot.sh**: screen text OCR script
+  - Dependencies: `paru -S --needed tesseract tesseract-data-eng grim slurp wl-clipboard`
 - **hyprpicker**: `hyprpicker`
 - **hyprwhspr**: `hyprwhspr` (AUR)
 - **rofi**: `rofi`
@@ -165,3 +170,24 @@ sudo systemctl enable grub-btrfsd
 sudo systemctl edit --full grub-btrfsd
 sudo systemctl restart grub-btrfsd
 ```
+
+## Shell scripts:
+
+| Script | What it does |
+| --- | --- |
+| `herdr-sessionizer.sh` | Pick a folder with fzf and focus or create a Herdr workspace for it. |
+| `hypr-profile-toggle.sh` | Toggle between main and minimal Hyprland/Waybar/Rofi/Ghostty profiles. |
+| `ocr-screenshot.sh` | Select a screen region, OCR it with Tesseract, and copy the text to the clipboard. From [Screen-Text-Reader](https://github.com/TheBrightSoul/Screen-Text-Reader). |
+| `privacy_dots.sh` | Report microphone, camera, location, and screen-share status for privacy indicators. From [privacy-dots](https://github.com/alvaniss/privacy-dots). |
+| `ram-alert.sh` | Monitor RAM usage and send alerts or Waybar JSON when usage is high. |
+| `rofi_cheat_sheet.sh` | Open a Rofi prompt for cheat.sh pages in a floating Ghostty/tmux window. |
+| `rofi_cliphist.sh` | Browse, copy, delete, or clear cliphist clipboard entries with Rofi. |
+| `rofi_define.sh` | Look up a word definition from a Rofi prompt and show it in a notification. |
+| `rofi_power_menu.sh` | Show a Rofi power menu for shutdown, reboot, sleep, and lock. |
+| `rofi_wallpaper.sh` | Pick or randomize a wallpaper and set it with hyprpaper. |
+| `rofi_waybar_timer.sh` | Start, pause, cancel, or snooze a timer shown in Waybar. |
+| `start-dev-server.sh` | Detect a JS project package manager and start its dev server, with Herdr/tmux splits for Convex. |
+| `t3code-wt-switcher.sh` | Pick and cd into a t3 worktree for the current git project. |
+| `tmux_sessionizer.sh` | Pick a folder with fzf and switch to or create a tmux session for it. From [tmux-sessionizer](https://github.com/ThePrimeagen/.dotfiles/blob/master/bin/.local/scripts/tmux-sessionizer). |
+| `toggle_mic.sh` | Toggle the default microphone mute state and output Waybar status JSON. |
+| `waybar_workspace_windows.sh` | Show open windows for the active Hyprland workspace in Waybar. |
