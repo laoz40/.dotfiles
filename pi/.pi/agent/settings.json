@@ -7,7 +7,8 @@
     "npm:@ollama/pi-web-search",
     "npm:pi-rewind",
     "npm:pi-rtk-optimizer",
-    "npm:@juicesharp/rpiv-ask-user-question"
+    "npm:@juicesharp/rpiv-ask-user-question",
+    "npm:pi-hashline-edit"
   ],
   "enabledModels": [
     "openai-codex/gpt-5.5",
