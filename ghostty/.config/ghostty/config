@@ -28,7 +28,7 @@ keybind = ctrl+shift+8=goto_tab:8
 keybind = ctrl+shift+9=goto_tab:9
 
 # Window
-window-padding-x = 0
+window-padding-x = 8
 window-padding-y = 0
 
 # No confirmations
