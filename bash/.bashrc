@@ -54,11 +54,12 @@ export NVM_DIR="$HOME/.nvm"
 # Zoxide
 eval "$(zoxide init bash)"
 
-# Autostart tmux and attach to the last session
-if command -v tmux &> /dev/null \
+# Autostart Herdr and attach to the default session
+if command -v herdr &> /dev/null \
+  && [ -z "$HERDR_ENV" ] \
   && [ -z "$TMUX" ] \
   && [ "$TERM_PROGRAM" = "ghostty" ]; then
-  tmux attach-session -t main || tmux new-session -s main
+  herdr
 fi
 
 # Show onefetch when the shell starts inside a git repo, otherwise show fastfetch.

@@ -1,0 +1,55 @@
+onboarding = false
+
+[theme]
+name = "terminal"
+
+[ui.toast]
+delivery = "herdr"
+
+[ui]
+agent_panel_scope = "all"
+prompt_new_tab_name = false
+
+show_agent_labels_on_pane_borders = false
+[ui.sound]
+enabled = false
+
+[session]
+resume_agents_on_restore = true
+
+[keys]
+prefix = "ctrl+space"
+detach = "prefix+d"
+workspace_picker = "prefix+w"
+reload_config = "prefix+comma"
+new_tab = "prefix+t"
+rename_tab = "prefix+r"
+close_tab = "prefix+x"
+new_workspace = "prefix+shift+t"
+rename_workspace = "prefix+shift+r"
+close_workspace = "prefix+shift+w"
+switch_tab = "prefix+1..9"
+split_horizontal = "prefix+\""
+split_vertical = "prefix+%"
+focus_pane_left = "prefix+h"
+focus_pane_down = "prefix+j"
+focus_pane_up = "prefix+k"
+focus_pane_right = "prefix+l"
+toggle_sidebar = "prefix+b"
+copy_mode = "prefix+["
+close_pane = "prefix+shift+x"
+zoom = "prefix+z"
+resize_mode = "prefix+alt+r"
+
+[[keys.command]]
+key = "prefix+ctrl+f"
+type = "pane"
+command = "herdr-sessionizer.sh"
+
+[[keys.command]]
+key = "prefix+ctrl+g"
+type = "pane"
+command = "lazygit"
+
+[experimental]
+pane_history = false

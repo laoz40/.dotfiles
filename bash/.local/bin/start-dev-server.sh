@@ -1,21 +1,22 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Start a JS project's dev server (bun/pnpm) in the current tmux pane
-# and, when present, Convex dev in a horizontal tmux split.
+# Start a JS project's dev server (bun/pnpm/yarn/npm).
+# In Herdr: starts Convex in a right split when present, then starts dev in current pane.
+# In tmux: same behavior using a horizontal split.
 
 usage() {
   cat <<'EOF'
-Usage: project-dev.sh
+Usage: start-dev-server.sh
 
 Detects the project root from the current working directory, then:
-  - starts Convex in a new horizontal tmux pane if a convex/ directory exists
-  - starts `bun dev` in the current pane if bun.lock or bun.lockb exists at the root
-  - otherwise starts `pnpm dev` in the current pane if pnpm-lock.yaml exists at the root
-  - otherwise starts `yarn dev` in the current pane if yarn.lock exists at the root
-  - otherwise starts `npm run dev` in the current pane if package-lock.json exists at the root
+  - starts Convex in a new right-side pane if a convex/ directory exists
+  - starts `bun dev` if bun.lock or bun.lockb exists at the root
+  - otherwise starts `pnpm dev` if pnpm-lock.yaml exists at the root
+  - otherwise starts `yarn dev` if yarn.lock exists at the root
+  - otherwise starts `npm run dev` if package-lock.json exists at the root
 
-Requires tmux and an active tmux session.
+Works inside Herdr or tmux. Outside a multiplexer, it just runs the main dev command.
 EOF
 }
 
@@ -24,15 +25,6 @@ if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
   exit 0
 fi
 
-if ! command -v tmux >/dev/null 2>&1; then
-  echo "error: tmux is not installed or not in PATH" >&2
-  exit 1
-fi
-
-if [[ -z "${TMUX:-}" ]]; then
-  echo "error: run this from inside an existing tmux session" >&2
-  exit 1
-fi
 
 find_project_root() {
   local dir="$PWD"
@@ -77,22 +69,75 @@ else
   exit 1
 fi
 
-new_horizontal_pane() {
+current_herdr_pane() {
+  if [[ -n "${HERDR_ACTIVE_PANE_ID:-}" ]]; then
+    printf '%s\n' "$HERDR_ACTIVE_PANE_ID"
+    return 0
+  fi
+
+  if [[ -n "${HERDR_PANE_ID:-}" ]]; then
+    printf '%s\n' "$HERDR_PANE_ID"
+    return 0
+  fi
+
+  herdr pane list | python -c '
+import json, sys
+data = json.load(sys.stdin)
+for pane in data.get("result", {}).get("panes", []):
+    if pane.get("focused"):
+        print(pane["pane_id"])
+        raise SystemExit(0)
+raise SystemExit(1)
+'
+}
+
+json_field() {
+  local field="$1"
+  python -c '
+import json, sys
+field = sys.argv[1]
+data = json.load(sys.stdin)
+result = data.get("result", {})
+pane = result.get("pane") or result.get("created") or result.get("new_pane") or result.get("target") or result
+print(pane.get(field, ""))
+' "$field"
+}
+
+new_side_pane() {
   local name="$1"
   local cmd="$2"
 
-  tmux split-window -h -c "$root" "$cmd"
-  echo "started: $name pane -> $cmd"
+  if [[ -n "${HERDR_ENV:-}" ]] && command -v herdr >/dev/null 2>&1; then
+    local pane_id new_pane_id
+    pane_id="$(current_herdr_pane)"
+    new_pane_id="$(herdr pane split "$pane_id" --direction right --cwd "$root" --no-focus | json_field pane_id)"
+    if [[ -z "$new_pane_id" ]]; then
+      echo "error: could not create Herdr pane" >&2
+      exit 1
+    fi
+    herdr pane run "$new_pane_id" "$cmd" >/dev/null
+    echo "started: $name pane -> $cmd"
+    return 0
+  fi
+
+  if [[ -n "${TMUX:-}" ]] && command -v tmux >/dev/null 2>&1; then
+    tmux split-window -h -c "$root" "$cmd"
+    echo "started: $name pane -> $cmd"
+    return 0
+  fi
+
+  echo "warning: not inside Herdr or tmux; run separately: cd '$root' && $cmd" >&2
 }
 
 echo "project: $project"
 echo "root:    $root"
 echo "pm:      $pm"
 
-tmux rename-window "dev"
-
+if [[ -n "${TMUX:-}" ]] && command -v tmux >/dev/null 2>&1; then
+  tmux rename-window "dev"
+fi
 if [[ -d "$root/convex" ]]; then
-  new_horizontal_pane "convex" "$convex_cmd"
+  new_side_pane "convex" "$convex_cmd"
 else
   echo "skip: no convex/ directory found"
 fi
