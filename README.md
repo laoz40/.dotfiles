@@ -83,9 +83,10 @@ Linux stuff and other stuff:
 - **waybar**: `waybar`
 - **dunst**: `dunst`
 - **fastfetch**: `fastfetch`
+- **onefetch**: `onefetch`
 
 ```
-paru -S hyprland hyprpaper hyprlock hypridle hyprsunset hyprshot satty hyprpicker hyprwhspr rofi rofi-emoji noto-fonts-emoji networkmanager-dmenu waybar dunst fastfetch
+paru -S hyprland hyprpaper hyprlock hypridle hyprsunset hyprshot satty hyprpicker hyprwhspr rofi rofi-emoji noto-fonts-emoji networkmanager-dmenu waybar dunst fastfetch onefetch
 ```
 
 System stuff:
