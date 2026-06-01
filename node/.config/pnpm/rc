@@ -1,0 +1,6 @@
+# Delay newly published package versions to reduce supply-chain risk.
+# pnpm uses minutes for minimum-release-age; 2880 = 48 hours.
+minimum-release-age=2880
+
+# Block transitive exotic dependencies like git/tarball URL subdeps.
+block-exotic-subdeps=true

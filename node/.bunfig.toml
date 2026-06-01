@@ -1,0 +1,4 @@
+# Delay newly published package versions to reduce supply-chain risk.
+# Bun uses seconds for minimumReleaseAge; 172800 = 48 hours.
+[install]
+minimumReleaseAge = 172800
