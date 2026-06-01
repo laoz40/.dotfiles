@@ -105,3 +105,6 @@ alias va="open-nvim-pi-layout.sh"
 
 # Select and go to t3 code worktree
 alias wt="source t3code-wt-switcher.sh"
+
+# Create git worktree
+alias wtc="wtc.sh"
