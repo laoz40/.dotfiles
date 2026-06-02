@@ -185,7 +185,7 @@ async function chooseBaseBranch(pi: ExtensionAPI, ctx: ExtensionCommandContext, 
     .map((branch) => branch.replace(/^origin\//, ""))
     .filter((branch) => branch !== currentBranch);
 
-  const candidates = [...new Set([defaultBase, "main", "master", "production", "develop", ...branches].filter(Boolean))];
+  const candidates = [...new Set([defaultBase, ...branches].filter(Boolean))];
   notifyDesktop(ctx.cwd, "Choose a PR base branch.");
   const selected = await ctx.ui.select("Choose PR base branch", candidates);
   if (!selected) return null;
