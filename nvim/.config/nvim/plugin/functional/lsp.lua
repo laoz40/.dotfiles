@@ -29,6 +29,10 @@ local servers = {
     init_options = {
       maxTsServerMemory = 2048,
     },
+    on_attach = function(client)
+      -- Use Treesitter highlighting for TypeScript.
+      client.server_capabilities.semanticTokensProvider = nil
+    end,
   },
 
   html = {},
