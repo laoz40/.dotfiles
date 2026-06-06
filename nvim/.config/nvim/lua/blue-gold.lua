@@ -15,8 +15,8 @@ M.palette = {
 	comment = "#6f7eaa",
 	code_bg = "#10263a",
 
-	blue = "#2A69B5",
-	blue_alt = "#1B46A1",
+	blue = "#6A95DF",
+	blue_alt = "#2A69B5",
 	blue_light = "#9DB9F5",
 
 	gold = "#dfb46a",
