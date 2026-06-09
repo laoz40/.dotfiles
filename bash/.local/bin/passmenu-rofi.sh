@@ -2,9 +2,9 @@
 
 shopt -s nullglob globstar
 
-typeit=0
-if [[ $1 == "--type" ]]; then
-    typeit=1
+typeit=1
+if [[ $1 == "--copy" ]]; then
+    typeit=0
     shift
 fi
 
