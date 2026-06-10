@@ -38,7 +38,7 @@ Use GNU Stow to symlink configs:
 
 ```bash
 # Stow all packages from the repo root
-stow -t ~ bash dunst fastfetch ghostty herdr hypr node nvim pi rofi tmux wallpapers waybar yazi zed
+stow -t ~ bash dunst fastfetch ghostty herdr hypr node nvim pi rofi tmux wallpapers waybar yazi zed zsh
 
 # Or stow one package
 stow -t ~ waybar
@@ -62,11 +62,15 @@ Essential stuff:
   - **trash-cli**: `trash-cli` for Yazi trash restore plugin
 - **Zoxide**: `zoxide`
 - **fzf**: `fzf`
+- **Zsh**: `zsh`
+  - **Autosuggestions**: `zsh-autosuggestions`
+  - **Syntax highlighting**: `zsh-syntax-highlighting`
+- **Pass**: `pass`
 - **Zen Browser**: `zen-browser-bin` (AUR)
   - [Betterfox](https://github.com/yokoffing/BetterFox)
 
 ```
-paru -S neovim herdr ghostty lazygit rtk yazi trash-cli zoxide fzf zen-browser-bin
+paru -S neovim herdr ghostty lazygit rtk yazi trash-cli zoxide fzf zsh zsh-autosuggestions zsh-syntax-highlighting pass zen-browser-bin
 ```
 
 
