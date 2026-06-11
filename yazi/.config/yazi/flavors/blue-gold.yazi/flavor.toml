@@ -24,9 +24,9 @@ marker_marked   = { fg = "#dfb46a", bg = "#D39834" }
 marker_selected = { fg = "#F2D28B", bg = "#F2D28B" }
 
 # Count
-count_copied   = { fg = "#0e2133", bg = "#2A69B5" }
-count_cut      = { fg = "#0e2133", bg = "#e06c75" }
-count_selected = { fg = "#0e2133", bg = "#dfb46a" }
+count_copied   = { fg = "#0B1C2B", bg = "#2A69B5" }
+count_cut      = { fg = "#0B1C2B", bg = "#e06c75" }
+count_selected = { fg = "#0B1C2B", bg = "#dfb46a" }
 
 # Border
 border_symbol = "│"
@@ -38,7 +38,7 @@ border_style  = { fg = "#6f7eaa" } # Using comment color for subtle borders
 # : Tabs {{{
 
 [tabs]
-active   = { fg = "#0e2133", bg = "#dfb46a", bold = true }
+active   = { fg = "#0B1C2B", bg = "#dfb46a", bold = true }
 inactive = { fg = "#9aa8d6", bg = "#132a40" }
 
 # Separator
@@ -52,15 +52,15 @@ sep_outer = { open = "", close = "" }
 
 [mode]
 # Normal mode uses your signature Blue
-normal_main = { fg = "#0e2133", bg = "#2A69B5", bold = true }
+normal_main = { fg = "#0B1C2B", bg = "#2A69B5", bold = true }
 normal_alt  = { fg = "#2A69B5", bg = "#132a40" }
 
 # Select mode uses Gold
-select_main = { fg = "#0e2133", bg = "#dfb46a", bold = true }
+select_main = { fg = "#0B1C2B", bg = "#dfb46a", bold = true }
 select_alt  = { fg = "#dfb46a", bg = "#132a40" }
 
 # Unset/Visual mode
-unset_main = { fg = "#0e2133", bg = "#D39834", bold = true }
+unset_main = { fg = "#0B1C2B", bg = "#D39834", bold = true }
 unset_alt  = { fg = "#D39834", bg = "#132a40" }
 
 # : }}}
@@ -74,7 +74,7 @@ sep_left  = { open = "", close = "" }
 sep_right = { open = "", close = "" }
 
 # Progress
-progress_label = { fg = "#0e2133", bold = true }
+progress_label = { fg = "#0B1C2B", bold = true }
 progress_normal = { fg = "#2A69B5", bg = "#132a40" }
 progress_error = { fg = "#e06c75", bg = "#132a40" }
 
@@ -90,7 +90,7 @@ perm_exec  = { fg = "#9DB9F5" }
 # : Pick {{{
 
 [pick]
-border = { fg = "#1B46A1" }          # blue_alt
+border = { fg = "#2A69B5" }          # blue_alt
 active = { fg = "#dfb46a", bold = true } # gold
 inactive = {}
 
@@ -100,7 +100,7 @@ inactive = {}
 # : Input {{{
 
 [input]
-border   = { fg = "#1B46A1" }        # blue_alt
+border   = { fg = "#2A69B5" }        # blue_alt
 title    = { fg = "#dfb46a" }        # gold (Prompt text)
 value    = { fg = "#c0caf5" }        # fg (User input text)
 selected = { bg = "#123f66" }        # selection
@@ -111,7 +111,7 @@ selected = { bg = "#123f66" }        # selection
 # : Completion {{{
 
 [cmp]
-border = { fg = "#1B46A1" }          # blue_alt
+border = { fg = "#2A69B5" }          # blue_alt
 active = { fg = "#dfb46a", bg = "#123f66" } # gold on selection
 
 # : }}}
@@ -120,7 +120,7 @@ active = { fg = "#dfb46a", bg = "#123f66" } # gold on selection
 # : Tasks {{{
 
 [tasks]
-border  = { fg = "#1B46A1" }         # blue_alt
+border  = { fg = "#2A69B5" }         # blue_alt
 title   = { fg = "#dfb46a" }         # gold
 hovered = { fg = "#9DB9F5", underline = true } # blue_light
 
@@ -140,7 +140,7 @@ separator_style = { fg = "#6f7eaa" }
 on      = { fg = "#dfb46a" }
 run     = { fg = "#2A69B5" }
 hovered = { reversed = true, bold = true }
-footer  = { fg = "#0e2133", bg = "#c0caf5" }
+footer  = { fg = "#0B1C2B", bg = "#c0caf5" }
 
 [notify]
 title_info  = { fg = "#2A69B5" }
@@ -156,9 +156,9 @@ title_error = { fg = "#e06c75" }
 rules = [
 
     # Media (Blue tones)
-    { mime = "image/*", fg = "#1B46A1" },
-    { mime = "video/*", fg = "#1B46A1" },
-    { mime = "audio/*", fg = "#1B46A1" },
+    { mime = "image/*", fg = "#2A69B5" },
+    { mime = "video/*", fg = "#2A69B5" },
+    { mime = "audio/*", fg = "#2A69B5" },
 
     # Archives
     { mime = "application/zip",             fg = "#D39834" },
@@ -198,5 +198,5 @@ conds = [
 	# Fallback
 	{ if = "dir", text = "", fg = "#dfb46a" },
 	{ if = "exec", text = "", fg = "#dfb46a" },
-	{ if = "!dir", text = "", fg = "#cad3f5" },
+	{ if = "!dir", text = "", fg = "#c0caf5" },
 ]
