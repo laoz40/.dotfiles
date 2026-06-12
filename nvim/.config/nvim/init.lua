@@ -1,3 +1,7 @@
+-- leader key
+vim.g.mapleader = " "
+vim.g.maplocalleader = "\\"
+
 -- QOL
 vim.o.clipboard = "unnamedplus"
 vim.o.mouse = "a"
@@ -29,6 +33,7 @@ vim.opt.ruler = false
 vim.opt.guicursor = "n-v-i-c:block-Cursor"
 vim.api.nvim_set_hl(0, "Cursor", { bg = "#ffd700" })
 vim.lsp.document_color.enable(true, nil, { style = "virtual" })
+vim.o.confirm = true
 
 -- native tabline: show only file names
 vim.o.showtabline = 1
@@ -79,8 +84,10 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 -- diagnostics
+vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, { desc = "Show diagnostics popup" })
+
 vim.diagnostic.config({
-	virtual_lines = false, -- using tiny-inline-diagnostics
+	virtual_lines = false,
 	virtual_text = false,
 	underline = true,
 	update_in_insert = false,
@@ -153,9 +160,7 @@ vim.api.nvim_create_autocmd("RecordingLeave", {
 	command = "set cmdheight=0",
 })
 
--- leader key
-vim.g.mapleader = " "
-vim.g.maplocalleader = "\\"
+-- leader key set at top before keymaps
 
 -- save
 vim.keymap.set("n", "<leader>w", "<Cmd>w<CR>", { desc = "Save file" })
@@ -187,7 +192,6 @@ vim.keymap.set("i", "<C-l>", "<Right>")
 -- lsp
 vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
 vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, {})
-vim.keymap.set("n", "gr", vim.lsp.buf.rename, {})
 vim.keymap.set("n", "<F2>", vim.lsp.buf.rename, { desc = "LSP rename" })
 
 vim.api.nvim_create_autocmd("LspAttach", {
@@ -213,6 +217,7 @@ vim.keymap.set("n", "<leader>e", function()
 	MiniFiles.reveal_cwd()
 end)
 
+-- mini.diff diff toggle
 vim.keymap.set("n", "<leader>gd", function()
 	MiniDiff.toggle_overlay()
 end)

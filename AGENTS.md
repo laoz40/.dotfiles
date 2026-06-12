@@ -11,3 +11,10 @@ stow -R <package>
 ```
 
 If Stow reports conflicts because existing live files are not owned by Stow, inspect the target paths before overwriting or deleting anything.
+
+## Neovim
+
+Using nvim 0.12+, which has native plugin manager vim.pack()
+
+Remove plugins with command `lua vim.pack.del({"plugin.nvim"})`
+This removes it from lock file. Simply deleting the vim.pack code in the config will not remove the plugins.
