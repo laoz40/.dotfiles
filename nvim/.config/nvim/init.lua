@@ -139,14 +139,6 @@ vim.api.nvim_create_autocmd("CursorMovedI", {
 	end,
 })
 
--- no auto continue comments on new line
-vim.api.nvim_create_autocmd("FileType", {
-	group = vim.api.nvim_create_augroup("no_auto_comment", {}),
-	callback = function()
-		vim.opt_local.formatoptions:remove({ "c", "r", "o" })
-	end,
-})
-
 -- Show command line when recording macro
 local cmdheight_group = vim.api.nvim_create_augroup("CmdHeightToggle", { clear = true })
 vim.api.nvim_create_autocmd("RecordingEnter", {
@@ -159,8 +151,6 @@ vim.api.nvim_create_autocmd("RecordingLeave", {
 	pattern = "*",
 	command = "set cmdheight=0",
 })
-
--- leader key set at top before keymaps
 
 -- save
 vim.keymap.set("n", "<leader>w", "<Cmd>w<CR>", { desc = "Save file" })
@@ -190,40 +180,10 @@ vim.keymap.set("i", "<C-k>", "<Up>")
 vim.keymap.set("i", "<C-l>", "<Right>")
 
 -- lsp
-vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
 vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, {})
 vim.keymap.set("n", "<F2>", vim.lsp.buf.rename, { desc = "LSP rename" })
-
-vim.api.nvim_create_autocmd("LspAttach", {
-	group = vim.api.nvim_create_augroup("UserLspKeymaps", { clear = true }),
-	desc = "Attach LSP buffer-local keymaps",
-	callback = function(event)
-		local opts = { buffer = event.buf, silent = true }
-		vim.keymap.set("n", "gh", vim.lsp.buf.hover, vim.tbl_extend("force", opts, { desc = "LSP hover" }))
-	end,
-})
 
 -- css convert
 vim.keymap.set("n", "<leader>co", function()
 	vim.lsp.document_color.color_presentation()
 end, { desc = "Colour value convert" })
-
--- copy line number range to clipboard for llms
-vim.keymap.set("v", "<leader>lr", function()
-	-- start selection line
-	local s = vim.fn.getpos("v")[2]
-	-- current cursor line
-	local e = vim.fn.line(".")
-	-- swap if start is greater than end
-	if s > e then
-		s, e = e, s
-	end
-
-	-- get file name
-	local file = vim.fn.expand("%:t")
-	local range = (s == e) and tostring(s) or (s .. "-" .. e)
-	local text = file .. ":" .. range
-
-	vim.fn.setreg("+", text)
-	print(text)
-end, { desc = "Copy file name with line range" })
