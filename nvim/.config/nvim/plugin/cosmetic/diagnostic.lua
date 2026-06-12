@@ -1,5 +1,6 @@
 vim.pack.add({
 	{ src = "https://github.com/dmmulroy/ts-error-translator.nvim" },
+	{ src = "https://github.com/youyoumu/pretty-ts-errors.nvim" },
 })
 
 require("ts-error-translator").setup({
@@ -14,6 +15,22 @@ require("ts-error-translator").setup({
 		"vtsls",
 	},
 })
+
+require("pretty-ts-errors").setup({
+	executable = "pretty-ts-errors-markdown",
+	float_opts = {
+		border = "rounded",
+		max_width = 80,
+		max_height = 20,
+		wrap = false,
+	},
+	auto_open = true,
+	lazy_window = false,
+})
+
+vim.keymap.set("n", "<leader>t", function()
+	require("pretty-ts-errors").show_formatted_error()
+end, { desc = "Show TS error" })
 
 -- shadcn files live in components/ui. Ignore diagnostics from there.
 local function is_shadcn_ui_path(path)
