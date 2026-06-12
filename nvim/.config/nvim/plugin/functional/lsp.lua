@@ -27,7 +27,7 @@ local servers = {
 
   ts_ls = {
     init_options = {
-      maxTsServerMemory = 2048,
+      maxTsServerMemory = 2560,
     },
     on_attach = function(client)
       -- Use Treesitter highlighting for TypeScript.
