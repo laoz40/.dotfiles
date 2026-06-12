@@ -25,3 +25,10 @@ require("conform").setup({
 		typst = { "typstyle" },
 	},
 })
+
+vim.keymap.set("n", "<leader>fo", function()
+	require("conform").format({
+		timeout_ms = 500,
+		lsp_format = "fallback",
+	})
+end, { desc = "Format file with Conform" })

@@ -82,3 +82,51 @@ require("snacks").setup({
 		input = { enabled = true },
 	}
 )
+
+vim.keymap.set("n", "<C-P>", function()
+	Snacks.picker.smart({ title = "Search" })
+end, { desc = "Smart Find Files" })
+
+vim.keymap.set("n", "<leader>ff", function()
+	Snacks.picker.grep()
+end, { desc = "Grep" })
+
+vim.keymap.set({ "n", "v" }, "<leader>ft", function()
+	Snacks.picker.grep_word()
+end, { desc = "Grep word" })
+
+vim.keymap.set("n", "<leader>fr", function()
+	Snacks.picker.lsp_references()
+end, { desc = "References" })
+
+vim.keymap.set("n", "<leader>fd", function()
+	Snacks.picker.diagnostics()
+end, { desc = "Diagnostics" })
+
+vim.keymap.set("n", "<leader>fs", function()
+	Snacks.picker.lsp_symbols()
+end, { desc = "LSP Symbols" })
+
+vim.keymap.set("n", "<leader>fu", function()
+	Snacks.picker.undo()
+end, { desc = "Undo history" })
+
+vim.keymap.set("n", "<leader>?", function()
+	Snacks.picker.help()
+end, { desc = "Search help docs" })
+
+vim.keymap.set("n", "<leader>km", function()
+	Snacks.picker.keymaps()
+end, { desc = "Keymaps" })
+
+vim.keymap.set("n", "<leader>fg", function()
+	Snacks.picker.git_files()
+end, { desc = "Git files" })
+
+vim.keymap.set("n", "<leader>gl", function()
+	Snacks.picker.git_log()
+end, { desc = "Git log" })
+
+vim.keymap.set("n", "<leader>gh", function()
+	Snacks.gitbrowse()
+end, { desc = "Open file in git repo browser " })

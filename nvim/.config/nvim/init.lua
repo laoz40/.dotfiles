@@ -203,87 +203,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	end,
 })
 
--- format
-vim.keymap.set("n", "<leader>fo", function()
-	require("conform").format({
-		timeout_ms = 500,
-		lsp_format = "fallback",
-	})
-end, { desc = "Format file with Conform" })
-
--- mini.files, open at current file
-vim.keymap.set("n", "<leader>e", function()
-	MiniFiles.open(vim.api.nvim_buf_get_name(0), false)
-	MiniFiles.reveal_cwd()
-end)
-
--- mini.diff diff toggle
-vim.keymap.set("n", "<leader>gd", function()
-	MiniDiff.toggle_overlay()
-end)
-
--- Snacks
-vim.keymap.set("n", "<C-P>", function()
-	Snacks.picker.smart({ title = "Search" })
-end, { desc = "Smart Find Files" })
-vim.keymap.set("n", "<leader>ff", function()
-	Snacks.picker.grep()
-end, { desc = "Grep" })
-vim.keymap.set({ "n", "v" }, "<leader>ft", function()
-	Snacks.picker.grep_word()
-end, { desc = "Grep word" })
-vim.keymap.set("n", "<leader>fr", function()
-	Snacks.picker.lsp_references()
-end, { desc = "References" })
-vim.keymap.set("n", "<leader>fd", function()
-	Snacks.picker.diagnostics()
-end, { desc = "Diagnostics" })
-vim.keymap.set("n", "<leader>fs", function()
-	Snacks.picker.lsp_symbols()
-end, { desc = "LSP Symbols" })
-vim.keymap.set("n", "<leader>fu", function()
-	Snacks.picker.undo()
-end, { desc = "Undo history" })
-vim.keymap.set("n", "<leader>?", function()
-	Snacks.picker.help()
-end, { desc = "Search help docs" })
-vim.keymap.set("n", "<leader>km", function()
-	Snacks.picker.keymaps()
-end, { desc = "Keymaps" })
-vim.keymap.set("n", "<leader>fg", function()
-	Snacks.picker.git_files()
-end, { desc = "Git files" })
-vim.keymap.set("n", "<leader>gl", function()
-	Snacks.picker.git_log()
-end, { desc = "Git log" })
-vim.keymap.set("n", "<leader>gh", function()
-	Snacks.gitbrowse()
-end, { desc = "Open file in git repo browser " })
-
--- git worktree switch
-vim.keymap.set("n", "<leader>gw", function()
-	require("git-worktree").switch()
-end, { desc = "Git worktree switch" })
-
-vim.keymap.set("n", "<leader>gW", function()
-	require("git-worktree").create()
-end, { desc = "Git worktree create" })
-
 -- css convert
 vim.keymap.set("n", "<leader>co", function()
 	vim.lsp.document_color.color_presentation()
 end, { desc = "Colour value convert" })
-
--- Supermaven
-vim.keymap.set("i", "<A-y>", function()
-	require("supermaven-nvim.completion_preview").on_accept_suggestion()
-end, { desc = "Supermaven Accept" })
-vim.keymap.set("i", "<A-e>", function()
-	require("supermaven-nvim.completion_preview").on_accept_word()
-end, { desc = "Supermaven Accept Word" })
-vim.keymap.set("i", "<A-c>", function()
-	require("supermaven-nvim.completion_preview").on_dispose_inlay_hint()
-end, { desc = "Supermaven Clear" })
 
 -- copy line number range to clipboard for llms
 vim.keymap.set("v", "<leader>lr", function()

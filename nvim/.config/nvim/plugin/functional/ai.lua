@@ -36,3 +36,15 @@ require("aicommits").setup({
 		neogit = { enabled = false },
 	},
 })
+
+vim.keymap.set("i", "<A-y>", function()
+	require("supermaven-nvim.completion_preview").on_accept_suggestion()
+end, { desc = "Supermaven Accept" })
+
+vim.keymap.set("i", "<A-e>", function()
+	require("supermaven-nvim.completion_preview").on_accept_word()
+end, { desc = "Supermaven Accept Word" })
+
+vim.keymap.set("i", "<A-c>", function()
+	require("supermaven-nvim.completion_preview").on_dispose_inlay_hint()
+end, { desc = "Supermaven Clear" })

@@ -40,3 +40,12 @@ require("mini.icons").setup({})
 require("mini.comment").setup({})
 require("mini.trailspace").setup({})
 
+
+vim.keymap.set("n", "<leader>e", function()
+	MiniFiles.open(vim.api.nvim_buf_get_name(0), false)
+	MiniFiles.reveal_cwd()
+end)
+
+vim.keymap.set("n", "<leader>gd", function()
+	MiniDiff.toggle_overlay()
+end)
