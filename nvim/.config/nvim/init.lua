@@ -180,6 +180,7 @@ vim.keymap.set("i", "<C-k>", "<Up>")
 vim.keymap.set("i", "<C-l>", "<Right>")
 
 -- lsp
+vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "LSP definition" })
 vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, {})
 vim.keymap.set("n", "<F2>", vim.lsp.buf.rename, { desc = "LSP rename" })
 
