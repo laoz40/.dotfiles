@@ -4,7 +4,7 @@ onboarding = false
 name = "terminal"
 
 [ui.toast]
-delivery = "herdr"
+delivery = "off"
 
 [ui]
 agent_panel_scope = "all"
