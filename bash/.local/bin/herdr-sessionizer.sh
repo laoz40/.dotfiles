@@ -12,7 +12,7 @@ if [[ -z "${selected:-}" ]]; then
 fi
 
 selected="$(realpath -m "$selected")"
-selected_name="$(basename "$selected" | tr . _)"
+selected_name="$(basename "$selected")"
 
 if [[ "$selected" == "$HOME" ]]; then
   selected_name="main"
