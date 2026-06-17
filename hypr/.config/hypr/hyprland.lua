@@ -116,6 +116,7 @@ local autostart = {
 
 local desktop_autostart = {
 	"vesktop --start-minimized",
+	"obsidian",
 	"steam -silent",
 }
 
