@@ -17,7 +17,7 @@
     "openai-codex/gpt-5.3-codex",
     "openai-codex/gpt-5.3-codex-spark"
   ],
-  "defaultThinkingLevel": "low",
+  "defaultThinkingLevel": "medium",
   "theme": "blue-gold",
   "editorPaddingX": 2,
   "hideThinkingBlock": false,
