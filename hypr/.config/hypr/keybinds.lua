@@ -102,9 +102,6 @@ hl.bind("SUPER + 2", hl.dsp.exec_cmd("flatpak run com.spotify.Client"))
 hl.bind("SUPER + 7", hl.dsp.exec_cmd("steam"))
 hl.bind("SUPER + 8", hl.dsp.exec_cmd("vesktop"))
 
--- Notes (special workspace).
-hl.bind("SUPER + N", hl.dsp.workspace.toggle_special("Notes"))
-hl.workspace_rule({ workspace = "special:Notes", on_created_empty = "obsidian" })
 
 -- File managers.
 hl.bind("SUPER + E", hl.dsp.exec_cmd("ghostty -e yazi"))
