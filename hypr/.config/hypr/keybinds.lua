@@ -97,6 +97,14 @@ hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("killall -SIGUSR1 waybar"))
 hl.bind("CTRL + SUPER + P", hl.dsp.exec_cmd("hypr-profile-toggle.sh"))
 
 -- App shortcuts.
+hl.bind("SUPER + N", function()
+ 	local obsidian = hl.get_window("class:obsidian")
+ 	if obsidian then
+ 		hl.dispatch(hl.dsp.focus({ window = obsidian }))
+ 	else
+ 		hl.exec_cmd("obsidian")
+ 	end
+end)
 hl.bind("SUPER + 1", hl.dsp.exec_cmd("zen-browser"))
 hl.bind("SUPER + 2", hl.dsp.exec_cmd("flatpak run com.spotify.Client"))
 hl.bind("SUPER + 7", hl.dsp.exec_cmd("steam"))
