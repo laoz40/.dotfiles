@@ -2,14 +2,6 @@ vim.pack.add({
 	{ src = "https://github.com/nvim-mini/mini.nvim" },
 })
 
-require("mini.files").setup({})
-vim.api.nvim_create_autocmd("User", {
-	pattern = "MiniFilesActionRename",
-	callback = function(event)
-		Snacks.rename.on_rename_file(event.data.from, event.data.to)
-	end,
-})
-
 require("mini.diff").setup({
 	view = {
 		-- Visualization style. Possible values are 'sign' and 'number'.
@@ -29,6 +21,10 @@ require("mini.diff").setup({
   },
 })
 
+vim.keymap.set("n", "<leader>gd", function()
+	MiniDiff.toggle_overlay()
+end)
+
 require("mini.indentscope").setup({
 	draw = {
 		animation = require("mini.indentscope").gen_animation.none(),
@@ -39,13 +35,3 @@ require("mini.indentscope").setup({
 require("mini.icons").setup({})
 require("mini.comment").setup({})
 require("mini.trailspace").setup({})
-
-
-vim.keymap.set("n", "<leader>e", function()
-	MiniFiles.open(vim.api.nvim_buf_get_name(0), false)
-	MiniFiles.reveal_cwd()
-end)
-
-vim.keymap.set("n", "<leader>gd", function()
-	MiniDiff.toggle_overlay()
-end)

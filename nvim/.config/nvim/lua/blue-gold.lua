@@ -398,6 +398,16 @@ function M.colorscheme()
 	hl("MiniFilesFile", { fg = p.blue_light })
 
 	---------------------------------------------------------------------------
+	-- Plugin: oil.nvim
+	---------------------------------------------------------------------------
+
+	-- Override OilDir's default link to Directory, because Directory has a gold bg.
+	hl("OilDir", { fg = p.gold, bg = p.none, bold = true })
+	hl("OilDirIcon", { fg = p.gold, bg = p.none })
+	hl("OilDirHidden", { fg = p.comment, bg = p.none })
+	hl("OilFile", { fg = p.blue_light, bg = p.none })
+
+	---------------------------------------------------------------------------
 	-- Plugin: todo-comments.nvim
 	---------------------------------------------------------------------------
 
