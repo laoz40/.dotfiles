@@ -31,7 +31,7 @@ export COLORTERM=truecolor
 
 # Prompt
 PROMPT_COMMAND='PS1_GIT_BRANCH=$(git branch --show-current 2>/dev/null); PS1_GIT=${PS1_GIT_BRANCH:+ ($PS1_GIT_BRANCH)}'
-PS1='\n\[\e[38;5;25m\][\A]\[\e[0m\] \[\e[38;5;214;1m\]\w\[\e[0m\]\[\e[38;5;222m\]${PS1_GIT}\n\[\e[0m\]> '
+PS1='\n \[\e[38;5;214;1m\]\w\[\e[0m\]\[\e[38;5;245m\]${PS1_GIT}\n\[\e[0m\]❯ '
 
 # Environment Variables
 export EDITOR=nvim

@@ -64,7 +64,7 @@ precmd() {
   PS1_GIT=${git_branch:+ ($git_branch)}
 }
 
-PROMPT=$'\n%F{25}[%D{%H:%M}]%f %F{214}%B%~%b%f%F{222}${PS1_GIT}%f\n> '
+PROMPT=$'\n%F{214}%B%~%b%f%F{245}${PS1_GIT}%f\n❯ '
 
 # ==============================================================================
 # Completion and keybindings
