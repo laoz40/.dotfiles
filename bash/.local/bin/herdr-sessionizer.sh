@@ -15,7 +15,7 @@ selected="$(realpath -m "$selected")"
 selected_name="$(basename "$selected")"
 
 if [[ "$selected" == "$HOME" ]]; then
-  selected_name="main"
+  selected_name="~"
 fi
 
 if ! command -v herdr >/dev/null 2>&1; then
