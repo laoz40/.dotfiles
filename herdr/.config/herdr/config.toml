@@ -43,6 +43,11 @@ zoom = "prefix+z"
 resize_mode = "prefix+alt+r"
 
 [[keys.command]]
+key = "prefix+ctrl+h"
+type = "shell"
+command = "herdr-sessionizer.sh ~"
+
+[[keys.command]]
 key = "prefix+ctrl+f"
 type = "pane"
 command = "herdr-sessionizer.sh"
