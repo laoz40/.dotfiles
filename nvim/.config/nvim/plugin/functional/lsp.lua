@@ -25,10 +25,7 @@ local servers = {
     },
   },
 
-  ts_ls = {
-    init_options = {
-      maxTsServerMemory = 4096,
-    },
+  tsgo = {
     on_attach = function(client)
       -- Use Treesitter highlighting for TypeScript.
       client.server_capabilities.semanticTokensProvider = nil
