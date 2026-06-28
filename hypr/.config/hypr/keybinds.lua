@@ -106,7 +106,7 @@ hl.bind("SUPER + N", function()
  	end
 end)
 hl.bind("SUPER + 1", hl.dsp.exec_cmd("zen-browser"))
-hl.bind("SUPER + 2", hl.dsp.exec_cmd("flatpak run com.spotify.Client"))
+hl.bind("SUPER + 3", hl.dsp.exec_cmd("flatpak run com.spotify.Client"))
 hl.bind("SUPER + 7", hl.dsp.exec_cmd("steam"))
 hl.bind("SUPER + 8", hl.dsp.exec_cmd("vesktop"))
 
