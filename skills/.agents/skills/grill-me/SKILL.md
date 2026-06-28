@@ -8,3 +8,24 @@ Interview me relentlessly about every aspect of this plan until we reach a share
 Ask the questions one at a time.
 
 If a question can be answered by exploring the codebase, explore the codebase instead.
+
+If the request is a small, self-contained change that can reasonably be implemented in a single pass without introducing important tradeoffs or follow-on decisions, skip the grilling process and implement it directly.
+
+Examples include:
+
+- Changing copy or wording.
+- Tweaking styling, spacing, colors, or typography.
+- Renaming variables, functions, or files.
+- Fixing a straightforward bug with an obvious cause.
+- Adding a small UI interaction (e.g. autofocus an input, add a loading spinner, disable a button while submitting).
+- Adjusting validation messages or error text.
+
+In contrast, use the grilling process for changes like:
+
+- Adding a new feature or workflow.
+- Redesigning a user experience.
+- Choosing between multiple architectural approaches.
+- Changing data models, APIs, or database schemas.
+- Introducing new dependencies or infrastructure.
+- Changes that affect multiple parts of the codebase or require several coordinated decisions.
+- Any request where the implementation depends on unresolved product or technical decisions.
