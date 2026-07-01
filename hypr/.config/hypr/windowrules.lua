@@ -4,12 +4,16 @@ local profile = require("profile")
 local minimal = profile.is_minimal()
 local app_opacity = "0.85 0.85 1.0"
 
-local function with_app_opacity(rule)
+local function with_opacity(rule, opacity)
   if not minimal then
-    rule.opacity = app_opacity
+    rule.opacity = opacity
   end
 
   return rule
+end
+
+local function with_app_opacity(rule)
+  return with_opacity(rule, app_opacity)
 end
 
 -- Ignore maximize requests from all apps.
@@ -105,12 +109,11 @@ hl.window_rule({
   size = { "monitor_w*0.95", "monitor_h*0.9" },
 })
 
-hl.window_rule({
+hl.window_rule(with_opacity({
   name = "obsidian",
   match = { initial_class = "obsidian" },
   workspace = "2 silent",
-  opacity = "0.97 0.97 1.0",
-})
+}, "0.97 0.97 1.0"))
 
 -- Layer rules
 
