@@ -53,6 +53,8 @@ export NVM_DIR="$HOME/.nvm"
 # ==============================================================================
 
 setopt PROMPT_SUBST
+# Prevent Ctrl-D from exiting the shell accidentally.
+setopt IGNORE_EOF
 
 HISTFILE=~/.histfile
 HISTSIZE=1000

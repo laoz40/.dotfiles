@@ -18,6 +18,9 @@ fi
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+# Prevent Ctrl-D from exiting the shell accidentally.
+set -o ignoreeof
+
 # Colored outputs
 alias ls="ls --color=auto"
 alias grep="grep --color=auto"
