@@ -49,7 +49,7 @@ export default function (pi: ExtensionAPI) {
 
           return [
             line(width, theme.fg("dim", modelText), theme.fg(last.error ? "warning" : "dim", codexText)),
-            line(width, theme.fg("dim", tokenText), theme.fg("dim", cwdText)),
+            lineKeepLeft(width, theme.fg("dim", tokenText), theme.fg("dim", cwdText)),
           ];
         },
       };
@@ -190,6 +190,17 @@ function line(width: number, left: string, right: string): string {
   if (leftWidth + rightWidth + 1 > width) {
     const maxLeft = Math.max(0, width - rightWidth - 1);
     left = truncateToWidth(left, maxLeft, "…");
+  }
+  const pad = " ".repeat(Math.max(1, width - visibleWidth(left) - visibleWidth(right)));
+  return truncateToWidth(left + pad + right, width, "");
+}
+
+function lineKeepLeft(width: number, left: string, right: string): string {
+  const leftWidth = visibleWidth(left);
+  const rightWidth = visibleWidth(right);
+  if (leftWidth + rightWidth + 1 > width) {
+    const maxRight = Math.max(0, width - leftWidth - 1);
+    right = truncateToWidth(right, maxRight, "…");
   }
   const pad = " ".repeat(Math.max(1, width - visibleWidth(left) - visibleWidth(right)));
   return truncateToWidth(left + pad + right, width, "");
