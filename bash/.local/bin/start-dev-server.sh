@@ -2,28 +2,41 @@
 set -euo pipefail
 
 # Start a JS project's dev server (bun/pnpm/yarn/npm).
-# In Herdr: starts Convex in a right split when present, then starts dev in current pane.
-# In tmux: same behavior using a horizontal split.
+# With --convex: starts Convex in a side pane when present, then starts dev in current pane.
 
 usage() {
   cat <<'EOF'
-Usage: start-dev-server.sh
+Usage: start-dev-server.sh [--convex]
 
-Detects the project root from the current working directory, then:
-  - starts Convex in a new right-side pane if a convex/ directory exists
-  - starts `bun dev` if bun.lock or bun.lockb exists at the root
-  - otherwise starts `pnpm dev` if pnpm-lock.yaml exists at the root
-  - otherwise starts `yarn dev` if yarn.lock exists at the root
-  - otherwise starts `npm run dev` if package-lock.json exists at the root
+Detects the project root from the current working directory, then starts:
+  - `bun dev` if bun.lock or bun.lockb exists at the root
+  - otherwise `pnpm dev` if pnpm-lock.yaml exists at the root
+  - otherwise `yarn dev` if yarn.lock exists at the root
+  - otherwise `npm run dev` if package-lock.json exists at the root
 
+With --convex, also starts Convex in a side pane if a convex/ directory exists.
 Works inside Herdr or tmux. Outside a multiplexer, it just runs the main dev command.
 EOF
 }
 
-if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
-  usage
-  exit 0
-fi
+with_convex=0
+
+case "${1:-}" in
+  -h|--help)
+    usage
+    exit 0
+    ;;
+  -c|--convex|convex)
+    with_convex=1
+    ;;
+  "")
+    ;;
+  *)
+    echo "error: unknown argument: $1" >&2
+    usage >&2
+    exit 1
+    ;;
+esac
 
 
 find_project_root() {
@@ -136,10 +149,12 @@ echo "pm:      $pm"
 if [[ -n "${TMUX:-}" ]] && command -v tmux >/dev/null 2>&1; then
   tmux rename-window "dev"
 fi
-if [[ -d "$root/convex" ]]; then
-  new_side_pane "convex" "$convex_cmd"
-else
-  echo "skip: no convex/ directory found"
+if (( with_convex )); then
+  if [[ -d "$root/convex" ]]; then
+    new_side_pane "convex" "$convex_cmd"
+  else
+    echo "skip: no convex/ directory found"
+  fi
 fi
 
 echo "starting dev server in current pane -> $dev_cmd"

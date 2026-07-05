@@ -102,6 +102,7 @@ alias venv="source .venv/bin/activate"
 
 # start dev server script
 alias dev="start-dev-server.sh"
+alias devc="start-dev-server.sh --convex"
 
 # open nvim + pi layout in tmux (vim + ai)
 alias va="open-nvim-pi-layout.sh"
