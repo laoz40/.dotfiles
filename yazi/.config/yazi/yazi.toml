@@ -12,7 +12,7 @@ play = [
 	{ run = "mediainfo %s1 & pause", block = true, desc = "Show media info", for = "windows" },
 ]
 image_view = [
-    { run = 'qview "$@"', block = true },
+    { run = 'QT_QPA_PLATFORM=xcb "$HOME/Applications/qView-7.1-x86_64.AppImage" "$@"', block = false, orphan = true, desc = "Open in qView", for = "linux" },
 ]
 open = [
 	{ run = "xdg-open %s1",    desc = "Open", for = "linux" },
