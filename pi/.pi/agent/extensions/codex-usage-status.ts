@@ -42,14 +42,15 @@ export default function (pi: ExtensionAPI) {
           const usage = getTokenUsage(ctx);
           const contextWindow = (ctx.model as any)?.contextWindow as number | undefined;
           const contextPct = contextWindow ? `${Math.round((usage.contextTokens / contextWindow) * 100)}%/${fmtTokens(contextWindow)}` : "?";
-          const tokenText = `↑${fmtTokens(usage.input)} ↓${fmtTokens(usage.output)} context ${fmtTokens(usage.contextTokens)} (${contextPct}) $${usage.cost.toFixed(3)}`;
+          const tokenText = theme.fg("success", `context ${fmtTokens(usage.contextTokens)} (${contextPct})`) + " " + theme.fg("dim", `$${usage.cost.toFixed(3)}`);
           const thinking = pi.getThinkingLevel();
-          const modelText = `${ctx.model?.id ?? "no-model"}${thinking && thinking !== "off" ? ` • ${thinking}` : ""}`;
+          const modelName = ctx.model?.id ?? "no-model";
+          const modelText = theme.fg("accent", modelName) + (thinking && thinking !== "off" ? theme.fg("warning", ` • ${thinking}`) : "");
           const codexText = plainStatus(last);
 
           return [
-            line(width, theme.fg("dim", modelText), theme.fg(last.error ? "warning" : "dim", codexText)),
-            lineKeepLeft(width, theme.fg("dim", tokenText), theme.fg("dim", cwdText)),
+            line(width, modelText, theme.fg(last.error ? "warning" : "dim", codexText)),
+            lineKeepLeft(width, tokenText, theme.fg("dim", cwdText)),
           ];
         },
       };
