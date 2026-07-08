@@ -19,19 +19,20 @@
     "mpris",
     "custom/timer",
   ],
-  "modules-center": [],
+  "modules-center": [
+    "clock#simpleclock",
+    "clock",
+  ],
   "modules-right": [
     "custom/privacy-dots",
     "network",
     "bluetooth",
-    "custom/microphone",
     "pulseaudio",
+    "custom/microphone",
     "cpu",
     "custom/ram-alert",
     "battery",
     "idle_inhibitor",
-    "clock",
-    "clock#simpleclock",
     "custom/power",
   ],
   "hyprland/workspaces": {
@@ -74,6 +75,7 @@
     "dynamic-order": ["artist", "title"],
     "format": "<span color='#dfb46a'>{player_icon}</span> {dynamic}",
     "format-paused": "<span color='#dfb46a'>{status_icon}</span> {dynamic}",
+    "max-length": 50,
     "status-icons": {
       "paused": "",
     },
@@ -170,8 +172,8 @@
   "idle_inhibitor": {
     "format": "{icon}",
     "format-icons": {
-      "activated": "󰈈",
-      "deactivated": "󰈉",
+      "activated": "󰖨",
+      "deactivated": "󰤄",
     },
     "tooltip-format-activated": "Idle inhibitor: Activated",
     "tooltip-format-deactivated": "Idle inhibitor: Deactivated",

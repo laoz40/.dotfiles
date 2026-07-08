@@ -27,25 +27,17 @@ window#waybar {
   background-color: transparent;
 }
 
-#workspaces button,
-#clock,
-#pulseaudio,
 #custom-logo,
 #custom-power,
 #custom-spotify,
 #custom-notification,
 #custom-timer,
 #custom-workspace-windows,
-#custom-microphone,
-#cpu,
 #tray,
 #memory,
-#custom-ram-alert,
 #window,
 #mpris,
 #battery,
-#bluetooth,
-#network,
 #idle_inhibitor,
 #backlight-slider,
 #custom-privacy-dots {
@@ -56,14 +48,91 @@ window#waybar {
   background: @background;
 }
 
+#workspaces {
+  padding: 0.1rem 0.35rem;
+  margin: 0 0.25rem;
+  border: 1px solid @border;
+  border-radius: 8px;
+  background: @background;
+}
+
 #workspaces button {
+  padding: 0 0.35rem;
+  margin: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
   box-shadow: none;
   text-shadow: none;
   transition: none;
 }
 
 #workspaces button:hover,
-#workspaces button.active,
+#workspaces button.active {
+  background: transparent;
+}
+
+#cpu,
+#custom-ram-alert {
+  padding: 0.1rem 0.6rem;
+  border: 1px solid @border;
+  background: @background;
+}
+
+#cpu {
+  margin: 0 0 0 0.25rem;
+  border-right: none;
+  border-radius: 8px 0 0 8px;
+}
+
+#custom-ram-alert {
+  margin: 0 0.25rem 0 0;
+  border-left: none;
+  border-radius: 0 8px 8px 0;
+}
+
+#network,
+#bluetooth {
+  padding: 0.1rem 0.6rem;
+  border: 1px solid @border;
+  background: @background;
+}
+
+#network {
+  margin: 0 0 0 0.25rem;
+  border-right: none;
+  border-radius: 8px 0 0 8px;
+}
+
+#bluetooth {
+  margin: 0 0.25rem 0 0;
+  border-left: none;
+  border-radius: 0 8px 8px 0;
+}
+
+#custom-microphone,
+#pulseaudio,
+#clock,
+#clock.simpleclock {
+  padding: 0.1rem 0.6rem;
+  border: 1px solid @border;
+  background: @background;
+}
+
+#pulseaudio,
+#clock.simpleclock {
+  margin: 0 0 0 0.25rem;
+  border-right: none;
+  border-radius: 8px 0 0 8px;
+}
+
+#custom-microphone,
+#clock:not(.simpleclock) {
+  margin: 0 0.25rem 0 0;
+  border-left: none;
+  border-radius: 0 8px 8px 0;
+}
+
 #clock:hover,
 #pulseaudio:hover,
 #custom-logo:hover,
