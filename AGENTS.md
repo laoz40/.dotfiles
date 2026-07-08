@@ -1,5 +1,7 @@
 # Agent Notes
 
+## GNU Stow
+
 This dotfiles project is managed with GNU Stow.
 
 Most files edited in this repository are intended to be symlinked into `$HOME`. Changes to existing tracked files usually affect the live configuration immediately because the live files are symlinks back into this repo.
@@ -22,3 +24,8 @@ This removes it from lock file. Simply deleting the vim.pack code in the config 
 ## Herdr
 
 Herdr is a terminal multiplexer. It is essentially a tmux wrapper with AI agent session panel.
+
+## Profiles
+
+There are two different themes that can be switched between: Main and Minimal.
+Minimal theme is adjustments to ghostty, hyprland, etc to reduce the transparency, blur, gaps and animations.
