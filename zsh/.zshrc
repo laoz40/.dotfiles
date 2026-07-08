@@ -144,9 +144,12 @@ alias venv="source .venv/bin/activate"
 # Scripts
 alias dev="start-dev-server.sh"
 alias devc="start-dev-server.sh --convex"
-alias va="open-nvim-pi-layout.sh"
-alias wt="source t3code-wt-switcher.sh"
+
 alias wtc="wtc.sh"
+alias wt="source t3code-wt-switcher.sh"
+
+# System cleanup script
+alian cleanup="system-cleanup.sh"
 
 # ==============================================================================
 # Functions

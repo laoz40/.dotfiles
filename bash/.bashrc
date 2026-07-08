@@ -104,11 +104,11 @@ alias venv="source .venv/bin/activate"
 alias dev="start-dev-server.sh"
 alias devc="start-dev-server.sh --convex"
 
-# open nvim + pi layout in tmux (vim + ai)
-alias va="open-nvim-pi-layout.sh"
-
 # Select and go to t3 code worktree
 alias wt="source t3code-wt-switcher.sh"
 
 # Create git worktree
 alias wtc="wtc.sh"
+
+# System cleanup script
+alian cleanup="system-cleanup.sh"
