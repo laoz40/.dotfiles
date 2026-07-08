@@ -103,6 +103,7 @@ local autostart = {
 
 	"hypridle",
 	"hyprsunset",
+	"launch-zen-with-mouse-buttons.py",
 
 	-- cliphist
 	"wl-paste --type text --watch cliphist store",
