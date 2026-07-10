@@ -11,6 +11,7 @@ description: |
 metadata:
   version: 1.2.0
   author: 0G Labs content team
+disable-model-invocation: true
 ---
 
 # Humanizer enhanced: remove AI writing patterns
