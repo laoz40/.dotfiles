@@ -149,7 +149,7 @@ alias wtc="wtc.sh"
 alias wt="source t3code-wt-switcher.sh"
 
 # System cleanup script
-alian cleanup="system-cleanup.sh"
+alias cleanup="system-cleanup.sh"
 
 # ==============================================================================
 # Functions
