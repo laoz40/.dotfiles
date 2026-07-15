@@ -90,6 +90,9 @@ alias v="nvim"
 # Lazygit alias
 alias lg="lazygit"
 
+# Hunk diff alias
+alias hd="hunk diff --mode split --no-line-numbers --no-hunk-headers --no-agent-notes --transparent-bg"
+
 # Zed alias
 alias zed="zeditor --wait ."
 

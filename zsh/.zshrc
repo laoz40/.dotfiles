@@ -136,6 +136,7 @@ alias zed="zeditor --wait ."
 # CLIs
 alias lg="lazygit"
 alias oc="opencode"
+alias hd="hunk diff --mode split --no-line-numbers --no-hunk-headers --no-agent-notes --transparent-bg"
 
 # Python
 alias py="python"
