@@ -1,6 +1,7 @@
 ---
 name: convex-result-type-error-handling
 description: Applies Result type error handling to Convex client-facing functions and React callers using a Rust-inspired tuple shape. Use when converting Convex queries, mutations, actions, helpers, or UI handlers to use ok(...), err(...), tryCatch(...), and exhaustive error.reason handling.
+disable-model-invocation: true
 ---
 
 # Convex Result Type Error Handling

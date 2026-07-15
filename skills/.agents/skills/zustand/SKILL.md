@@ -1,6 +1,7 @@
 ---
 name: zustand
 description: Use when adding/refactoring Zustand state, reducing prop drilling, creating or editing *store* files, moving feature state/actions out of React components, or centralizing feature modals in a Zustand modal host.
+disable-model-invocation: true
 ---
 
 # Zustand
