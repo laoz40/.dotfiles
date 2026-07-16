@@ -139,14 +139,17 @@ function isUserPromptTool(toolName: string): boolean {
 
 export default function (pi: ExtensionAPI) {
   pi.on("session_start", async (_event, ctx) => {
+    if (ctx.mode === "print") return;
     patchUiPrompts(ctx, pi);
   });
 
   pi.on("input", async (_event, ctx) => {
+    if (ctx.mode === "print") return;
     patchUiPrompts(ctx, pi);
   });
 
   pi.on("tool_execution_start", async (event, ctx) => {
+    if (ctx.mode === "print") return;
     patchUiPrompts(ctx, pi);
     if (!isUserPromptTool(event.toolName)) return;
 
@@ -154,6 +157,7 @@ export default function (pi: ExtensionAPI) {
   });
 
   pi.on("agent_end", async (event, ctx) => {
+    if (ctx.mode === "print") return;
     if (!hasFinalTextAssistant(event.messages as MessageLike[] | undefined)) return;
 
     notify(notificationTitle(ctx.cwd, pi.getSessionName()), "The final assistant response is ready.");
