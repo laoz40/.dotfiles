@@ -1,0 +1,20 @@
+[general]
+modes=tile,bisect
+
+[mode_tile]
+label_color=#e2e8f0ff
+label_select_color=#c7d2feff
+unselectable_bg_color=#0f172a22
+selectable_bg_color=#1e3a8a22
+selectable_border_color=#1e3a8aaa
+label_font_size=16 50% 100
+
+[mode_bisect]
+label_color=#e2e8f0ff
+pointer_color=#64748bdd
+unselectable_bg_color=#0f172a22
+even_area_bg_color=#1e3a8a22
+even_area_border_color=#1e3a8aaa
+odd_area_bg_color=#17255422
+odd_area_border_color=#172554aa
+history_border_color=#33415599
