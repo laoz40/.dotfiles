@@ -22,5 +22,3 @@ Rankings out of 10, higher = better. Higher cost efficiency = less token usage. 
 work.
 - Don't let cost prevent you from using the right model for the job. Instead, take advantage of cheaper options to get more information and try things before moving the work to a more expensive option.
 - Anything user-facing (UI, API design) needs taste at least 7.
-
-- background subagents only for concurrent independent tasks.
