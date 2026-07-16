@@ -1,1 +1,2 @@
 pi/.pi/agent/extensions/herdr-agent-state.ts
+pi/.pi/agent/extensions/**/node_modules/
