@@ -117,3 +117,6 @@ hl.bind("SUPER + SHIFT + E", hl.dsp.exec_cmd("nautilus"))
 
 -- Btop.
 hl.bind("CTRL + SHIFT + escape", hl.dsp.exec_cmd("ghostty --class=com.ghostty.float -e btop"))
+
+-- Open wl-kbptr's keyboard pointer grid.
+hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("wl-kbptr"))
