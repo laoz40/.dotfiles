@@ -51,6 +51,7 @@
     vesktop
     hyprshot
 		hyprpicker
+    wl-kbptr
     cliphist
     wl-clipboard
     grim
@@ -150,8 +151,33 @@
     ".bunfig.toml".source = ./node/.bunfig.toml;
     ".npmrc".source = ./node/.npmrc;
     ".config/pnpm/rc".source = ./node/.config/pnpm/rc;
-    ".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/nvim/.config/nvim";
-    ".config/yazi".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/yazi/.config/yazi";
+    ".agents/skills" = {
+      source = ./skills/.agents/skills;
+      recursive = true;
+    };
+    "Pictures/Wallpapers" = {
+      source = ./wallpapers/Pictures/Wallpapers;
+      recursive = true;
+    };
+    ".pi/agent" = {
+      source = ./pi/.pi/agent;
+      recursive = true;
+    };
+    ".config/wl-kbptr/config".source = ./wl-kbptr/.config/wl-kbptr/config;
+    ".config/lazygit/config.yml".source = ./lazygit/.config/lazygit/config.yml;
+    ".config/herdr/config.toml".source = ./herdr/.config/herdr/config.toml;
+    ".config/fastfetch" = {
+      source = ./fastfetch/.config/fastfetch;
+      recursive = true;
+    };
+    ".config/nvim" = {
+      source = ./nvim/.config/nvim;
+      recursive = true;
+    };
+    ".config/yazi" = {
+      source = ./yazi/.config/yazi;
+      recursive = true;
+    };
     ".config/hypr" = {
       source = ./hypr/.config/hypr;
       recursive = true;
@@ -159,7 +185,7 @@
     ".config/ghostty".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/ghostty/.config/ghostty";
     ".config/rofi".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/rofi/.config/rofi";
     ".config/waybar".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/waybar/.config/waybar";
-    ".config/dunst".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/dunst/.config/dunst";
+    ".config/dunst/dunstrc".source = ./dunst/.config/dunst/dunstrc;
     ".config/Kvantum/kvantum.kvconfig".text = ''
       [General]
       theme=KvArcDark
