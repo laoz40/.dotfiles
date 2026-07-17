@@ -136,14 +136,8 @@ end)
 -- Environment variables
 
 hl.env("HYPRSHOT_DIR", os.getenv("HOME") .. "/Pictures/Screenshots")
-hl.env("PATH", os.getenv("HOME") .. "/.local/bin:/usr/local/bin:/usr/bin:/bin")
+hl.env("PATH", os.getenv("HOME") .. "/.local/bin:" .. os.getenv("HOME") .. "/.nix-profile/bin:/usr/local/bin:/usr/bin:/bin")
 
-hl.env("XCURSOR_SIZE", "20")
-hl.env("XCURSOR_THEME", "Bibata-Modern-Classic")
-hl.env("HYPRCURSOR_SIZE", "20")
-hl.env("HYPRCURSOR_THEME", "Bibata-Modern-Classic")
-
-hl.env("QT_QPA_PLATFORMTHEME", "qt6ct")
 hl.env("MOZ_ENABLE_WAYLAND", "1")
 
 hl.env("LIBVA_DRIVER_NAME", "nvidia")
@@ -151,8 +145,3 @@ hl.env("__GLX_VENDOR_LIBRARY_NAME", "nvidia")
 hl.env("XDG_SESSION_TYPE", "wayland")
 hl.env("GBM_BACKEND", "nvidia-drm")
 
-hl.on("hyprland.start", function()
-	hl.exec_cmd("gsettings set org.gnome.desktop.interface cursor-theme 'Bibata-Modern-Classic'")
-	hl.exec_cmd("gsettings set org.gnome.desktop.interface cursor-size 20")
-	hl.exec_cmd('gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"')
-end)

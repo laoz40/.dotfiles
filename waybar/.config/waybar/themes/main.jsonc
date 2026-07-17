@@ -100,7 +100,7 @@
     "format-linked": "<span color='#dfb46a'>󱘖 </span> {ifname} (No IP)",
     "format-disconnected": "<span color='#e06c75'> </span> Disconnected",
     "interval": 1,
-    "on-click": "networkmanager_dmenu",
+    "on-click": "rofi-network-manager",
   },
   "bluetooth": {
     "format": "<span color='#dfb46a'>󰂲</span>",

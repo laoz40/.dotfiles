@@ -14,38 +14,37 @@ Everything uses my custom blue and gold colorscheme, based off my keycaps.
 
 > Everything below here is for my convenience if I need to install again.
 
-## Setup stuff:
+## Setup
 
-Get paru or yay.
-
-```
-sudo pacman -S --needed base-devel && git clone https://aur.archlinux.org/paru.git && cd paru && makepkg -si
-```
-
-GNU Stow for managing config files:
-
-```
-paru -S stow
-```
-
-Install dotfiles:
-
-```
-git clone https://github.com/laoz40/.dotfiles.git && cd .dotfiles
-```
-
-Use GNU Stow to symlink configs:
+Install [Nix](https://nixos.org/download/), then enable flakes:
 
 ```bash
-# Stow all packages from the repo root
-stow -t ~ bash dunst fastfetch ghostty herdr hypr node nvim pi rofi shell-scripts tmux wallpapers waybar yazi zed zsh
-
-# Or stow one package
-stow -t ~ waybar
-
-# Hyprland main/minimal visuals are switched at runtime with:
-hypr-profile-toggle.sh
+mkdir -p ~/.config/nix
+printf 'experimental-features = nix-command flakes\n' >> ~/.config/nix/nix.conf
 ```
+
+Clone the dotfiles:
+
+```bash
+git clone https://github.com/laoz40/.dotfiles.git ~/.dotfiles
+cd ~/.dotfiles
+```
+
+Apply the standalone Home Manager flake for the first time:
+
+```bash
+nix run home-manager/master -- switch --flake .#leoz
+```
+
+After Home Manager is installed, apply later changes with:
+
+```bash
+home-manager switch --flake ~/.dotfiles#leoz
+```
+
+Home Manager installs the programs declared in [`home.nix`](./home.nix), configures Zsh, Git, GTK/Qt, and links the managed configuration files from this repository into `$HOME`. Some application configs use out-of-store symlinks so edits take effect directly, while others are copied into the Nix store and require another `home-manager switch`.
+
+The Hyprland main/minimal visuals can be switched at runtime with `hypr-profile-toggle.sh`.
 
 ## Stuff I use:
 
@@ -56,8 +55,8 @@ Essential stuff:
 - **tmux**: `tmux`
 - **Ghostty**: `ghostty`
 - **Lazygit**: `lazygit`
-- **Pi**: `npm install -g @earendil-works/pi-coding-agent`
-  - **RTK**: `rtk` (AUR)
+- **Pi**: `pi-coding-agent`
+  - **RTK**: `rtk`
 - **Yazi**: `yazi`
   - **trash-cli**: `trash-cli` for Yazi trash restore plugin
 - **Zoxide**: `zoxide`
@@ -69,11 +68,6 @@ Essential stuff:
 - **Zen Browser**: `zen-browser-bin` (AUR)
   - [Betterfox](https://github.com/yokoffing/BetterFox)
 
-```
-paru -S neovim herdr ghostty lazygit rtk yazi trash-cli zoxide fzf zsh zsh-autosuggestions zsh-syntax-highlighting pass zen-browser-bin
-```
-
-
 Linux stuff and other stuff:
 
 - **hyprlock**: `hyprlock`
@@ -81,22 +75,16 @@ Linux stuff and other stuff:
 - **hyprsunset**: `hyprsunset`
 - **hyprshot**: `hyprshot`
     -**satty**: `satty`
-- **ocr-screenshot.sh**: screen text OCR script
-  - Dependencies: `paru -S --needed tesseract tesseract-data-eng grim slurp wl-clipboard`
 - **hyprpicker**: `hyprpicker`
 - **hyprwhspr**: `hyprwhspr` (AUR)
 - **rofi**: `rofi`
     - **rofi-emoji**: `rofi-emoji noto-fonts-emoji`
     - **rofi-calc**: `rofi-calc`
-    - **networkmanager-dmenu**: `networkmanager-dmenu`
+    - **networkmanager-dmenu**: `rofi-network-manager`
 - **waybar**: `waybar`
 - **dunst**: `dunst`
 - **fastfetch**: `fastfetch`
 - **onefetch**: `onefetch`
-
-```
-paru -S hyprland hyprpaper hyprlock hypridle hyprsunset hyprshot satty hyprpicker hyprwhspr rofi rofi-emoji noto-fonts-emoji networkmanager-dmenu waybar dunst fastfetch onefetch
-```
 
 System stuff:
 
@@ -107,7 +95,7 @@ System stuff:
 - **mpris**: `playerctl`
 - **btop**: `btop`
 - **cliphist**: `cliphist`
-- **QView**: `qview` (AUR)
+- **QView**: `qview`
 - **mpv**: `mpv`
 - ** GNOME Keyring**: `gnome-keyring`
 - **TLP** (for laptop): `tlp`
@@ -117,24 +105,15 @@ System stuff:
   - **Grub-btrfs**: `grub-btrfs`
   - **Inotify-tools**: `inotify-tools`
 
-```
-paru -S ly networkmanager pavucontrol playerctl btop cliphist qview mpv gnome-keyring timeshift timeshift-autosnap grub-btrfs inotify-tools
-```
-
 Appearance stuff:
 
 - **JetBrains Mono**: `ttf-jetbrains-mono` `ttf-jetbrains-mono-nerd`
 - **cmatrix**: `cmatrix`
 - **batcat**: `bat`
-- **Bibata cursor**: `bibata-cursor-theme-bin` (AUR)
-- **Arc-theme**: `arc-gtk-theme` (AUR)
-  - **nwg-look**: `nwg-look`
-  - **qt**: `qt5ct` `qt6ct` (AUR)
-  - **kvantum**: `kvantum` `kvantum-qt5` (AUR)
-
-```
-paru -S ttf-jetbrains-mono ttf-jetbrains-mono-nerd cmatrix bat bibata-cursor-theme-bin arc-gtk-theme nwg-look qt5ct qt6ct kvantum kvantum-qt5
-```
+- **Bibata cursor**: `bibata-cursor-theme-bin`
+- **Arc-theme**: `arc-gtk-theme`
+  - **qt**: `qt5ct` `qt6ct`
+  - **kvantum**: `kvantum` `kvantum-qt5`
 
 ## Enable stuff:
 

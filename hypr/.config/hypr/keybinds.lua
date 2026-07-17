@@ -75,7 +75,7 @@ hl.bind("SUPER + C", hl.dsp.exec_cmd("hyprpicker -a"))
 
 -- Waybar module launchers.
 hl.bind("SUPER + SHIFT + A", hl.dsp.exec_cmd("pavucontrol"))
-hl.bind("SUPER + SHIFT + N", hl.dsp.exec_cmd("networkmanager_dmenu"))
+hl.bind("SUPER + SHIFT + N", hl.dsp.exec_cmd("rofi-network-manager"))
 
 -- hyprwhspr - Toggle mode.
 hl.bind(

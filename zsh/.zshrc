@@ -5,6 +5,13 @@
 export EDITOR=nvim
 export TERM=xterm-256color
 export COLORTERM=truecolor
+
+# Restore Nix and Home Manager paths when a graphical session omits them.
+if ! command -v nix >/dev/null 2>&1; then
+  unset __ETC_PROFILE_NIX_SOURCED
+  source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+fi
+
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$PATH:/home/leoz/.spicetify"
 
@@ -95,30 +102,6 @@ _comp_options+=(globdots)
 # Vi mode for command line editing.
 bindkey -v
 KEYTIMEOUT=1
-
-# ==============================================================================
-# Plugins and shell integrations
-# ==============================================================================
-
-# Autosuggestions
-if [[ -r /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
-  source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-elif [[ -r /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
-  source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-fi
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
-
-# Zoxide
-if command -v zoxide >/dev/null 2>&1; then
-  eval "$(zoxide init zsh)"
-fi
-
-# Syntax highlighting should be loaded last.
-if [[ -r /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
-  source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-elif [[ -r /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
-  source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-fi
 
 # ==============================================================================
 # Aliases
