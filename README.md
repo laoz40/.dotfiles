@@ -38,7 +38,7 @@ Use GNU Stow to symlink configs:
 
 ```bash
 # Stow all packages from the repo root
-stow -t ~ bash dunst fastfetch ghostty herdr hypr node nvim pi rofi tmux wallpapers waybar yazi zed zsh
+stow -t ~ bash dunst fastfetch ghostty herdr hypr node nvim pi rofi shell-scripts tmux wallpapers waybar yazi zed zsh
 
 # Or stow one package
 stow -t ~ waybar
