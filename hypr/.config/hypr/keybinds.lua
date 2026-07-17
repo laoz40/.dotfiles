@@ -54,14 +54,21 @@ hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true 
 -- Toggle mic mute.
 hl.bind("CTRL + SUPER + M", hl.dsp.exec_cmd("toggle_mic.sh"))
 
+local function if_slurp_inactive(command)
+	return hl.dsp.exec_cmd("sh -c 'pgrep -x slurp >/dev/null || " .. command .. "'")
+end
+
 -- Screenshots.
 hl.bind("Print", hl.dsp.exec_cmd("hyprshot -m output -m $MONITOR"))
-hl.bind("ALT + Print", hl.dsp.exec_cmd("hyprshot -m window"))
-hl.bind("CTRL + SUPER + SHIFT + S", hl.dsp.exec_cmd("hyprshot -m region --raw | satty --filename -"))
-hl.bind("SUPER + SHIFT + S", hl.dsp.exec_cmd("hyprshot -m region --clipboard-only"))
+hl.bind("ALT + Print", if_slurp_inactive("exec hyprshot -m window"))
+hl.bind(
+	"CTRL + SUPER + SHIFT + S",
+	if_slurp_inactive("{ hyprshot -m region --raw | satty --filename -; }")
+)
+hl.bind("SUPER + SHIFT + S", if_slurp_inactive("exec hyprshot -m region --clipboard-only"))
 
 -- Image to text.
-hl.bind("SUPER + SHIFT + T", hl.dsp.exec_cmd("ocr-screenshot.sh"))
+hl.bind("SUPER + SHIFT + T", if_slurp_inactive("exec ocr-screenshot.sh"))
 
 -- Hyprpicker.
 hl.bind("SUPER + C", hl.dsp.exec_cmd("hyprpicker -a"))
@@ -119,4 +126,7 @@ hl.bind("SUPER + SHIFT + E", hl.dsp.exec_cmd("nautilus"))
 hl.bind("CTRL + SHIFT + escape", hl.dsp.exec_cmd("ghostty --class=com.ghostty.float -e btop"))
 
 -- Open wl-kbptr's keyboard pointer grid.
-hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("wl-kbptr"))
+hl.bind(
+	mainMod .. " + M",
+	hl.dsp.exec_cmd("sh -c 'pgrep -x wl-kbptr >/dev/null || exec wl-kbptr'")
+)
