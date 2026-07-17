@@ -4,35 +4,34 @@
   home.username = "leoz";
   home.homeDirectory = "/home/leoz";
 
-  home.stateVersion = "26.05"; # Please read the comment before changing.
+  home.stateVersion = "26.05";
 
   nixpkgs.config.permittedInsecurePackages = [
     "electron-40.10.5"
   ];
 
   home.packages = with pkgs; [
-		# essential
+    # Terminal tools
     neovim
     lazygit
-		yazi
-		trash-cli
-		pass
+    yazi
+    trash-cli
+    pass
+    ripgrep
+    fd
+    bat
+    btop
 
-		# ai
-		pi-coding-agent
-		rtk
+    # AI tools
+    pi-coding-agent
+    rtk
 
-		# fetch
+    # System info and fun
     fastfetch
     onefetch
     cmatrix
 
-		# system
-    ripgrep
-    fd
-    bat
-
-    # desktop
+    # Desktop shell
     (rofi.override {
       plugins = [
         rofi-emoji
@@ -42,15 +41,18 @@
     rofi-network-manager
     waybar
     dunst
+
+    # Desktop apps
     pavucontrol
     playerctl
-    btop
     mpv
     qview
     t3code
     vesktop
+
+    # Wayland utilities
     hyprshot
-		hyprpicker
+    hyprpicker
     wl-kbptr
     cliphist
     wl-clipboard
@@ -59,6 +61,8 @@
     (tesseract.override {
       enableLanguages = [ "eng" ];
     })
+
+    # Fonts
     nerd-fonts.jetbrains-mono
   ];
 
@@ -144,26 +148,28 @@
   };
 
   home.file = {
+    # Scripts
     ".local/bin" = {
       source = ./shell-scripts/.local/bin;
       recursive = true;
     };
+
+    # Node tools
     ".bunfig.toml".source = ./node/.bunfig.toml;
     ".npmrc".source = ./node/.npmrc;
     ".config/pnpm/rc".source = ./node/.config/pnpm/rc;
+
+    # AI agents
     ".agents/skills" = {
       source = ./skills/.agents/skills;
-      recursive = true;
-    };
-    "Pictures/Wallpapers" = {
-      source = ./wallpapers/Pictures/Wallpapers;
       recursive = true;
     };
     ".pi/agent" = {
       source = ./pi/.pi/agent;
       recursive = true;
     };
-    ".config/wl-kbptr/config".source = ./wl-kbptr/.config/wl-kbptr/config;
+
+    # Terminal apps
     ".config/lazygit/config.yml".source = ./lazygit/.config/lazygit/config.yml;
     ".config/herdr/config.toml".source = ./herdr/.config/herdr/config.toml;
     ".config/fastfetch" = {
@@ -178,6 +184,8 @@
       source = ./yazi/.config/yazi;
       recursive = true;
     };
+
+    # Desktop
     ".config/hypr" = {
       source = ./hypr/.config/hypr;
       recursive = true;
@@ -186,6 +194,13 @@
     ".config/rofi".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/rofi/.config/rofi";
     ".config/waybar".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/waybar/.config/waybar";
     ".config/dunst/dunstrc".source = ./dunst/.config/dunst/dunstrc;
+    ".config/wl-kbptr/config".source = ./wl-kbptr/.config/wl-kbptr/config;
+
+    # Appearance
+    "Pictures/Wallpapers" = {
+      source = ./wallpapers/Pictures/Wallpapers;
+      recursive = true;
+    };
     ".config/Kvantum/kvantum.kvconfig".text = ''
       [General]
       theme=KvArcDark
