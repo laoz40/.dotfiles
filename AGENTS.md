@@ -1,18 +1,19 @@
 # Agent Notes
 
-## GNU Stow
+OS: Arch Linux
+GPU: NVIDIA 3070
 
-This dotfiles project is managed with GNU Stow.
+## Nix Home Manager
 
-Most files edited in this repository are intended to be symlinked into `$HOME`. Changes to existing tracked files usually affect the live configuration immediately because the live files are symlinks back into this repo.
+This dotfiles project is managed with the standalone Nix Home Manager flake in `flake.nix`. Programs and managed files are declared in `home.nix`.
 
-When adding new files, remember that they may not exist in the live `$HOME` location yet. New files need to be synced/stowed before they are available live, for example:
+Apply configuration changes with:
 
 ```bash
-stow -R <package>
+home-manager switch --flake ~/.dotfiles#leoz
 ```
 
-If Stow reports conflicts because existing live files are not owned by Stow, inspect the target paths before overwriting or deleting anything.
+Some application configs use out-of-store symlinks, so edits to those files take effect immediately. Other configs are copied into the Nix store and require another `home-manager switch`. New files must be declared in `home.nix` before Home Manager will install or link them into `$HOME`.
 
 ## Neovim
 
