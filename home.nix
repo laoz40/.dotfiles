@@ -19,6 +19,7 @@
     pass
     ripgrep
     fd
+    jq
     bat
     btop
 

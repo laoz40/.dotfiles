@@ -21,6 +21,14 @@ hyprctl clients -j 2>/dev/null | jq -c \
 
   def esc: @html;
 
+  def display_title:
+    (.title // .class // "window")
+    | if ((.class // "") | ascii_downcase | contains("zen")) then
+        sub(" — Zen Browser$"; "")
+      else
+        .
+      end;
+
   [.[] | select(.workspace.id == $ws and .floating == false)]
   | sort_by(.at[0], .at[1])
   | if length <= 1 then
@@ -29,7 +37,7 @@ hyprctl clients -j 2>/dev/null | jq -c \
       {
         text: (
           map(
-            (.title // .class // "window" | clean | esc) as $title
+            (display_title | clean | esc) as $title
             | if .address == $active then
                 "<span color=\"#dfb46a\">" + $title + "</span>"
               else
@@ -41,7 +49,7 @@ hyprctl clients -j 2>/dev/null | jq -c \
         tooltip: (
           map(
             (if .address == $active then "● " else "  " end)
-            + (.title // .class // "window" | clean)
+            + (display_title | clean)
           )
           | join("\n")
         )
