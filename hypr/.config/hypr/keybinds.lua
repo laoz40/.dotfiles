@@ -93,6 +93,7 @@ hl.bind("SUPER + T", hl.dsp.exec_cmd("~/.local/bin/rofi_waybar_timer/rofi_waybar
 hl.bind("SUPER + M", hl.dsp.exec_cmd("rofi -show calc -modi calc -no-show-match -no-sort"))
 hl.bind("SUPER + slash", hl.dsp.exec_cmd("rofi_cheat_sheet.sh"))
 hl.bind("SUPER + D", hl.dsp.exec_cmd("rofi_define.sh"))
+hl.bind("SUPER + delete", hl.dsp.exec_cmd("rofi-process-killer.sh"))
 hl.bind("SUPER + W", hl.dsp.exec_cmd("rofi_wallpaper.sh"))
 hl.bind("SUPER + SHIFT + W", hl.dsp.exec_cmd("rofi_wallpaper.sh get_random"))
 hl.bind("CTRL + SUPER + ALT + P", hl.dsp.exec_cmd("passmenu-rofi.sh --type"))
