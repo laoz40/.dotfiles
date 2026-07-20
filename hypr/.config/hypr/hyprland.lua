@@ -94,8 +94,7 @@ hl.device({
 -- Autostart
 
 local autostart = {
-	-- Start waybar, then toggle it hidden.
-	"bash -lc 'waybar & sleep 1 && killall -SIGUSR1 waybar'",
+	"waybar",
 
 	-- hyprpaper, then get random wallpaper
 	"hyprpaper",

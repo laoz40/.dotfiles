@@ -98,7 +98,7 @@ hl.bind("SUPER + SHIFT + W", hl.dsp.exec_cmd("rofi_wallpaper.sh get_random"))
 hl.bind("CTRL + SUPER + ALT + P", hl.dsp.exec_cmd("passmenu-rofi.sh --type"))
 
 -- Toggle waybar.
-hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("killall -SIGUSR1 waybar"))
+hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("pkill -SIGUSR1 -f '^waybar( |$)'"))
 
 -- Toggle Hyprland visual profile (main/minimal).
 hl.bind("CTRL + SUPER + P", hl.dsp.exec_cmd("hypr-profile-toggle.sh"))
