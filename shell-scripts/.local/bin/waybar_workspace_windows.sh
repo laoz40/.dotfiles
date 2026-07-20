@@ -22,8 +22,9 @@ hyprctl clients -j 2>/dev/null | jq -c \
   def esc: @html;
 
   def display_title:
-    (.title // .class // "window")
-    | if ((.class // "") | ascii_downcase | contains("zen")) then
+    . as $window
+    | ($window.title // $window.class // "window")
+    | if (($window.class // "") | ascii_downcase | contains("zen")) then
         sub(" — Zen Browser$"; "")
       else
         .
