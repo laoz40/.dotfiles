@@ -163,7 +163,6 @@ sudo systemctl restart grub-btrfsd
 | `ocr-screenshot.sh` | Select a screen region, OCR it with Tesseract, and copy the text to the clipboard. From [Screen-Text-Reader](https://github.com/TheBrightSoul/Screen-Text-Reader). |
 | `privacy_dots.sh` | Report microphone, camera, location, and screen-share status for privacy indicators. From [privacy-dots](https://github.com/alvaniss/privacy-dots). |
 | `ram-alert.sh` | Monitor RAM usage and send alerts or Waybar JSON when usage is high. |
-| `rofi_cheat_sheet.sh` | Open a Rofi prompt for cheat.sh pages in a floating Ghostty/tmux window. |
 | `rofi_cliphist.sh` | Browse, copy, delete, or clear cliphist clipboard entries with Rofi. |
 | `rofi_define.sh` | Look up a word definition from a Rofi prompt and show it in a notification. |
 | `rofi_power_menu.sh` | Show a Rofi power menu for shutdown, reboot, sleep, and lock. |
