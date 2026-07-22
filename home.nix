@@ -41,7 +41,6 @@
     })
     rofi-network-manager
     waybar
-    dunst
 
     # Desktop apps
     pavucontrol
@@ -136,6 +135,11 @@
     };
   };
 
+  services.dunst = {
+    enable = true;
+    configFile = "${./dunst/.config/dunst/dunstrc}";
+  };
+
   programs.git = {
     enable = true;
     settings = {
@@ -194,7 +198,6 @@
     ".config/ghostty".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/ghostty/.config/ghostty";
     ".config/rofi".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/rofi/.config/rofi";
     ".config/waybar".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/waybar/.config/waybar";
-    ".config/dunst/dunstrc".source = ./dunst/.config/dunst/dunstrc;
     ".config/wl-kbptr/config".source = ./wl-kbptr/.config/wl-kbptr/config;
 
     # Appearance
