@@ -33,6 +33,7 @@ local servers = {
   },
 
   html = {},
+	markuplint = {},
 
   cssls = {
     settings = {
