@@ -6,7 +6,7 @@ local minimal = profile.is_minimal()
 hl.config({
   general = {
     gaps_in = minimal and 0 or 5,
-    gaps_out = minimal and 0 or 10,
+    gaps_out = minimal and 0 or 7,
 
     border_size = minimal and 0 or 1,
     col = {
