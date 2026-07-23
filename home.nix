@@ -1,22 +1,30 @@
 { config, pkgs, ... }:
 
 {
+  imports = [
+    ./.modules/minecraft.nix
+  ];
+
   home.username = "leoz";
   home.homeDirectory = "/home/leoz";
 
   home.stateVersion = "26.05";
+
+  targets.genericLinux.enable = true;
 
   nixpkgs.config.permittedInsecurePackages = [
     "electron-40.10.5"
   ];
 
   home.packages = with pkgs; [
-    # Terminal tools
+    # Essentials tools for me
     neovim
     lazygit
     yazi
-    trash-cli
     pass
+
+		# Terminal tools
+    trash-cli # for yazi undo
     ripgrep
     fd
     jq
