@@ -1,6 +1,7 @@
 require("visuals")
 require("windowrules")
 require("keybinds")
+require("waywall")
 
 -- Monitors
 
