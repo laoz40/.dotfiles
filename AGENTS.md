@@ -10,7 +10,7 @@ This dotfiles project is managed with the standalone Nix Home Manager flake in `
 Apply configuration changes with:
 
 ```bash
-home-manager switch --flake ~/.dotfiles#leoz
+home-manager switch --flake ~/.dotfiles#leoz@desktop
 ```
 
 Some application configs use out-of-store symlinks, so edits to those files take effect immediately. Other configs are copied into the Nix store and require another `home-manager switch`. New files must be declared in `home.nix` before Home Manager will install or link them into `$HOME`.
