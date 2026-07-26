@@ -1,6 +1,8 @@
 -- ==== WAYWALL GENERIC CONFIG ====
 local main = require("main")
 
+local remaps = require("remaps")
+
 local cfg = {
 	debug_text = false,
 
@@ -52,6 +54,16 @@ local cfg = {
 	-- during game actions
 	toggle_ninbot_key = "*-N",
 	toggle_remaps_key = "Insert",
+
+	-- ==== KEYBOARD ====
+	xkb_config = { -- set any setting to nil if unwanted
+		enabled = false,
+		layout = "mc", -- ~/.config/xkb/symbols/mc
+		rules = nil, -- ~/.config/xkb/rules/...
+		variant = "basic",
+		options = "caps:none",
+	},
+	remaps_text_config = { text = "chat mode", x = 100, y = 100, size = 2, color = "#000000" },
 
 	-- ==== MISC ====
 	sens_change = { enabled = true, normal = 3.5, tall = 0.1011891, raw_input = false }, -- setting raw_input to true will enable sens changing via maccel
