@@ -7,7 +7,6 @@ name = "terminal"
 delivery = "off"
 
 [ui]
-agent_panel_scope = "all"
 prompt_new_tab_name = false
 
 show_agent_labels_on_pane_borders = false
@@ -28,7 +27,7 @@ close_tab = "prefix+x"
 new_workspace = "prefix+ctrl+n"
 rename_workspace = "prefix+shift+r"
 close_workspace = "prefix+ctrl+x"
-switch_tab = "prefix+1..9"
+switch_tab = "ctrl+1..9"
 switch_workspace = "prefix+ctrl+1..9"
 split_horizontal = "prefix+\""
 split_vertical = "prefix+%"
@@ -56,6 +55,11 @@ command = "herdr-sessionizer.sh"
 key = "prefix+ctrl+g"
 type = "pane"
 command = "lazygit"
+
+[[keys.command]]
+key = "prefix+ctrl+r"
+type = "plugin_action"
+command = "persiyanov.reviewr.toggle"
 
 [experimental]
 pane_history = false

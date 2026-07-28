@@ -185,6 +185,7 @@
     # Terminal apps
     ".config/lazygit/config.yml".source = ./lazygit/.config/lazygit/config.yml;
     ".config/herdr/config.toml".source = ./herdr/.config/herdr/config.toml;
+    ".config/herdr/plugins/config/persiyanov.reviewr/config.toml".source = ./herdr/.config/herdr/plugins/config/persiyanov.reviewr/config.toml;
     ".config/fastfetch" = {
       source = ./fastfetch/.config/fastfetch;
       recursive = true;
