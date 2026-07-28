@@ -118,6 +118,7 @@ alias zed="zeditor --wait ."
 
 # CLIs
 alias lg="lazygit"
+alias r="herdr plugin action invoke toggle --plugin persiyanov.reviewr"
 alias oc="opencode"
 
 # Python

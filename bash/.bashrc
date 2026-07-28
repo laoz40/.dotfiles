@@ -90,6 +90,9 @@ alias v="nvim"
 # Lazygit alias
 alias lg="lazygit"
 
+# Reviewr alias
+alias r="herdr plugin action invoke toggle --plugin persiyanov.reviewr"
+
 # Zed alias
 alias zed="zeditor --wait ."
 
