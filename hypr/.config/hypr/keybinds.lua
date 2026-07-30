@@ -59,13 +59,15 @@ local function if_slurp_inactive(command)
 end
 
 -- Screenshots.
-hl.bind("Print", hl.dsp.exec_cmd("hyprshot -m output -m $MONITOR"))
-hl.bind("ALT + Print", if_slurp_inactive("exec hyprshot -m window"))
+hl.bind("Print", hl.dsp.exec_cmd("hyprshot -m output -m $MONITOR --clipboard-only"))
 hl.bind(
-	"CTRL + SUPER + SHIFT + S",
+	"ALT + Print",
+	hl.dsp.exec_cmd("sh -c 'hyprshot -m output -m $MONITOR --raw | satty --filename -'")
+)
+hl.bind(
+	"SUPER + SHIFT + S",
 	if_slurp_inactive("{ hyprshot -m region --raw | satty --filename -; }")
 )
-hl.bind("SUPER + SHIFT + S", if_slurp_inactive("exec hyprshot -m region --clipboard-only"))
 
 -- Image to text.
 hl.bind("SUPER + SHIFT + T", if_slurp_inactive("exec ocr-screenshot.sh"))
