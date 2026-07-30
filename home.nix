@@ -55,7 +55,6 @@
     playerctl
     mpv
     qview
-    t3code
     vesktop
 
     # Wayland utilities
