@@ -27,7 +27,8 @@ close_tab = "prefix+x"
 new_workspace = "prefix+ctrl+n"
 rename_workspace = "prefix+shift+r"
 close_workspace = "prefix+ctrl+x"
-switch_tab = ["ctrl+1..9", "prefix+1..9"]
+# Leave ctrl+6 available to terminal apps (Neovim uses it for the alternate file).
+switch_tab = ["ctrl+1", "ctrl+2", "ctrl+3", "ctrl+4", "ctrl+5", "ctrl+7", "ctrl+8", "ctrl+9", "prefix+1..9"]
 switch_workspace = "prefix+ctrl+1..9"
 split_horizontal = "prefix+\""
 split_vertical = "prefix+%"
