@@ -17,8 +17,13 @@ esac
 
 printf '%s\n' "$next" > "$STATE_FILE"
 
-ln -sf "themes/$next.jsonc" "$HOME/.config/waybar/config.jsonc"
-ln -sf "themes/$next.css" "$HOME/.config/waybar/style.css"
+waybar_theme="$next"
+if [[ "$next" == "main" ]]; then
+  waybar_theme="center"
+fi
+
+ln -sf "themes/$waybar_theme.jsonc" "$HOME/.config/waybar/config.jsonc"
+ln -sf "themes/$waybar_theme.css" "$HOME/.config/waybar/style.css"
 ln -sf "themes/$next.rasi" "$HOME/.config/rofi/config.rasi"
 ln -sf "themes/$next.conf" "$HOME/.config/ghostty/theme.conf"
 

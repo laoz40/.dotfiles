@@ -1,0 +1,123 @@
+/* Centered variant of the main Waybar theme. */
+
+@define-color foreground #9DB9F5;
+@define-color background rgba(11, 28, 43, 0.8);
+@define-color background_tooltip rgba(11, 28, 43, 0.8);
+@define-color border rgba(18, 63, 102, 1);
+
+@define-color gold #dfb46a;
+@define-color gold_alt #D39834;
+@define-color blue_alt #1B46A1;
+@define-color red #e06c75;
+
+* {
+  min-height: 0;
+  min-width: 0;
+  color: @foreground;
+  font-family: JetBrainsMono Nerd Font Propo;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+window#waybar {
+  color: @foreground;
+  border: 1px solid @border;
+  border-radius: 8px;
+  background: @background;
+}
+
+.modules-left,
+.modules-center,
+.modules-right {
+  padding: 0 0.35rem;
+}
+
+#workspaces {
+  padding: 0.1rem 0.35rem;
+}
+
+#workspaces button {
+  padding: 0 0.35rem;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  text-shadow: none;
+  transition: none;
+}
+
+#custom-logo,
+#custom-power,
+#custom-spotify,
+#custom-notification,
+#custom-timer,
+#custom-workspace-windows,
+#tray,
+#memory,
+#window,
+#mpris,
+#battery,
+#idle_inhibitor,
+#backlight-slider,
+#custom-privacy-dots,
+#cpu,
+#custom-ram-alert,
+#network,
+#bluetooth,
+#custom-microphone,
+#pulseaudio,
+#clock {
+  padding: 0.1rem 0.6rem;
+  border: none;
+  background: transparent;
+}
+
+#workspaces button:hover,
+#workspaces button.active {
+  background: transparent;
+}
+
+#workspaces button.active,
+#workspaces button.active *,
+#idle_inhibitor,
+#custom-microphone {
+  color: @gold;
+}
+
+#workspaces button.urgent,
+#custom-ram-alert.critical,
+#battery.critical {
+  color: @red;
+}
+
+#clock.simpleclock {
+  font-feature-settings: "tnum";
+}
+
+#battery.charging {
+  color: @blue_alt;
+}
+
+#battery.warning {
+  color: @gold_alt;
+}
+
+#battery.critical {
+  animation: blink 1s linear infinite alternate;
+}
+
+@keyframes blink {
+  to { color: @foreground; }
+}
+
+#custom-privacy-dots {
+  padding: 0 10px;
+  color: gold;
+  font-size: 12px;
+  letter-spacing: 0;
+}
+
+tooltip {
+  border: 1px solid @border;
+  background-color: @background_tooltip;
+}
