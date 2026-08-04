@@ -94,8 +94,8 @@
   gtk = {
     enable = true;
     theme = {
-      name = "Arc-Dark";
-      package = pkgs.arc-theme;
+      name = "adw-gtk3-dark";
+      package = pkgs.adw-gtk3;
     };
     iconTheme = {
       name = "breeze-dark";
