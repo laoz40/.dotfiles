@@ -38,7 +38,6 @@
     # System info and fun
     fastfetch
     onefetch
-    cmatrix
 
     # Desktop shell
     (rofi.override {
@@ -71,6 +70,8 @@
 
     # Fonts
     nerd-fonts.jetbrains-mono
+    noto-fonts-cjk-sans
+    noto-fonts-cjk-serif
   ];
 
   programs.zsh = {
