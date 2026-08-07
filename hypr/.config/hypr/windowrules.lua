@@ -86,7 +86,7 @@ hl.window_rule({
 hl.window_rule(with_app_opacity({
 	name = "spotify",
 	match = { class = "^[Ss]potify$" },
-	workspace = "3 silent",
+	workspace = "9 silent",
 }))
 
 hl.window_rule(with_app_opacity({
