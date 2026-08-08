@@ -27,10 +27,16 @@
     jq
     bat
     btop
+    gh
 
     # AI tools
     pi-coding-agent
     rtk
+
+    # JavaScript tools
+    bun
+    pnpm
+    nodejs # includes npm
 
     # System info and fun
     fastfetch
@@ -47,6 +53,7 @@
     waybar
 
     # Desktop apps
+    nautilus
     pavucontrol
     playerctl
     mpv
@@ -67,6 +74,8 @@
 
     # Fonts
     nerd-fonts.jetbrains-mono
+    noto-fonts
+    noto-fonts-color-emoji
     noto-fonts-cjk-sans
     noto-fonts-cjk-serif
   ];
