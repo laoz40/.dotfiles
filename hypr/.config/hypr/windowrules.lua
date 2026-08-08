@@ -97,6 +97,12 @@ hl.window_rule(with_app_opacity({
 }))
 
 hl.window_rule({
+	name = "paseo",
+	match = { class = "^[Pp]aseo$" },
+	workspace = "3 silent",
+})
+
+hl.window_rule({
 	name = "floating-satty",
 	match = { class = "^([Ss]atty|com\\.gabm\\.[Ss]atty)$" },
 	float = true,
