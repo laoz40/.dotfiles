@@ -187,10 +187,7 @@
       source = ./fastfetch/.config/fastfetch;
       recursive = true;
     };
-    ".config/nvim" = {
-      source = ./nvim/.config/nvim;
-      recursive = true;
-    };
+    ".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/nvim/.config/nvim";
     ".config/yazi" = {
       source = ./yazi/.config/yazi;
       recursive = true;
