@@ -50,6 +50,7 @@ window#waybar {
   padding: 0.1rem 0.3rem;
   margin: 0 0.15rem;
   background: @background;
+  border-radius: 0;
 }
 
 #workspaces button {
