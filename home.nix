@@ -1,9 +1,6 @@
 { config, pkgs, ... }:
 
 {
-  imports = [
-    ./.modules/minecraft.nix
-  ];
 
   home.username = "leoz";
   home.homeDirectory = "/home/leoz";
@@ -208,8 +205,6 @@
     ".config/rofi".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/rofi/.config/rofi";
     ".config/waybar".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/waybar/.config/waybar";
     ".config/wl-kbptr/config".source = ./wl-kbptr/.config/wl-kbptr/config;
-    ".config/waywall/init.lua".source = ./waywall/.config/waywall/init.lua;
-    ".config/waywall/resources/stretched_overlay.png".source = ./waywall/.config/waywall/resources/stretched_overlay.png;
 
     # Appearance
     "Pictures/Wallpapers" = {

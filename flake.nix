@@ -21,6 +21,15 @@
         modules = [
           ./home.nix
           ./.modules/desktop.nix
+          ./.modules/minecraft.nix
+        ];
+      };
+
+      homeConfigurations."leoz@laptop" = home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+        modules = [
+          ./home.nix
+          ./.modules/laptop.nix
         ];
       };
     };
