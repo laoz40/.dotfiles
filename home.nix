@@ -80,6 +80,17 @@
     noto-fonts-cjk-serif
   ];
 
+  # Make Home Manager fonts visible to fontconfig on this non-NixOS host.
+  fonts.fontconfig = {
+    enable = true;
+    defaultFonts = {
+      emoji = [ "Noto Color Emoji" ];
+      sansSerif = [ "Noto Sans CJK SC" "Noto Sans" ];
+      serif = [ "Noto Serif CJK SC" "Noto Serif" ];
+      monospace = [ "JetBrainsMono Nerd Font" "Noto Sans CJK SC" "Noto Color Emoji" ];
+    };
+  };
+
   programs.zsh = {
     enable = true;
     enableCompletion = false;
