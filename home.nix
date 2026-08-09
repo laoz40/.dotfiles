@@ -230,7 +230,7 @@
     };
     ".config/Kvantum/kvantum.kvconfig".text = ''
       [General]
-      theme=KvArcDark
+      theme=KvGnomeDark
     '';
   };
 
