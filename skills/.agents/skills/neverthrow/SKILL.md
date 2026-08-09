@@ -91,4 +91,4 @@ Each `.andThen()` callback returns `Result` or `ResultAsync`. An `Err` propagate
 - Handle expected error unions with an exhaustive switch on `error.reason` and a `never` default.
 - Test each expected `Err`, successful values, and that later side effects are skipped after an error.
 
-See [EXAMPLES.md](EXAMPLES.md) for a project-agnostic complete flow. For Convex, read [CONVEX.md](CONVEX.md) for inline handlers, tuple boundaries, inferred frontend types, and exhaustive caller handling.
+See [EXAMPLES.md](EXAMPLES.md) for a project-agnostic complete flow. For TanStack Query, read [TANSTACK-QUERY.md](TANSTACK-QUERY.md) for typed retries, exhaustive component handling, and mutations. For Convex, read [CONVEX.md](CONVEX.md) for inline handlers, tuple boundaries, inferred frontend types, and exhaustive caller handling.
