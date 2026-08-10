@@ -1,37 +1,13 @@
-import { complete, type Message } from "@mariozechner/pi-ai";
-import type { ExtensionAPI, ExtensionCommandContext } from "@mariozechner/pi-coding-agent";
+import type { ExtensionAPI, ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
+import { Text } from "@earendil-works/pi-tui";
 
-const SYSTEM_PROMPT = `You generate Conventional Commit messages from staged git diffs.
-Return only valid JSON in this shape:
-{
-  "candidates": [
-    { "header": "type(optional-scope): concise subject", "bullets": ["Major change", "Another major change"] }
-  ]
-}
-Rules:
-- Generate 3 to 5 candidates.
-- Use Conventional Commit types: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert.
-- Keep headers under 72 characters when possible.
-- Write commit headers in past tense, e.g. "feat(commit): added model-generated messages" not "feat(commit): add model-generated messages".
-- Use any user focus notes to decide what the header and bullets should emphasize, but do not invent changes that are not in the diff.
-- Bullets should cover the meaningful staged changes, especially distinct files or behavior changes, rather than only the changes most related to the header.
-- Use one bullet per meaningful change in the diff.
-- Combine only edits that are part of the same meaningful change; omit noise such as formatting/import order or generated artifacts.
-- Write bullet descriptions in past tense, e.g. "Updated config loading" not "Update config loading".
-- Ignore generated files, lockfiles, minified assets, source maps, snapshots, and build artifacts unless they are the only staged changes.
-- Ignore pure formatting, whitespace, and import-order-only changes unless they are the only staged changes.
-- Do not include markdown fences or commentary.`;
+const PASEO_MODEL = "openai-codex/gpt-5.6-luna";
+const PASEO_THINKING = "high";
 
 type StagedFile = { status: string; path: string };
-type Candidate = { header: string; bullets: string[] };
-
-const TYPE_BY_PATH: Array<[RegExp, string]> = [
-  [/^(test|tests|__tests__|.*\.(test|spec)\.)/, "test"],
-  [/^(docs?|README|CHANGELOG|.*\.md$)/i, "docs"],
-  [/^(package-lock\.json|pnpm-lock\.yaml|yarn\.lock|bun\.lockb?)$/, "chore"],
-  [/^(\.github|ci|\.gitlab-ci|Dockerfile|docker-compose)/, "ci"],
-  [/^(styles?|css|.*\.(css|scss|sass|less)$)/, "style"],
-];
+type PaseoRun = { agentId?: string };
+type PaseoInspect = { Status?: string };
+type CommitDraftEntry = { agentId: string; content: string };
 
 const GENERATED_PATH_PATTERNS: RegExp[] = [
   /(^|\/)dist\//,
@@ -51,15 +27,6 @@ const GENERATED_PATH_PATTERNS: RegExp[] = [
   /\.(snap|generated)\./,
 ];
 
-const FORMATTING_ONLY_PATTERNS: RegExp[] = [
-  /^\s*[{}()[\];,]\s*$/,
-  /^\s*(from|import|export)\s*$/,
-];
-
-function shellQuote(value: string): string {
-  return `'${value.replace(/'/g, `'"'"'`)}'`;
-}
-
 function parseStagedFiles(statusOutput: string): StagedFile[] {
   return statusOutput
     .split("\n")
@@ -76,147 +43,110 @@ function isGeneratedPath(path: string): boolean {
   return GENERATED_PATH_PATTERNS.some((pattern) => pattern.test(path));
 }
 
-function isFormattingOnlyDiff(diff: string): boolean {
-  const lines = diff.split("\n");
-  let sawChange = false;
-
-  for (const line of lines) {
-    if (!line.startsWith("+") && !line.startsWith("-")) continue;
-    if (line.startsWith("+++") || line.startsWith("---")) continue;
-
-    sawChange = true;
-    const content = line.slice(1);
-    if (!content.trim()) continue;
-    if (FORMATTING_ONLY_PATTERNS.some((pattern) => pattern.test(content))) continue;
-    return false;
-  }
-
-  return sawChange;
-}
-
 function filterFilesForCommitSignal(files: StagedFile[]): StagedFile[] {
   const filtered = files.filter((file) => !isGeneratedPath(file.path));
   return filtered.length > 0 ? filtered : files;
 }
 
-function scopeFromPath(path: string): string | undefined {
-  const parts = path.split("/").filter(Boolean);
-  if (parts.length === 0) return undefined;
-  if (["src", "app", "lib", "packages", "apps", "components"].includes(parts[0]) && parts[1]) {
-    return parts[1].replace(/\.[^.]+$/, "");
+function parseJson<T>(text: string, label: string): T {
+  try {
+    return JSON.parse(text) as T;
+  } catch {
+    throw new Error(`Could not parse ${label} response: ${text || "(empty response)"}`);
   }
-  return parts[0].replace(/^\./, "").replace(/\.[^.]+$/, "");
 }
 
-function inferPrimaryType(files: StagedFile[], diff: string): string {
-  const paths = files.map((file) => file.path);
-  if (/^\+\s*(export\s+)?(async\s+)?function\s|^\+\s*(const|let|var)\s+\w+\s*=|^\+\s*class\s/m.test(diff)) return "feat";
-  if (/^[-+]\s*fix|bug|error|throw|catch|regression/im.test(diff)) return "fix";
-  for (const [pattern, type] of TYPE_BY_PATH) if (paths.some((path) => pattern.test(path))) return type;
-  if (files.every((file) => file.status.startsWith("D"))) return "chore";
-  return "chore";
+function buildPrompt(stagedSummary: string, diff: string, focusNotes: string): string {
+  const focusSection = focusNotes ? `\nUser focus notes:\n${focusNotes}\n` : "";
+  return `Generate one Conventional Commit draft for the staged Git changes in your working directory. Do not modify files or run git commit.${focusSection}
+
+Return only this Markdown format, with no introduction or closing commentary:
+# Commit draft
+
+## Title
+\`type(optional-scope): concise past-tense subject\`
+
+## Description
+- One past-tense bullet for each meaningful staged change.
+
+Requirements:
+- Use a Conventional Commit type: feat, fix, docs, style, refactor, perf, test, build, ci, chore, or revert.
+- Keep the title under 72 characters when possible and write it in past tense.
+- Cover all meaningful staged changes in the description, including distinct files or behavior changes.
+- Combine bullets only when edits form one meaningful change.
+- Do not invent changes; omit formatting, import ordering, generated files, lockfiles, minified assets, source maps, snapshots, and build artifacts unless they are the only staged changes.
+
+Staged files:
+${stagedSummary}
+
+Staged diff:
+${diff.slice(0, 60000)}`;
 }
 
-function summarizeStatus(files: StagedFile[]): string[] {
-  const added = files.filter((file) => file.status.startsWith("A")).map((file) => file.path);
-  const modified = files.filter((file) => file.status.startsWith("M")).map((file) => file.path);
-  const deleted = files.filter((file) => file.status.startsWith("D")).map((file) => file.path);
-  const renamed = files.filter((file) => file.status.startsWith("R")).map((file) => file.path);
-  const bullets: string[] = [];
-  if (added.length) bullets.push(`Added ${formatPaths(added)}`);
-  if (modified.length) bullets.push(`Updated ${formatPaths(modified)}`);
-  if (deleted.length) bullets.push(`Removed ${formatPaths(deleted)}`);
-  if (renamed.length) bullets.push(`Renamed ${formatPaths(renamed)}`);
-  return bullets;
+function extractAgentOutput(logs: string): string {
+  const lines = logs.split("\n");
+  const firstOutput = lines.findIndex((line) => line.startsWith("# Commit draft"));
+  return firstOutput === -1 ? logs.trim() : lines.slice(firstOutput).join("\n").trim();
 }
 
-function formatPaths(paths: string[]): string {
-  if (paths.length <= 3) return paths.join(", ");
-  return `${paths.slice(0, 3).join(", ")} and ${paths.length - 3} more`;
-}
-
-function extractDiffBullets(diff: string): string[] {
-  const files = [...diff.matchAll(/^diff --git a\/(.*?) b\/(.*?)$/gm)].map((match) => match[2]);
-  const bullets: string[] = [];
-  for (const file of files.slice(0, 10)) {
-    const fileBlock = diff.split(` b/${file}`)[1] ?? "";
-    const additions = (fileBlock.match(/^\+(?!\+\+)/gm) ?? []).length;
-    const deletions = (fileBlock.match(/^-(?!--)/gm) ?? []).length;
-    if (additions || deletions) bullets.push(`Changed ${file} (${additions} additions, ${deletions} deletions)`);
-  }
-  return bullets;
-}
-
-function buildHeuristicCandidates(files: StagedFile[], diff: string): Candidate[] {
-  const type = inferPrimaryType(files, diff);
-  const scopes = [...new Set(files.map((file) => scopeFromPath(file.path)).filter(Boolean))] as string[];
-  const scope = scopes.length === 1 ? scopes[0] : scopes.length > 1 ? "repo" : undefined;
-  const typeScope = scope ? `${type}(${scope})` : type;
-  const statusBullets = summarizeStatus(files);
-  const diffBullets = extractDiffBullets(diff);
-  const bullets = [...statusBullets, ...diffBullets].slice(0, 10);
-  const noun = scope && scope !== "repo" ? scope : files.length === 1 ? files[0].path.split("/").pop()?.replace(/\.[^.]+$/, "") : "staged changes";
-
-  const subjects = [
-    `${typeScope}: updated ${noun}`,
-    `${typeScope}: refined ${noun}`,
-    `${typeScope}: prepared ${noun} changes`,
-  ];
-
-  const alternates = ["feat", "fix", "chore", "refactor", "docs", "test"].filter((candidate) => candidate !== type).slice(0, 2);
-  for (const alternate of alternates) subjects.push(`${scope ? `${alternate}(${scope})` : alternate}: updated ${noun}`);
-
-  return subjects.map((header) => ({ header, bullets }));
-}
-
-function parseModelCandidates(text: string): Candidate[] {
-  const jsonText = text.replace(/^```(?:json)?\s*/i, "").replace(/```$/i, "").trim();
-  const parsed = JSON.parse(jsonText) as { candidates?: Candidate[] };
-  return (parsed.candidates ?? [])
-    .filter((candidate) => typeof candidate.header === "string" && Array.isArray(candidate.bullets))
-    .map((candidate) => ({
-      header: candidate.header.trim(),
-      bullets: candidate.bullets.filter((bullet) => typeof bullet === "string").map((bullet) => bullet.trim()).filter(Boolean).slice(0, 10),
-    }))
-    .filter((candidate) => candidate.header.length > 0)
-    .slice(0, 5);
-}
-
-async function buildModelCandidates(ctx: ExtensionCommandContext, stagedSummary: string, diff: string, focusNotes: string): Promise<Candidate[]> {
-  if (!ctx.model) throw new Error("No active model selected");
-
-  const auth = await ctx.modelRegistry.getApiKeyAndHeaders(ctx.model);
-  if (!auth.ok || !auth.apiKey) throw new Error(auth.ok ? `No API key for ${ctx.model.provider}` : auth.error);
-
-  const focusSection = focusNotes.trim() ? `User focus notes:\n${focusNotes.trim()}\n\n` : "";
-  const userMessage: Message = {
-    role: "user",
-    content: [{ type: "text", text: `${focusSection}Staged files:\n${stagedSummary}\n\nStaged diff:\n${diff.slice(0, 60000)}` }],
-    timestamp: Date.now(),
-  };
-
-  const response = await complete(
-    ctx.model,
-    { systemPrompt: SYSTEM_PROMPT, messages: [userMessage] },
-    { apiKey: auth.apiKey, headers: auth.headers, signal: ctx.signal },
+async function createDraft(pi: ExtensionAPI, ctx: ExtensionCommandContext, prompt: string): Promise<{ agentId: string; output: string }> {
+  const run = await pi.exec(
+    "paseo",
+    [
+      "run",
+      "--background",
+      "--provider",
+      "pi",
+      "--model",
+      PASEO_MODEL,
+      "--thinking",
+      PASEO_THINKING,
+      "--cwd",
+      ctx.cwd,
+      "--title",
+      "Draft staged commit message",
+      "--json",
+      prompt,
+    ],
+    { signal: ctx.signal, timeout: 15_000 },
   );
+  if (run.code !== 0) throw new Error(run.stderr || run.stdout || "Could not start the commit-draft subagent.");
 
-  if (response.stopReason === "aborted") return [];
+  const { agentId } = parseJson<PaseoRun>(run.stdout, "Paseo run");
+  if (!agentId) throw new Error("Paseo did not return a subagent ID.");
 
-  const text = response.content
-    .filter((part): part is { type: "text"; text: string } => part.type === "text")
-    .map((part) => part.text)
-    .join("\n");
+  const wait = await pi.exec("paseo", ["wait", agentId, "--timeout", "180", "--json"], {
+    signal: ctx.signal,
+    timeout: 190_000,
+  });
+  if (wait.code !== 0) throw new Error(wait.stderr || wait.stdout || "The commit-draft subagent did not finish.");
 
-  return parseModelCandidates(text);
+  const inspect = await pi.exec("paseo", ["inspect", agentId, "--json"], { signal: ctx.signal, timeout: 10_000 });
+  if (inspect.code !== 0) throw new Error(inspect.stderr || inspect.stdout || "Could not verify the commit-draft subagent status.");
+  const { Status } = parseJson<PaseoInspect>(inspect.stdout, "Paseo inspect");
+  if (Status !== "idle") throw new Error(`Commit-draft subagent finished with status: ${Status ?? "unknown"}.`);
+
+  const logs = await pi.exec("paseo", ["logs", agentId, "--tail", "50"], { signal: ctx.signal, timeout: 10_000 });
+  if (logs.code !== 0) throw new Error(logs.stderr || logs.stdout || "Could not retrieve the commit-draft subagent response.");
+
+  const output = extractAgentOutput(logs.stdout);
+  if (!output) throw new Error("The commit-draft subagent returned no response.");
+  return { agentId, output };
 }
 
 export default function (pi: ExtensionAPI) {
-  const handler = async (args: string, ctx: ExtensionCommandContext) => {
+  pi.registerEntryRenderer("commit-draft", (entry) => {
+    const { agentId, content } = entry.data as CommitDraftEntry;
+    return new Text(`Commit draft · subagent ${agentId}\n\n${content}`, 0, 0);
+  });
+
+  pi.registerCommand("commit", {
+    description: "Generate one isolated Conventional Commit draft from staged changes; optional args guide emphasis",
+    handler: async (args, ctx) => {
       await ctx.waitForIdle();
       const focusNotes = args.trim();
 
-      const status = await pi.exec("git", ["diff", "--cached", "--name-status"], { signal: ctx.signal, timeout: 5000 });
+      const status = await pi.exec("git", ["diff", "--cached", "--name-status"], { signal: ctx.signal, timeout: 5_000 });
       if (status.code !== 0) {
         ctx.ui.notify(`Could not inspect staged files:\n${status.stderr || status.stdout}`, "error");
         return;
@@ -230,49 +160,34 @@ export default function (pi: ExtensionAPI) {
 
       const signalFiles = filterFilesForCommitSignal(files);
       const analyzedPaths = signalFiles.map((file) => file.path);
-      const diffArgs = ["diff", "--cached", "--stat", "--patch", "-w", "--ignore-blank-lines", "--", ...analyzedPaths];
-      const diff = await pi.exec("git", diffArgs, { signal: ctx.signal, timeout: 10000 });
-      const analyzedDiff = diff.stdout || "";
-      const effectiveFiles = analyzedDiff.trim() ? signalFiles : files;
-      const effectiveDiff = analyzedDiff.trim() ? analyzedDiff : (await pi.exec("git", ["diff", "--cached", "--stat", "--patch", "--", ...files.map((file) => file.path)], { signal: ctx.signal, timeout: 10000 })).stdout || "";
-      const formattingOnly = analyzedDiff.trim() && isFormattingOnlyDiff(analyzedDiff);
+      const diff = await pi.exec(
+        "git",
+        ["diff", "--cached", "--stat", "--patch", "-w", "--ignore-blank-lines", "--", ...analyzedPaths],
+        { signal: ctx.signal, timeout: 10_000 },
+      );
+      if (diff.code !== 0) {
+        ctx.ui.notify(`Could not inspect staged diff:\n${diff.stderr || diff.stdout}`, "error");
+        return;
+      }
+
+      const effectiveFiles = diff.stdout.trim() ? signalFiles : files;
+      const effectiveDiff = diff.stdout.trim()
+        ? diff.stdout
+        : (await pi.exec("git", ["diff", "--cached", "--stat", "--patch", "--", ...files.map((file) => file.path)], { signal: ctx.signal, timeout: 10_000 })).stdout;
       const stagedSummary = effectiveFiles.map((file) => `${file.status}\t${file.path}`).join("\n");
 
       if (signalFiles.length !== files.length) {
-        ctx.ui.notify("Ignoring generated files and build artifacts for commit message suggestions.", "info");
+        ctx.ui.notify("Ignoring generated files and build artifacts for the commit-draft analysis.", "info");
       }
-      if (focusNotes) {
-        ctx.ui.notify(`Using commit focus notes: ${focusNotes}`, "info");
-      }
-      if (formattingOnly) {
-        ctx.ui.notify("Only formatting changes detected after filtering; generating a formatting-focused commit message.", "info");
-      } else {
-        ctx.ui.notify("Generating commit messages with the active model...", "info");
-      }
+      ctx.ui.notify("Generating an isolated commit draft with a subagent...", "info");
 
-      let candidates: Candidate[];
       try {
-        candidates = await buildModelCandidates(ctx, stagedSummary, effectiveDiff, focusNotes);
+        const draft = await createDraft(pi, ctx, buildPrompt(stagedSummary, effectiveDiff, focusNotes));
+        pi.appendEntry("commit-draft", draft);
+        ctx.ui.notify("Commit draft added outside the main model context. Review the subagent entry above.", "success");
       } catch (error) {
-        ctx.ui.notify(`Model generation failed; using local fallback. ${error instanceof Error ? error.message : String(error)}`, "warning");
-        candidates = buildHeuristicCandidates(effectiveFiles, effectiveDiff);
+        ctx.ui.notify(`Commit-draft generation failed: ${error instanceof Error ? error.message : String(error)}`, "error");
       }
-
-      if (candidates.length === 0) candidates = buildHeuristicCandidates(effectiveFiles, effectiveDiff);
-      const labels = candidates.map((candidate) => `${candidate.header}\n${candidate.bullets.map((bullet) => `  • ${bullet}`).join("\n")}`);
-      const selected = await ctx.ui.select("Choose a conventional commit message", labels);
-      if (!selected) return;
-
-      const candidate = candidates[labels.indexOf(selected)];
-      const body = candidate.bullets.map((bullet) => `- ${bullet}`).join("\n");
-      const command = `!git commit -m ${shellQuote(candidate.header)}${body ? ` -m ${shellQuote(body)}` : ""}`;
-
-      ctx.ui.setEditorText(command);
-      ctx.ui.notify("Commit command inserted into Pi chat. Review, then press Enter to run it.", "success");
-    };
-
-  pi.registerCommand("commit", {
-    description: "Pick a conventional commit message from staged changes; optional args guide what to emphasize",
-    handler,
+    },
   });
 }
