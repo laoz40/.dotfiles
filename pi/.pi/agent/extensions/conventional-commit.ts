@@ -89,7 +89,7 @@ function extractAgentOutput(logs: string): string {
   return firstOutput === -1 ? logs.trim() : lines.slice(firstOutput).join("\n").trim();
 }
 
-async function createDraft(pi: ExtensionAPI, ctx: ExtensionCommandContext, prompt: string): Promise<{ agentId: string; output: string }> {
+async function createDraft(pi: ExtensionAPI, ctx: ExtensionCommandContext, prompt: string): Promise<CommitDraftEntry> {
   const run = await pi.exec(
     "paseo",
     [
@@ -131,7 +131,7 @@ async function createDraft(pi: ExtensionAPI, ctx: ExtensionCommandContext, promp
 
   const output = extractAgentOutput(logs.stdout);
   if (!output) throw new Error("The commit-draft subagent returned no response.");
-  return { agentId, output };
+  return { agentId, content: output };
 }
 
 export default function (pi: ExtensionAPI) {
@@ -183,8 +183,9 @@ export default function (pi: ExtensionAPI) {
 
       try {
         const draft = await createDraft(pi, ctx, buildPrompt(stagedSummary, effectiveDiff, focusNotes));
+        // A custom entry displays the subagent's response without triggering or
+        // adding a response from the main agent.
         pi.appendEntry("commit-draft", draft);
-        ctx.ui.notify("Commit draft added outside the main model context. Review the subagent entry above.", "success");
       } catch (error) {
         ctx.ui.notify(`Commit-draft generation failed: ${error instanceof Error ? error.message : String(error)}`, "error");
       }
