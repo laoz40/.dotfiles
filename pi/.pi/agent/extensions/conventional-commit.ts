@@ -9,24 +9,6 @@ type PaseoRun = { agentId?: string };
 type PaseoInspect = { Status?: string };
 type CommitDraftEntry = { agentId: string; content: string };
 
-const GENERATED_PATH_PATTERNS: RegExp[] = [
-  /(^|\/)dist\//,
-  /(^|\/)build\//,
-  /(^|\/)coverage\//,
-  /(^|\/)\.next\//,
-  /(^|\/)generated\//,
-  /(^|\/)gen\//,
-  /(^|\/)vendor\//,
-  /(^|\/)node_modules\//,
-  /\.min\./,
-  /\.map$/,
-  /(^|\/)(package-lock\.json|pnpm-lock\.yaml|yarn\.lock|bun\.lockb?)$/,
-  /(^|\/)pnpm-workspace\.yaml$/,
-  /(^|\/)\.eslintcache$/,
-  /(^|\/)__snapshots__\//,
-  /\.(snap|generated)\./,
-];
-
 function parseStagedFiles(statusOutput: string): StagedFile[] {
   return statusOutput
     .split("\n")
@@ -39,15 +21,6 @@ function parseStagedFiles(statusOutput: string): StagedFile[] {
     .filter((file) => file.path.length > 0);
 }
 
-function isGeneratedPath(path: string): boolean {
-  return GENERATED_PATH_PATTERNS.some((pattern) => pattern.test(path));
-}
-
-function filterFilesForCommitSignal(files: StagedFile[]): StagedFile[] {
-  const filtered = files.filter((file) => !isGeneratedPath(file.path));
-  return filtered.length > 0 ? filtered : files;
-}
-
 function parseJson<T>(text: string, label: string): T {
   try {
     return JSON.parse(text) as T;
@@ -56,9 +29,9 @@ function parseJson<T>(text: string, label: string): T {
   }
 }
 
-function buildPrompt(stagedSummary: string, diff: string, focusNotes: string): string {
+function buildPrompt(focusNotes: string): string {
   const focusSection = focusNotes ? `\nUser focus notes:\n${focusNotes}\n` : "";
-  return `Generate one Conventional Commit draft for the staged Git changes in your working directory. Do not modify files or run git commit.${focusSection}
+  return `Generate one Conventional Commit draft for the staged Git changes in your working directory. Inspect them yourself with git status and git diff --cached. Do not modify files or run git commit.${focusSection}
 
 Return only this Markdown format, with no introduction or closing commentary:
 # Commit draft
@@ -74,13 +47,7 @@ Requirements:
 - Keep the title under 72 characters when possible and write it in past tense.
 - Cover all meaningful staged changes in the description, including distinct files or behavior changes.
 - Combine bullets only when edits form one meaningful change.
-- Do not invent changes; omit formatting, import ordering, generated files, lockfiles, minified assets, source maps, snapshots, and build artifacts unless they are the only staged changes.
-
-Staged files:
-${stagedSummary}
-
-Staged diff:
-${diff.slice(0, 60000)}`;
+- Do not invent changes; omit formatting, import ordering, generated files, lockfiles, minified assets, source maps, snapshots, and build artifacts unless they are the only staged changes.`;
 }
 
 function extractAgentOutput(logs: string): string {
@@ -158,31 +125,10 @@ export default function (pi: ExtensionAPI) {
         return;
       }
 
-      const signalFiles = filterFilesForCommitSignal(files);
-      const analyzedPaths = signalFiles.map((file) => file.path);
-      const diff = await pi.exec(
-        "git",
-        ["diff", "--cached", "--stat", "--patch", "-w", "--ignore-blank-lines", "--", ...analyzedPaths],
-        { signal: ctx.signal, timeout: 10_000 },
-      );
-      if (diff.code !== 0) {
-        ctx.ui.notify(`Could not inspect staged diff:\n${diff.stderr || diff.stdout}`, "error");
-        return;
-      }
-
-      const effectiveFiles = diff.stdout.trim() ? signalFiles : files;
-      const effectiveDiff = diff.stdout.trim()
-        ? diff.stdout
-        : (await pi.exec("git", ["diff", "--cached", "--stat", "--patch", "--", ...files.map((file) => file.path)], { signal: ctx.signal, timeout: 10_000 })).stdout;
-      const stagedSummary = effectiveFiles.map((file) => `${file.status}\t${file.path}`).join("\n");
-
-      if (signalFiles.length !== files.length) {
-        ctx.ui.notify("Ignoring generated files and build artifacts for the commit-draft analysis.", "info");
-      }
       ctx.ui.notify("Generating an isolated commit draft with a subagent...", "info");
 
       try {
-        const draft = await createDraft(pi, ctx, buildPrompt(stagedSummary, effectiveDiff, focusNotes));
+        const draft = await createDraft(pi, ctx, buildPrompt(focusNotes));
         // A custom entry displays the subagent's response without triggering or
         // adding a response from the main agent.
         pi.appendEntry("commit-draft", draft);
