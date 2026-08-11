@@ -64,3 +64,4 @@ command = "persiyanov.reviewr.toggle"
 
 [experimental]
 pane_history = false
+kitty_graphics = true
