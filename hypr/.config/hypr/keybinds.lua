@@ -55,7 +55,7 @@ hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true 
 hl.bind("CTRL + SUPER + M", hl.dsp.exec_cmd("toggle_mic.sh"))
 
 local function if_slurp_inactive(command)
-	return hl.dsp.exec_cmd("sh -c 'pgrep -x slurp >/dev/null || " .. command .. "'")
+	return hl.dsp.exec_cmd("bash -c 'pgrep -x slurp >/dev/null || " .. command .. "'")
 end
 
 -- Screenshots.
@@ -66,7 +66,7 @@ hl.bind(
 )
 hl.bind(
 	"SUPER + SHIFT + S",
-	if_slurp_inactive("{ hyprshot -m region --raw | satty --filename -; }")
+	if_slurp_inactive("{ hyprshot -m region --raw | tee >(wl-copy) | satty --filename -; }")
 )
 
 -- Image to text.
