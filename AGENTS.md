@@ -1,13 +1,20 @@
 # Agent Notes
 
+## PC
+
 OS: Arch Linux
 GPU: NVIDIA 3070
+
+## Laptop
+
+OS: Arch Linux
+GPU: Intel Iris Xe Graphics (Integrated)
 
 ## Nix Home Manager
 
 This dotfiles project is managed with the standalone Nix Home Manager flake in `flake.nix`. Programs and managed files are declared in `home.nix`.
 
-Apply configuration changes with:
+let me run:
 
 ```bash
 home-manager switch --flake ~/.dotfiles#leoz@desktop
