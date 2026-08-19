@@ -3,7 +3,9 @@ set -euo pipefail
 
 STATE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}"
 STATE_FILE="$STATE_DIR/hyprland-profile"
-mkdir -p "$STATE_DIR"
+THEME_DIR="$STATE_DIR/dotfiles-theme"
+DOTFILES_DIR="${DOTFILES_DIR:-$HOME/.dotfiles}"
+mkdir -p "$STATE_DIR" "$THEME_DIR"
 
 current="main"
 if [[ -f "$STATE_FILE" ]]; then
@@ -22,10 +24,10 @@ waybar_theme="$next"
 #   waybar_theme="center"
 # fi
 
-ln -sf "themes/$waybar_theme.jsonc" "$HOME/.config/waybar/config.jsonc"
-ln -sf "themes/$waybar_theme.css" "$HOME/.config/waybar/style.css"
-ln -sf "themes/$next.rasi" "$HOME/.config/rofi/config.rasi"
-ln -sf "themes/$next.conf" "$HOME/.config/ghostty/theme.conf"
+ln -sfn "$DOTFILES_DIR/waybar/.config/waybar/themes/$waybar_theme.jsonc" "$THEME_DIR/waybar-config.jsonc"
+ln -sfn "$DOTFILES_DIR/waybar/.config/waybar/themes/$waybar_theme.css" "$THEME_DIR/waybar-style.css"
+ln -sfn "$DOTFILES_DIR/rofi/.config/rofi/themes/$next.rasi" "$THEME_DIR/rofi-config.rasi"
+ln -sfn "$DOTFILES_DIR/ghostty/.config/ghostty/themes/$next.conf" "$THEME_DIR/ghostty-theme.conf"
 
 hyprctl reload
 

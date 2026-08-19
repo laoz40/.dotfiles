@@ -218,9 +218,25 @@
       source = ./hypr/.config/hypr;
       recursive = true;
     };
-    ".config/ghostty".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/ghostty/.config/ghostty";
-    ".config/rofi".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/rofi/.config/rofi";
-    ".config/waybar".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/waybar/.config/waybar";
+    ".config/ghostty/config".source = ./ghostty/.config/ghostty/config;
+    ".config/ghostty/themes" = {
+      source = ./ghostty/.config/ghostty/themes;
+      recursive = true;
+    };
+    ".config/ghostty/theme.conf".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.cache/dotfiles-theme/ghostty-theme.conf";
+
+    ".config/rofi/themes" = {
+      source = ./rofi/.config/rofi/themes;
+      recursive = true;
+    };
+    ".config/rofi/config.rasi".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.cache/dotfiles-theme/rofi-config.rasi";
+
+    ".config/waybar/themes" = {
+      source = ./waybar/.config/waybar/themes;
+      recursive = true;
+    };
+    ".config/waybar/config.jsonc".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.cache/dotfiles-theme/waybar-config.jsonc";
+    ".config/waybar/style.css".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.cache/dotfiles-theme/waybar-style.css";
     ".config/wl-kbptr/config".source = ./wl-kbptr/.config/wl-kbptr/config;
 
     # Appearance
