@@ -20,6 +20,14 @@ Finding facts is your job, never the user's. When a frontier question needs a fa
 
 The session is done when the frontier is empty: every branch of the design tree visited, nothing left silently assumed. Do not act on it until the user confirms you have reached a shared understanding.
 
+## Progress indication
+
+End each round with a rough progress indicator based on the design tree currently visible:
+
+`Progress: ~<percentage>% | Estimated rounds remaining: ~<count>`
+
+Treat both values as estimates, not targets or limits. Recalculate them whenever answers, research, or newly exposed branches change the tree. Progress may move backward and the estimated round count may increase when new questions or decisions appear.
+
 ## Scope
 
 If a decision is a small, self-contained change that can reasonably be implemented in a single pass without introducing important tradeoffs or follow-on decisions, move on to something else.
