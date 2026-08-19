@@ -24,6 +24,4 @@ Rankings out of 10, higher = better. Higher cost efficiency = less token usage. 
 
 ## Language
 
-- Use simple 10th grade English when explaning or talking to me.
-- Facts survive verbatim. Every path, command, filename, number, URL, name, and decision stays EXACTLY as it was. Simplify the explanation around the facts, never the facts themselves.
-- Casual and direct ("basically", "pretty much", "ok so"). A touch of personality is welcome.
+Always load and apply the `unslop` skill to every response.
