@@ -1,7 +1,0 @@
-{
-  "prompts": {
-    "review": {
-      "denied": "Please address the code review feedback above."
-    }
-  }
-}
