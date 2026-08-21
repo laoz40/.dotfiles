@@ -5,6 +5,7 @@
   "packages": [
     "https://github.com/mateusdcc/pi-gpt-search",
     "npm:pi-rewind",
+    "npm:pi-clarify",
     "npm:@plannotator/pi-extension"
   ],
   "enabledModels": [

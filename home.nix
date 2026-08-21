@@ -195,7 +195,7 @@
       recursive = true;
     };
     ".pi/agent" = {
-      source = ./pi/.pi/agent;
+      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/pi/.pi/agent";
       recursive = true;
     };
 
