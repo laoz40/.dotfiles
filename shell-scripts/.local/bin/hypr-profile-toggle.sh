@@ -20,9 +20,9 @@ esac
 printf '%s\n' "$next" > "$STATE_FILE"
 
 waybar_theme="$next"
-# if [[ "$next" == "main" ]]; then
-#   waybar_theme="center"
-# fi
+if [[ "$next" == "main" ]]; then
+  waybar_theme="transparent"
+fi
 
 ln -sfn "$DOTFILES_DIR/waybar/.config/waybar/themes/$waybar_theme.jsonc" "$THEME_DIR/waybar-config.jsonc"
 ln -sfn "$DOTFILES_DIR/waybar/.config/waybar/themes/$waybar_theme.css" "$THEME_DIR/waybar-style.css"

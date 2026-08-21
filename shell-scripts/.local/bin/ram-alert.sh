@@ -55,14 +55,18 @@ check_once() {
 }
 
 waybar() {
-  local usage class tooltip
+  local usage class tooltip icon_color
   usage="$(check_once)"
   class="normal"
-  (( usage >= THRESHOLD )) && class="critical"
+  icon_color="${RAM_ICON_COLOR:-#dfb46a}"
+  if (( usage >= THRESHOLD )); then
+    class="critical"
+    icon_color="${RAM_CRITICAL_ICON_COLOR:-#e06c75}"
+  fi
   tooltip="RAM usage: ${usage}%"
 
-  printf '{"text":"<span color='\''#dfb46a'\''></span> %s%%","tooltip":"%s","class":"%s"}\n' \
-    "$usage" "$tooltip" "$class"
+  printf '{"text":"<span color='\''%s'\''></span> %s%%","tooltip":"%s","class":"%s"}\n' \
+    "$icon_color" "$usage" "$tooltip" "$class"
 }
 
 case "${1:-loop}" in

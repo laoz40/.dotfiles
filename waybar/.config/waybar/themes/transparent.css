@@ -1,0 +1,126 @@
+/* Transparent Waybar theme for the main desktop profile. */
+
+@define-color foreground #efeff1;
+@define-color workspace_inactive #808080;
+@define-color background transparent;
+@define-color background_tooltip #111416;
+@define-color hover transparent;
+@define-color border rgba(18, 63, 102, 0.5);
+
+@define-color gold #efeff1;
+@define-color gold_alt #D39834;
+@define-color blue #2A69B5;
+@define-color blue_alt #efeff1;
+@define-color red #e06c75;
+
+* {
+  min-height: 0;
+  min-width: 0;
+  color: @foreground;
+  font-family: JetBrainsMono Nerd Font Propo;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+window#waybar {
+  transition-property: background-color;
+  background-color: @background;
+}
+
+#workspaces button,
+#clock,
+#pulseaudio,
+#custom-logo,
+#custom-power,
+#custom-spotify,
+#custom-notification,
+#custom-timer,
+#custom-microphone,
+#cpu,
+#tray,
+#memory,
+#custom-ram-alert,
+#window,
+#mpris,
+#battery,
+#bluetooth,
+#network,
+#idle_inhibitor,
+#backlight-slider,
+#custom-privacy-dots {
+  padding: 0.1rem 0.3rem;
+  margin: 0 0.15rem;
+  background: @background;
+  border-radius: 0;
+}
+
+#workspaces button,
+#workspaces button * {
+  color: @workspace_inactive;
+}
+
+#workspaces button {
+  box-shadow: none;
+  text-shadow: none;
+  transition: none;
+}
+
+#workspaces button:hover,
+#workspaces button.active {
+  background-color: @hover;
+}
+
+#workspaces button.active,
+#workspaces button.active *,
+#idle_inhibitor,
+#custom-microphone {
+  color: @gold;
+}
+
+#workspaces button.urgent,
+#custom-ram-alert.critical,
+#battery.critical {
+  color: @red;
+}
+
+#clock.simpleclock {
+  font-feature-settings: "tnum";
+}
+
+window#waybar.empty #window {
+  background-color: transparent;
+}
+
+#battery.charging {
+  color: @blue_alt;
+}
+
+#battery.warning {
+  color: @gold_alt;
+}
+
+#battery.critical {
+  animation-name: blink;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+@keyframes blink {
+  to {
+    color: @foreground;
+  }
+}
+
+#custom-privacy-dots {
+  padding: 0 10px;
+  color: @foreground;
+  font-size: 12px;
+  letter-spacing: 0;
+}
+
+tooltip {
+  border: 1px solid @border;
+  background-color: @background_tooltip;
+}

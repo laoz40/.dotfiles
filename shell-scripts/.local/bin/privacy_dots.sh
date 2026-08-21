@@ -133,10 +133,10 @@ if [[ "$scr" -eq 1 ]]; then
 fi
 
 # output
-green="#dfb46a"
-orange="#dfb46a"
-blue="#dfb46a"
-purple="#dfb46a"
+green="${PRIVACY_DOT_COLOR:-#dfb46a}"
+orange="${PRIVACY_DOT_COLOR:-#dfb46a}"
+blue="${PRIVACY_DOT_COLOR:-#dfb46a}"
+purple="${PRIVACY_DOT_COLOR:-#dfb46a}"
 
 dot() {
   local on="$1" color="$2"
