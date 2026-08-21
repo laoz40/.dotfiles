@@ -32,6 +32,11 @@ in
 
   home.file = {
     ".config/waywall/init.lua".source = ../waywall/.config/waywall/init.lua;
+    ".config/waywall/extras.lua".source = ../waywall/.config/waywall/extras.lua;
+    ".config/waywall/shaders" = {
+      source = ../waywall/.config/waywall/shaders;
+      recursive = true;
+    };
     ".config/waywall/resources/stretched_overlay.png".source = ../waywall/.config/waywall/resources/stretched_overlay.png;
   };
 }
