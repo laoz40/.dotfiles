@@ -194,10 +194,17 @@
       source = ./skills/.agents/skills;
       recursive = true;
     };
-    ".pi/agent" = {
-      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/pi/.pi/agent";
-      recursive = true;
-    };
+    # Pi agent - link config files individually, never the whole directory.
+    # WARNING: ~/.pi/agent/auth.json and ~/.pi/agent/sessions/ are NOT tracked by
+    # git or Nix. NEVER delete ~/.pi to resolve conflicts - that destroys pi's
+    # login tokens and session history with no way to recover (this happened
+    # 2026-08-22). If HM complains about a conflict, only ever remove the
+    # individual symlinks below.
+    ".pi/agent/AGENTS.md".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/pi/.pi/agent/AGENTS.md";
+    ".pi/agent/settings.json".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/pi/.pi/agent/settings.json";
+    ".pi/agent/keybindings.json".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/pi/.pi/agent/keybindings.json";
+    ".pi/agent/themes".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/pi/.pi/agent/themes";
+    ".pi/agent/extensions".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/pi/.pi/agent/extensions";
 
     # Terminal apps
     ".config/lazygit/config.yml".source = ./lazygit/.config/lazygit/config.yml;
