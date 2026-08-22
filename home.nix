@@ -190,10 +190,7 @@
     ".config/pnpm/rc".source = ./node/.config/pnpm/rc;
 
     # AI agents
-    ".agents/skills" = {
-      source = ./skills/.agents/skills;
-      recursive = true;
-    };
+    ".agents/skills".source = ./skills/.agents/skills;
     # Pi agent - link config files individually, never the whole directory.
     # WARNING: ~/.pi/agent/auth.json and ~/.pi/agent/sessions/ are NOT tracked by
     # git or Nix. NEVER delete ~/.pi to resolve conflicts - that destroys pi's
