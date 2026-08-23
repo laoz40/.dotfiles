@@ -3,68 +3,56 @@ set -euo pipefail
 
 usage() {
   cat <<'USAGE'
-Usage:
-  wtc <branch-name> [base-branch]
+Usage: wtc <branch-name> [base-branch]
 
-Examples:
-  wtc feature/login
-  wtc feature/login main
-
-Creates a git worktree using this default path convention:
-  ../<project>_<branch-name>
-
-Example in repo "project" with branch "feature/login":
-  ../project_feature-login
+Creates a worktree at ../<project>_<branch-name>.
 USAGE
 }
 
 copy_env_files() {
-  local source_root="$1"
-  local target_root="$2"
+  local source filename
+  local found=false
 
   shopt -s nullglob
-  local env_files=("$source_root"/.env*)
-  shopt -u nullglob
-
-  if (( ${#env_files[@]} == 0 )); then
-    echo "No .env* files found, skipping env copy"
-    return
-  fi
-
-  for source in "${env_files[@]}"; do
+  for source in "$1"/.env*; do
     [[ -f "$source" ]] || continue
+    found=true
+    filename="${source##*/}"
 
-    local filename
-    filename="$(basename "$source")"
-    local target="$target_root/$filename"
-
-    if [[ -e "$target" ]]; then
+    if [[ -e "$2/$filename" ]]; then
       echo "Skipping $filename; already exists in worktree"
     else
-      cp "$source" "$target"
+      cp "$source" "$2/"
       echo "Copied $filename to new worktree"
     fi
   done
+  shopt -u nullglob
+
+  if [[ "$found" == false ]]; then
+    echo "No .env* files found, skipping env copy"
+  fi
 }
 
 run_install() {
-  local target_root="$1"
+  local manager=""
 
-  if [[ -f "$target_root/package-lock.json" ]]; then
-    echo "Installing dependencies: npm install"
-    (cd "$target_root" && npm install)
-  elif [[ -f "$target_root/pnpm-lock.yaml" ]]; then
-    echo "Installing dependencies: pnpm install"
-    (cd "$target_root" && pnpm install)
-  elif [[ -f "$target_root/yarn.lock" ]]; then
-    echo "Installing dependencies: yarn install"
-    (cd "$target_root" && yarn install)
-  elif [[ -f "$target_root/bun.lock" || -f "$target_root/bun.lockb" ]]; then
-    echo "Installing dependencies: bun install"
-    (cd "$target_root" && bun install)
-  else
-    echo "No lockfile found, skipping install"
+  if [[ -f "$1/package-lock.json" ]]; then
+    manager=npm
+  elif [[ -f "$1/pnpm-lock.yaml" ]]; then
+    manager=pnpm
+  elif [[ -f "$1/yarn.lock" ]]; then
+    manager=yarn
+  elif [[ -f "$1/bun.lock" || -f "$1/bun.lockb" ]]; then
+    manager=bun
   fi
+
+  if [[ -z "$manager" ]]; then
+    echo "No lockfile found, skipping install"
+    return
+  fi
+
+  echo "Installing dependencies: $manager install"
+  (cd "$1" && "$manager" install)
 }
 
 branch="${1:-}"
@@ -117,3 +105,5 @@ echo
 echo "Done."
 echo "Branch: $branch"
 echo "Path:   $worktree_path"
+
+herdr-sessionizer.sh "$worktree_path"
