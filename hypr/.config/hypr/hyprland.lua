@@ -95,14 +95,6 @@ hl.device({
 -- Autostart
 
 local autostart = {
-	"waybar",
-
-	-- hyprpaper, then get random wallpaper
-	"hyprpaper",
-	"sleep 1 && rofi_wallpaper.sh get_random",
-
-	"hypridle",
-	"hyprsunset",
 	"launch-zen-with-mouse-buttons.py",
 
 	-- cliphist
@@ -116,9 +108,18 @@ local autostart = {
 }
 
 local desktop_autostart = {
+	"dms run",
 	"vesktop --start-minimized",
 	"obsidian",
 	"steam -silent",
+}
+
+local laptop_autostart = {
+	"waybar",
+	"hyprpaper",
+	"sleep 1 && rofi_wallpaper.sh get_random",
+	"hypridle",
+	"hyprsunset",
 }
 
 hl.on("hyprland.start", function()
@@ -128,6 +129,10 @@ hl.on("hyprland.start", function()
 
 	if main_monitor == "DP-3" then
 		for _, command in ipairs(desktop_autostart) do
+			hl.exec_cmd(command)
+		end
+	elseif main_monitor == "eDP-1" then
+		for _, command in ipairs(laptop_autostart) do
 			hl.exec_cmd(command)
 		end
 	end
@@ -144,4 +149,3 @@ hl.env("LIBVA_DRIVER_NAME", "nvidia")
 hl.env("__GLX_VENDOR_LIBRARY_NAME", "nvidia")
 hl.env("XDG_SESSION_TYPE", "wayland")
 hl.env("GBM_BACKEND", "nvidia-drm")
-

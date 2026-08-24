@@ -161,7 +161,7 @@
   };
 
   services.dunst = {
-    enable = true;
+    enable = false;
     configFile = "${./dunst/.config/dunst/dunstrc}";
   };
 
@@ -242,6 +242,10 @@
     ".config/waybar/config.jsonc".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.cache/dotfiles-theme/waybar-config.jsonc";
     ".config/waybar/style.css".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.cache/dotfiles-theme/waybar-style.css";
     ".config/wl-kbptr/config".source = ./wl-kbptr/.config/wl-kbptr/config;
+    ".config/DankMaterialShell/settings.json" = {
+      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/dms/.config/DankMaterialShell/settings.json";
+    };
+    ".config/DankMaterialShell/themes/blue-gold.json".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/dms/.config/DankMaterialShell/themes/blue-gold.json";
 
     # Appearance
     "Pictures/Wallpapers" = {

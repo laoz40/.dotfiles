@@ -1,6 +1,14 @@
 { pkgs, ... }:
 
 {
+  programs.dank-material-shell = {
+    enable = true;
+    systemd.enable = false;
+    enableVPN = false;
+    enableDynamicTheming = false;
+    enableAudioWavelength = false;
+  };
+
   targets.genericLinux.gpu.nvidia = {
     enable = true;
     version = "610.43.03";

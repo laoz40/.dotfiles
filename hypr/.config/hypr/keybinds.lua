@@ -86,11 +86,11 @@ hl.bind(
 	{ description = "Speech-to-text" }
 )
 
--- Rofi.
+-- Launchers.
 hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd("rofi -show drun"))
 hl.bind("SUPER + period", hl.dsp.exec_cmd("rofi -show emoji"))
-hl.bind("SUPER + P", hl.dsp.exec_cmd("rofi_power_menu.sh"))
-hl.bind("SUPER + V", hl.dsp.exec_cmd("rofi_cliphist.sh"))
+hl.bind("SUPER + P", hl.dsp.exec_cmd("dms ipc call powermenu toggle"))
+hl.bind("SUPER + V", hl.dsp.exec_cmd("dms ipc call clipboard toggle"))
 hl.bind("SUPER + T", hl.dsp.exec_cmd("~/.local/bin/rofi_waybar_timer/rofi_waybar_timer.sh"))
 hl.bind("SUPER + M", hl.dsp.exec_cmd("rofi -show calc -modi calc -no-show-match -no-sort"))
 hl.bind("SUPER + D", hl.dsp.exec_cmd("rofi_define.sh"))

@@ -7,10 +7,14 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    dms = {
+      url = "github:AvengeMedia/DankMaterialShell/stable";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
-    { nixpkgs, home-manager, ... }:
+    { nixpkgs, home-manager, dms, ... }:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
@@ -19,6 +23,7 @@
       homeConfigurations."leoz@desktop" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [
+          dms.homeModules.dank-material-shell
           ./home.nix
           ./.modules/desktop.nix
           ./.modules/minecraft.nix
