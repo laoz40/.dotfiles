@@ -123,10 +123,16 @@
     {
       "id": "brightnessSlider",
       "enabled": true,
-      "width": 50
+      "width": 50,
+      "deviceName": "ddc:i2c-4"
     },
     {
       "id": "wifi",
+      "enabled": true,
+      "width": 50
+    },
+    {
+      "id": "bluetooth",
       "enabled": true,
       "width": 50
     },
@@ -142,11 +148,6 @@
     },
     {
       "id": "idleInhibitor",
-      "enabled": true,
-      "width": 50
-    },
-    {
-      "id": "darkMode",
       "enabled": true,
       "width": 50
     },
@@ -513,7 +514,7 @@
   "notificationHistorySaveCritical": true,
   "notificationRules": [],
   "notificationFocusedMonitor": false,
-  "osdAlwaysShowValue": false,
+  "osdAlwaysShowValue": true,
   "osdPosition": 5,
   "osdVolumeEnabled": true,
   "osdMediaVolumeEnabled": true,
@@ -592,9 +593,22 @@
           "id": "privacyIndicator",
           "enabled": true
         },
-        "cpuUsage",
-        "memUsage",
-        "notificationButton",
+        {
+          "id": "cpuUsage",
+          "enabled": true,
+          "minimumWidth": false
+        },
+        {
+          "id": "memUsage",
+          "enabled": true,
+          "minimumWidth": false,
+          "showSwap": false,
+          "showInGb": false
+        },
+        {
+          "id": "notificationButton",
+          "enabled": true
+        },
         "controlCenterButton"
       ],
       "spacing": 0,
@@ -631,8 +645,8 @@
       "popupGapsAuto": true,
       "popupGapsManual": 4,
       "maximizeDetection": true,
-      "useOverlayLayer": true,
-      "scrollEnabled": true,
+      "useOverlayLayer": false,
+      "scrollEnabled": false,
       "scrollXBehavior": "column",
       "scrollYBehavior": "workspace",
       "shadowIntensity": 0,
