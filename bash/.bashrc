@@ -97,7 +97,7 @@ alias r="herdr plugin action invoke toggle --plugin persiyanov.reviewr"
 alias zed="zeditor --wait ."
 
 # opencode alias
-alias oc="opencode"
+alias oc="opencode --agent build"
 
 # python virtual env
 alias py="python"
