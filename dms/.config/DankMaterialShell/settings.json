@@ -713,7 +713,7 @@
       ],
       "spacing": 0,
       "innerPadding": -8,
-      "bottomGap": -10,
+      "bottomGap": 0,
       "transparency": 1,
       "widgetTransparency": 0,
       "squareCorners": true,
