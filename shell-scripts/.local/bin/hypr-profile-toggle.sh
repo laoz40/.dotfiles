@@ -37,9 +37,12 @@ apply_dms_appearance() {
   local profile="$1"
   pgrep -f 'bin/quickshell' >/dev/null 2>&1 || return 0
 
-  local dms_dir="$HOME/.config/DankMaterialShell"
-  local cfg="$dms_dir/settings.json"
-  [[ -d "$dms_dir" ]] || return 0
+  local cfg="$HOME/.config/DankMaterialShell/settings.json"
+  [[ -f "$cfg" ]] || return 0
+
+  # settings.json is an out-of-store symlink into the dotfiles seed, and DMS
+  # rewrites it through that symlink. The `cat >` redirect below writes
+  # *through* the symlink, so the change lands in dotfiles (git will show it).
 
   # The two bars are configured independently in the DMS shell settings UI
   # (appearance, transparency, corners, etc.). Switching profiles just toggles
@@ -48,40 +51,23 @@ apply_dms_appearance() {
   local main_bar_id="default"
   local minimal_bar_id="bar1787902150792"
 
-  # The per-profile settings live in $THEME_DIR
-  # (cache) so we never write to the dotfiles-tracked seed and git stays clean.
-  # They are seeded once from the current settings, after which DMS writes its
-  # own changes back into whichever cache file is active via the symlink below.
-  local main_file="$THEME_DIR/dms-main.json"
-  local minimal_file="$THEME_DIR/dms-minimal.json"
+  local main_on=true
+  [[ "$profile" == "main" ]] || main_on=false
 
-  if [[ ! -f "$main_file" || ! -f "$minimal_file" ]]; then
-    local base
-    base="$(readlink -f "$cfg")"
-    [[ -f "$base" ]] || return 0
-
-    jq --arg main "$main_bar_id" --arg mini "$minimal_bar_id" '
-      .barConfigs |= map(
-        if .id == $main then .enabled = true
-        elif .id == $mini then .enabled = false
+  jq --arg main "$main_bar_id" \
+     --arg mini "$minimal_bar_id" \
+     --argjson main_on "$main_on" '
+    .barConfigs |= map(
+        if .id == $main then .enabled = $main_on
+        elif .id == $mini then .enabled = (if $main_on then false else true end)
         else . end
       )
-    ' "$base" > "$main_file"
-
-    jq --arg main "$main_bar_id" --arg mini "$minimal_bar_id" '
-      .barConfigs |= map(
-        if .id == $main then .enabled = false
-        elif .id == $mini then .enabled = true
-        else . end
-      )
-    ' "$base" > "$minimal_file"
-  fi
-
-  # Swap the symlink (not the file) so the change never touches dotfiles.
-  ln -sfn "$THEME_DIR/dms-$profile.json" "$cfg"
+  ' "$cfg" > /tmp/dms-settings.json \
+    && cat /tmp/dms-settings.json > "$cfg" \
+    && rm -f /tmp/dms-settings.json
 
   # `dms restart` sends quickshell a reload signal; the new bar is picked up
-  # from the settings.json symlink.
+  # from the rewritten settings.json.
   dms restart >/dev/null 2>&1 &
 }
 
