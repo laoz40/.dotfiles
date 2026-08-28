@@ -614,10 +614,10 @@
         },
         "controlCenterButton"
       ],
-      "spacing": 3,
+      "spacing": 1,
       "innerPadding": -8,
-      "barInsetPadding": 5,
-      "bottomGap": -6,
+      "barInsetPadding": 10,
+      "bottomGap": -8,
       "transparency": 0,
       "widgetTransparency": 0.9,
       "squareCorners": false,
@@ -664,7 +664,7 @@
       "id": "bar1787902150792",
       "name": "Bar 2",
       "enabled": false,
-      "position": 0,
+      "position": 1,
       "screenPreferences": [
         "all"
       ],
