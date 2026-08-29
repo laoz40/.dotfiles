@@ -1,7 +1,6 @@
 ---
 name: create-pr
 description: Drafts clear pull request descriptions from repository changes and creates GitHub pull requests with gh. Use when asked to write, revise, or create a PR description or pull request.
-disable-model-invocation: true
 ---
 
 # Create PR

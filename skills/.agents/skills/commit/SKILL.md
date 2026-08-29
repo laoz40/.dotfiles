@@ -1,8 +1,7 @@
 ---
 name: commit
-description: Draft one Conventional Commit message for the staged Git changes.
+description: Draft one Conventional Commit message for the staged Git changes. Use only when user asks to commit a change.
 argument-hint: "Optional notes about what the commit should emphasize"
-disable-model-invocation: true
 ---
 
 # Commit draft
