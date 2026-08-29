@@ -12,7 +12,7 @@ Draft a commit message for the staged changes. Leave the working tree and index 
 ## Inspect the staged change
 
 1. Run `git diff --cached --name-status`.
-2. If nothing is staged, tell the user to stage files first and stop.
+2. If nothing is staged, tell the user to stage files first and stop. (You may stage files if the user asks for it.)
 3. Read `git diff --cached`. Use targeted commands when the full diff is too large.
 4. Account for every meaningful staged change before writing the draft. Treat arguments passed to the skill as focus notes, not as a substitute for the diff.
 
