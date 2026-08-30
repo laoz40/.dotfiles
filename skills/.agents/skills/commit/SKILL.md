@@ -23,7 +23,7 @@ Return only this Markdown structure:
 # Commit draft
 
 ## Title
-`type: clear, concise past-tense subject`
+`type: Clear, concise past-tense subject`
 
 ## Description
 - One past-tense bullet for each meaningful staged change.
