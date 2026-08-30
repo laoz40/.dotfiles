@@ -7,6 +7,7 @@ argument-hint: "Optional notes about what the commit should emphasize"
 # Commit draft
 
 Draft a commit message for the staged changes. Leave the working tree and index unchanged, and stop after presenting the draft.
+Commiting a large diff all at once is undesired. If there are many different changes, propose a way to break up the diff into smaller commits if possible.
 
 ## Inspect the staged change
 
