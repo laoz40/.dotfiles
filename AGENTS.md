@@ -14,13 +14,34 @@ GPU: Intel Iris Xe Graphics (Integrated)
 
 This dotfiles project is managed with the standalone Nix Home Manager flake in `flake.nix`. Programs and managed files are declared in `home.nix`.
 
-let me run:
+let user run:
 
 ```bash
 home-manager switch --flake ~/.dotfiles#leoz@desktop
 ```
 
 Some application configs use out-of-store symlinks, so edits to those files take effect immediately. Other configs are copied into the Nix store and require another `home-manager switch`. New files must be declared in `home.nix` before Home Manager will install or link them into `$HOME`.
+
+### Updating packages
+
+Package versions come from the flake inputs in `flake.nix`, pinned in `flake.lock`. To update:
+
+```bash
+nix flake update --flake ~/.dotfiles
+```
+
+### NVIDIA driver pin (PC)
+
+`.modules/desktop.nix` pins the NVIDIA userspace driver (`targets.genericLinux.gpu.nvidia`). It must exactly match the kernel module version installed by pacman (`nvidia-open-dkms`), otherwise GL/Vulkan/CUDA apps fail with API mismatch errors.
+
+After a `pacman -Syu` bumps an NVIDIA package:
+
+1. Check new version: `pacman -Q nvidia-open-dkms`
+2. Prefetch hash: `nix store prefetch-file https://download.nvidia.com/XFree86/Linux-x86_64/<ver>/NVIDIA-Linux-x86_64-<ver>.run`
+3. Update `version` and `sha256` in `.modules/desktop.nix`, then run `home-manager switch` (see above)
+4. Run the `sudo /nix/store/...-setup` command the switch prints to repoint `/run/opengl-driver`
+
+If the `.run` URL 404s, NVIDIA hasn't published that version yet.
 
 ## Neovim
 
