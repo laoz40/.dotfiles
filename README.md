@@ -44,6 +44,12 @@ home-manager switch --flake ~/.dotfiles#leoz
 
 Home Manager installs the programs declared in [`home.nix`](./home.nix), configures Zsh, Git, GTK/Qt, and links the managed configuration files from this repository into `$HOME`. Some application configs use out-of-store symlinks so edits take effect directly, while others are copied into the Nix store and require another `home-manager switch`.
 
+Package versions come from the flake inputs in `flake.nix`, pinned in `flake.lock`. To update:
+
+```bash
+nix flake update --flake ~/.dotfiles
+```
+
 The Hyprland main/minimal visuals can be switched at runtime with `hypr-profile-toggle.sh`.
 
 ## Stuff I use:
