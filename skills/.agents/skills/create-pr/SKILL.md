@@ -6,7 +6,7 @@ argument-hint: "Optional notes about what the PR description should emphasize"
 
 # Create PR
 
-Draft a reviewable PR description, then create the PR only after the user explicitly approves the final body.
+Draft a reviewable PR description, then create the PR with the user's approval.
 
 ## Gather context
 
