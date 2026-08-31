@@ -1,0 +1,23 @@
+{
+  "providers": {
+    "cursor": {
+      "modelOverrides": {
+        "cursor-grok-4.6": {
+          "name": "Grok 4.6",
+          "reasoning": true,
+          "thinkingLevelMap": {
+            "off": null,
+            "minimal": "low",
+            "low": "low",
+            "medium": "medium",
+            "high": "high",
+            "xhigh": "xhigh"
+          },
+          "compat": {
+            "supportsReasoningEffort": true
+          }
+        }
+      }
+    }
+  }
+}
