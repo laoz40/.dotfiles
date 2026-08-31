@@ -6,15 +6,19 @@ argument-hint: "Optional notes about what the commit should emphasize"
 
 # Commit draft
 
-Draft a commit message for the staged changes. Leave the working tree and index unchanged, and stop after presenting the draft.
-Commiting a large diff all at once is undesired. If there are many different changes, propose a way to break up the diff into smaller commits if possible.
+Draft a commit message for the changes in the diff. If there are staged changes, prioritise those.
+Commit only when given permission.
+A large mixed diff should become several small commits, one main change each. Staging the subset for the current commit is allowed.
 
-## Inspect the staged change
+## Inspect the change
+
+Noise paths: lockfiles, minified assets, source maps, snapshots, build artifacts, and other generated files.
 
 1. Run `git diff --cached --name-status`.
-2. If nothing is staged, tell the user to stage files first and stop. (You may stage files if the user asks for it.)
-3. Read `git diff --cached`. Use targeted commands when the full diff is too large.
-4. Account for every meaningful staged change before writing the draft. Treat arguments passed to the skill as focus notes, not as a substitute for the diff.
+2. If the index is empty, inspect the working tree: `git diff --name-status` plus untracked files from `git status`. Split that into smaller commits instead of asking the user to stage first.
+3. If you need how big each path is, run `--stat` on the same tree you are inspecting (`--cached` when the index has content). Keep `--name-status` as the inventory; `--stat` is size only.
+4. Read the patch of every meaningful path. When name-status is already large, skip a full dump and diff by path. For noise paths, use `--stat` or `--compact-summary` instead of the patch, unless those files are the only changes.
+5. Account for every meaningful change in the current commit before writing the draft. Treat skill arguments as focus notes, not as a substitute for the diff.
 
 ## Write the draft
 
@@ -36,4 +40,4 @@ Make the title clear on its own and easy to read. Let the subject describe multi
 
 Combine bullets only when the edits form one meaningful change. Describe behavior rather than file churn. Do not invent changes.
 
-Omit formatting, import ordering, generated files, lockfiles, minified assets, source maps, snapshots, and build artifacts unless they are the only staged changes.
+Omit formatting and import-only edits from the description. Omit noise paths unless they are the only staged changes.
