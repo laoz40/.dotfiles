@@ -6,14 +6,7 @@
     "https://github.com/mateusdcc/pi-gpt-search",
     "npm:pi-rewind",
     "npm:pi-clarify",
-    "npm:@plannotator/pi-extension",
-    "npm:pi-cursor-provider"
-  ],
-  "enabledModels": [
-    "cursor/cursor-grok-4.6",
-    "cursor/composer-2.5",
-    "cursor/gpt-5.6-sol",
-    "cursor/gpt-5.6-luna"
+    "npm:@plannotator/pi-extension"
   ],
   "defaultThinkingLevel": "medium",
   "theme": "blue-gold",
