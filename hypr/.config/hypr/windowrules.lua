@@ -97,8 +97,8 @@ hl.window_rule(with_app_opacity({
 }))
 
 hl.window_rule({
-	name = "paseo",
-	match = { class = "^[Pp]aseo$" },
+	name = "t3code",
+	match = { class = "^t3code$" },
 	workspace = "3 silent",
 })
 
