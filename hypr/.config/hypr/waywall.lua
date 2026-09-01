@@ -12,7 +12,7 @@ end
 hl.on("window.open", function(window)
 	if is_waywall(window) then
 		waywall_windows[window.address] = true
-		set_mouse_sensitivity(-0.5)
+		set_mouse_sensitivity(-0.75)
 	end
 end)
 

@@ -66,7 +66,7 @@ local cfg = {
 	remaps_text_config = { text = "chat mode", x = 100, y = 100, size = 2, color = "#000000" },
 
 	-- ==== MISC ====
-	sens_change = { enabled = true, normal = 3.5, tall = 0.1011891, raw_input = false }, -- setting raw_input to true will enable sens changing via maccel
+	sens_change = { enabled = true, normal = 6, tall = 0.1011891, raw_input = false }, -- setting raw_input to true will enable sens changing via maccel
 	enable_resize_animations = false,
 }
 
