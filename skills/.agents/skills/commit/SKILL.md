@@ -8,7 +8,7 @@ argument-hint: "Optional notes about what the commit should emphasize"
 
 Draft a commit message for the changes in the diff. If there are staged changes, prioritise those.
 Commit only when given permission.
-A large mixed diff should become several small commits, one main change each. Staging the subset for the current commit is allowed.
+A large mixed diff (lots of files changed or large LOC) should become several small commits, one main change each. Staging the subset for the current commit is allowed.
 
 ## Inspect the change
 
