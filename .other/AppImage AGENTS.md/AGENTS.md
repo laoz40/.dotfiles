@@ -128,3 +128,39 @@ When downloading a new AppImage version:
 5. update the wrapper path if one exists
 6. optionally keep or delete old versions
 
+## T3 Code
+
+T3 Code has two installs that share `~/.t3` and should stay on the same version:
+
+- **AppImage** (`~/Applications/T3-Code-*-x86_64.AppImage`): desktop GUI, launched via `t3code` wrapper or Super+3
+- **CLI** (`t3` via nvm): powers `t3code.service` for always-on remote access over Tailscale
+
+When updating the AppImage, also update the CLI and boot service:
+
+```sh
+/home/leoz/.nvm/versions/node/v24.15.0/bin/npm install -g t3@latest --prefix /home/leoz/.nvm/versions/node/v24.15.0
+t3 service update
+```
+
+`service update` rewrites `~/.config/systemd/user/t3code.service`. Re-apply these custom settings afterward:
+
+```ini
+Wants=network-online.target
+After=network-online.target tailscaled.service
+Environment=T3CODE_HOST=100.66.137.3
+Environment=T3CODE_PORT=3774
+```
+
+Then reload and restart:
+
+```sh
+systemctl --user daemon-reload
+systemctl --user restart t3code.service
+```
+
+Verify versions match:
+
+```sh
+t3 --version
+curl -s http://100.66.137.3:3774/.well-known/t3/environment | jq -r .serverVersion
+```
