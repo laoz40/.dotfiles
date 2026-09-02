@@ -3,7 +3,7 @@ show_hidden = true
 
 [opener]
 edit = [
-    { run = 'nvim "$@"', block = true },
+    { run = "nvim %s", block = true },
 ]
 play = [
 	{ run = "xdg-open %s1",                desc = "Play", for = "linux" },
@@ -12,7 +12,7 @@ play = [
 	{ run = "mediainfo %s1 & pause", block = true, desc = "Show media info", for = "windows" },
 ]
 image_view = [
-    { run = 'qview "$@"', block = false, orphan = true, desc = "Open in qView", for = "linux" },
+    { run = "qview %s1", block = false, orphan = true, desc = "Open in qView", for = "linux" },
 ]
 open = [
 	{ run = "xdg-open %s1",    desc = "Open", for = "linux" },
