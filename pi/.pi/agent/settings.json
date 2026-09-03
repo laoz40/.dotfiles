@@ -6,7 +6,8 @@
     "https://github.com/mateusdcc/pi-gpt-search",
     "npm:pi-rewind",
     "npm:pi-clarify",
-    "npm:@plannotator/pi-extension"
+    "npm:@plannotator/pi-extension",
+    "npm:pi-cursor-sdk"
   ],
   "defaultThinkingLevel": "medium",
   "theme": "blue-gold",
@@ -22,5 +23,11 @@
   "enableInstallTelemetry": false,
   "warnings": {
     "anthropicExtraUsage": false
-  }
+  },
+  "enabledModels": [
+    "cursor/grok-4.6:slow",
+    "cursor/gpt-5-6-sol@272k:slow",
+    "cursor/gpt-5-6-luna@272k:slow",
+    "cursor/composer-2.5:slow"
+  ]
 }
