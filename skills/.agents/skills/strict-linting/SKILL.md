@@ -73,10 +73,6 @@ Add to the lint rules:
 `skipBlankLines`, `skipComments`. When a file trips it, extract a cohesive
 section into a new file rather than raising the limit.
 
-Keep the project's agent docs (`AGENTS.md` / `CLAUDE.md`) in sync with what
-is enforced: the goals section should list exactly the limits the toolchain
-checks, nothing aspirational.
-
 ### 4. Hand-picked rules
 
 ```json
