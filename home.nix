@@ -31,7 +31,6 @@
 
     # AI tools
     pi-coding-agent
-    rtk
 
     # JavaScript tools
     bun
@@ -50,7 +49,7 @@
       ];
     })
     rofi-network-manager
-    waybar
+    # waybar
 
     # Desktop apps
     nautilus
