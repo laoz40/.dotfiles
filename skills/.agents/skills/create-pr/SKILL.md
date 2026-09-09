@@ -30,6 +30,7 @@ Draft a reviewable PR description, then create the PR with the user's approval.
 - Include important constraints, compatibility details, error handling, migrations, risks, and intentionally deferred work under the correct template heading.
 - Follow each template heading's purpose. Keep scope sections concrete, rationale sections causal, implementation sections specific, constraint sections relevant to review
 - Do not mention internal planning artifacts, temporary status, or future work unless the user requests them.
+- Use simplt conventional commit tag in the title e.g. feat:, fix:, refactor:
 
 ### Write the scope section
 
