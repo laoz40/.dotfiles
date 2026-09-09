@@ -28,9 +28,7 @@ Draft a reviewable PR description, then create the PR with the user's approval.
 - Write for a reader who has no prior context about the project or change.
 - Describe behavior and boundaries, not file churn or vague claims such as “improves code quality.”
 - Include important constraints, compatibility details, error handling, migrations, risks, and intentionally deferred work under the correct template heading.
-- Follow each template heading's purpose. Keep scope sections concrete, rationale sections causal, implementation sections specific, constraint sections relevant to review, and testing sections limited to commands that ran and their results.
-- Do not claim that tests passed, a migration occurred, or behavior changed unless without checking for evidence.
-- You may run tests yourself, such as lint, typecheck, format, tests, and build. Do not run tests in parallel, CPU and RAM are limited.
+- Follow each template heading's purpose. Keep scope sections concrete, rationale sections causal, implementation sections specific, constraint sections relevant to review
 - Do not mention internal planning artifacts, temporary status, or future work unless the user requests them.
 
 ### Write the scope section
