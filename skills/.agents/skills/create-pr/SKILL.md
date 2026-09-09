@@ -15,7 +15,6 @@ Draft a reviewable PR description, then create the PR with the user's approval.
    - `git status --short`
    - `git log --oneline <base>..HEAD`
    - `git diff --stat <base>...HEAD`
-   - targeted diffs and relevant tests when needed
 3. Find and read the repository PR template before drafting e.g.
    - `.github/pull_request_template.md`
    - contribution documentation
