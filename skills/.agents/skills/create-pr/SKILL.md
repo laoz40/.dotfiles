@@ -51,7 +51,8 @@ After explicit approval:
 
 1. Verify GitHub CLI authentication with `gh auth status`.
 2. If a PR already exists for the branch, update it with `gh pr edit` rather than creating another. Preserve bot-managed or auto-generated sections unchanged unless the user asks you to edit them. Do not use those sections as the source of truth for the human-written description.
-3. Otherwise run `gh pr create` with the approved title, base, head, draft status, and body.
-4. Return the PR URL and briefly note whether it was created or updated.
+3. Run format, lint, typecheck, and tests to ensure PR passes CI checks.
+4. Otherwise run `gh pr create` with the approved title, base, head, draft status, and body.
+5. Return the PR URL and briefly note whether it was created or updated.
 
 Use a quoted or file-backed body so Markdown is preserved exactly.
