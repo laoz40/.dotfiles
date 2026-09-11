@@ -3,9 +3,11 @@
   "defaultProvider": "openai-codex",
   "defaultModel": "gpt-5.6-terra",
   "packages": [
-    "https://github.com/mateusdcc/pi-gpt-search",
+    {
+      "source": "https://github.com/mateusdcc/pi-gpt-search",
+      "extensions": []
+    },
     "npm:pi-rewind",
-    "npm:pi-clarify",
     "npm:@plannotator/pi-extension",
     "npm:pi-cursor-sdk"
   ],
