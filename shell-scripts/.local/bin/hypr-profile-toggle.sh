@@ -35,7 +35,6 @@ fi
 
 apply_dms_appearance() {
   local profile="$1"
-  pgrep -f 'bin/quickshell' >/dev/null 2>&1 || return 0
 
   local cfg="$HOME/.config/DankMaterialShell/settings.json"
   [[ -f "$cfg" ]] || return 0
@@ -66,9 +65,10 @@ apply_dms_appearance() {
     && cat /tmp/dms-settings.json > "$cfg" \
     && rm -f /tmp/dms-settings.json
 
-  # `dms restart` sends quickshell a reload signal; the new bar is picked up
-  # from the rewritten settings.json.
-  dms restart >/dev/null 2>&1 &
+  # Bar swaps need a full restart. `dms restart` (SIGUSR1 reload) kills quickshell
+  # when switching between bar configs and does not bring it back.
+  dms kill >/dev/null 2>&1 || true
+  nohup dms run -d >/dev/null 2>&1 &
 }
 
 if $is_laptop; then
