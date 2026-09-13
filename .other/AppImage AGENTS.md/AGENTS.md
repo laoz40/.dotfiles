@@ -128,11 +128,43 @@ When downloading a new AppImage version:
 5. update the wrapper path if one exists
 6. optionally keep or delete old versions
 
+## Tailscale boot services
+
+T3 Code and Paseo bind to the Tailscale IP (`100.66.137.3`) for remote access. At boot, `tailscaled` may not have assigned that address yet, which causes `EADDRNOTAVAIL` if the service starts too early.
+
+Both user services use a shared wrapper at `~/.local/bin/wait-for-tailscale-exec`. It waits until the IP appears on `tailscale0`, then runs the real command.
+Each service must use the wrapper in `ExecStart` and set `TAILSCALE_WAIT_HOST`:
+
+**t3code.service**
+
+```ini
+Environment=T3CODE_HOST=100.66.137.3
+Environment=T3CODE_PORT=3773
+Environment=TAILSCALE_WAIT_HOST=100.66.137.3
+ExecStart=%h/.local/bin/wait-for-tailscale-exec /home/leoz/.nvm/versions/node/v24.15.0/bin/node /home/leoz/.t3/runtime/service-launcher.mjs
+```
+
+**paseo.service**
+
+```ini
+Environment=TAILSCALE_WAIT_HOST=100.66.137.3
+ExecStart=%h/.local/bin/wait-for-tailscale-exec %h/.nvm/versions/node/v24.15.0/bin/paseo daemon start --foreground --no-relay
+```
+
+After any command that rewrites a unit file (`t3 service update`, manual edits, etc.), re-apply the service-specific settings above, then:
+
+```sh
+systemctl --user daemon-reload
+systemctl --user restart t3code.service paseo.service
+```
+
+The wrapper script itself is independent of app versions and does not need to change on AppImage or CLI updates.
+
 ## T3 Code
 
 T3 Code has two installs that share `~/.t3` and should stay on the same version:
 
-- **AppImage** (`~/Applications/T3-Code-*-x86_64.AppImage`): desktop GUI, launched via `t3code` wrapper or Super+3
+- **AppImage** (`~/Applications/T3-Code-*-x86_64.AppImage`)
 - **CLI** (`t3` via nvm): powers `t3code.service` for always-on remote access over Tailscale
 
 When updating the AppImage, also update the CLI and boot service:
@@ -142,25 +174,31 @@ When updating the AppImage, also update the CLI and boot service:
 t3 service update
 ```
 
-`service update` rewrites `~/.config/systemd/user/t3code.service`. Re-apply these custom settings afterward:
-
-```ini
-Wants=network-online.target
-After=network-online.target tailscaled.service
-Environment=T3CODE_HOST=100.66.137.3
-Environment=T3CODE_PORT=3774
-```
-
-Then reload and restart:
+`t3 service update` rewrites `t3code.service`. Re-apply the **Tailscale boot services** t3code settings above, then reload and restart:
 
 ```sh
 systemctl --user daemon-reload
 systemctl --user restart t3code.service
 ```
 
-Verify versions match:
+Boot service listens on `100.66.137.3:3773`. The desktop AppImage uses `127.0.0.1:3773`. Same port number, different addresses — they do not conflict. Pin `T3CODE_PORT=3773` so the Tailscale URL does not change when the desktop app is open.
+
+## Paseo
+
+Paseo has two installs that share `~/.paseo` and should stay on the same version:
+
+- **AppImage** (`~/Applications/Paseo-x86_64.AppImage`)
+- **CLI** (`paseo` via nvm): powers `paseo.service` for always-on remote access over Tailscale
+
+When updating the AppImage, also update the CLI:
 
 ```sh
-t3 --version
-curl -s http://100.66.137.3:3774/.well-known/t3/environment | jq -r .serverVersion
+/home/leoz/.nvm/versions/node/v24.15.0/bin/npm install -g @getpaseo/cli@latest --prefix /home/leoz/.nvm/versions/node/v24.15.0
+```
+
+If anything rewrites `~/.config/systemd/user/paseo.service`, re-apply the Tailscale wait wrapper settings from **Tailscale boot services** above, then:
+
+```sh
+systemctl --user daemon-reload
+systemctl --user restart paseo.service
 ```
