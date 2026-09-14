@@ -62,6 +62,8 @@
   "workspaceFollowFocus": true,
   "workspaceFocusedBorderColor": "secondary",
   "waveProgressEnabled": false,
+  "scrollTitleEnabled": false,
+  "mediaAdaptiveWidthEnabled": false,
   "audioVisualizerEnabled": false,
   "mediaExcludePlayers": [
     "chromium",
