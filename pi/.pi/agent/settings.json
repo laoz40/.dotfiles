@@ -8,7 +8,6 @@
       "extensions": []
     },
     "npm:pi-rewind",
-    "npm:@plannotator/pi-extension",
     "npm:pi-cursor-sdk"
   ],
   "defaultThinkingLevel": "medium",
