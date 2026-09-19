@@ -45,13 +45,29 @@ Draft a reviewable PR description, then create the PR with the user's approval.
 
 Present the draft for review. Ask whether to revise it or create the PR. Do not invoke `gh pr create` yet.
 
+## Verify before creating
+
+After explicit approval, and before push or `gh pr create`:
+
+### Discover checks
+
+Find what this repo runs before a PR is mergeable. Stop once you have a concrete command list:
+
+1. `AGENTS.md`, or `CONTRIBUTING.md` for verify/check/test instructions
+3. CI config (eg. `.github/workflows/*`) for the PR or push job steps
+
+### Run checks
+
+1. Run every discovered check locally.
+2. If any fail, fix, commit if needed, and re-run until all pass.
+3. Do not push or create/update the PR until every check passes.
+
 ## Create or update the PR
 
 After explicit approval:
 
 1. Verify GitHub CLI authentication with `gh auth status`.
 2. If a PR already exists for the branch, update it with `gh pr edit` rather than creating another. Preserve bot-managed or auto-generated sections unchanged unless the user asks you to edit them. Do not use those sections as the source of truth for the human-written description.
-3. Verify PR will pass CI checks before pushing changes (e.g. linting, tests, formatting).
 4. Otherwise run `gh pr create` with the approved title, base, head, draft status, and body.
 5. Return the PR URL and briefly note whether it was created or updated.
 
