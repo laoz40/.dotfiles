@@ -1,7 +1,7 @@
 {
   "lastChangelogVersion": "0.84.4",
-  "defaultProvider": "openai-codex",
-  "defaultModel": "gpt-5.6-terra",
+  "defaultProvider": "cursor",
+  "defaultModel": "composer-2.5:slow",
   "packages": [
     {
       "source": "https://github.com/mateusdcc/pi-gpt-search",
@@ -30,5 +30,12 @@
     "cursor/gpt-5-6-sol@272k:slow",
     "cursor/gpt-5-6-luna@272k:slow",
     "cursor/composer-2.5:slow"
-  ]
+  ],
+  "markdown": {
+    "mermaid": "streaming"
+  },
+  "defaultProjectTrust": "always",
+  "tuiMode": "fullscreen",
+  "fullscreenExitOutput": "transcript",
+  "fullscreenScrollbar": "always"
 }
