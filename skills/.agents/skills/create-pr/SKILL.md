@@ -54,13 +54,14 @@ After explicit approval, and before push or `gh pr create`:
 Find what this repo runs before a PR is mergeable. Stop once you have a concrete command list:
 
 1. `AGENTS.md`, or `CONTRIBUTING.md` for verify/check/test instructions
-3. CI config (eg. `.github/workflows/*`) for the PR or push job steps
+2. CI config (eg. `.github/workflows/*`) for the PR or push job steps
 
 ### Run checks
 
+1. Make sure the branch is up to date. Prefer rebasing. Fix any conflicts.
 1. Run every discovered check locally.
-2. If any fail, fix, commit if needed, and re-run until all pass.
-3. Do not push or create/update the PR until every check passes.
+3. If any fail, fix, commit if needed, and re-run until all pass.
+4. Do not push or create/update the PR until every check passes.
 
 ## Create or update the PR
 
