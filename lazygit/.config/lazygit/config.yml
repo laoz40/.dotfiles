@@ -1,3 +1,10 @@
+git:
+  diffRenderers:
+    - command: delta --dark --paging=never --line-numbers
+      name: delta stacked
+    - command: delta --dark --paging=never --line-numbers --side-by-side
+      name: delta side-by-side
+
 gui:
   theme:
     activeBorderColor:

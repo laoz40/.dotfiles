@@ -143,7 +143,7 @@
     {
       "id": "default",
       "name": "Main Bar",
-      "enabled": true,
+      "enabled": false,
       "position": 0,
       "screenPreferences": [
         "all"
@@ -240,7 +240,7 @@
     {
       "id": "bar1787902150792",
       "name": "Bar 2",
-      "enabled": false,
+      "enabled": true,
       "position": 1,
       "screenPreferences": [
         "all"

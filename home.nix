@@ -17,6 +17,7 @@
     # Essentials tools for me
     neovim
     lazygit
+    delta
     yazi
     pass
 
@@ -173,6 +174,18 @@
       };
       pull.rebase = true;
       init.defaultBranch = "main";
+      core.pager = "delta --side-by-side";
+      interactive.diffFilter = "delta --color-only";
+      delta = {
+        navigate = true;
+        line-numbers = true;
+        dark = true;
+        syntax-theme = "ansi";
+        plus-style = "syntax #0d2818";
+        minus-style = "syntax #2d1215";
+      };
+      merge.conflictStyle = "diff3";
+      diff.colorMoved = "default";
     };
   };
 
