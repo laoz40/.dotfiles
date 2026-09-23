@@ -30,6 +30,8 @@ Draft a reviewable PR description, then create the PR with the user's approval.
 - Follow each template heading's purpose. Keep scope sections concrete, rationale sections causal, implementation sections specific, constraint sections relevant to review
 - Do not mention internal planning artifacts, temporary status, or future work unless the user requests them.
 - Use simplt conventional commit tag in the title e.g. feat:, fix:, refactor:
+    - After reading only the title, a reviewer should know what users or operators can do differently (or what bug stops happening).
+    - Avoid inventory lists, area labels without change, vague polish
 
 ### Write the scope section
 
