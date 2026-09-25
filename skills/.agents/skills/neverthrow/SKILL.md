@@ -1,6 +1,8 @@
 ---
 name: neverthrow
 description: Implements TypeScript neverthrow library, for better error handling using the Result type. Use when creating or refactoring services, handlers, or callers that use Result or ResultAsync.
+paths:
+  - "**/*.{ts,tsx}"
 ---
 
 # Neverthrow Services
@@ -15,6 +17,8 @@ description: Implements TypeScript neverthrow library, for better error handling
 - Use a small arrow only when a step needs an additional argument: `.andThen((user) => loadAccount(user, input.accountId))`.
 - Let TypeScript infer service success and error unions instead of duplicating them manually.
 - Return only values callers use; return `null` for successful write-only steps.
+
+
 
 ## Promise boundary helper
 
@@ -51,6 +55,8 @@ function findRecord(id: string) {
 }
 ```
 
+
+
 ## Business rules
 
 Keep expected business checks as small `Result`-returning functions:
@@ -64,6 +70,8 @@ function requireRecord(record: Record | null) {
   return ok(record);
 }
 ```
+
+
 
 ## Service pipeline
 

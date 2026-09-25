@@ -1,7 +1,8 @@
 ---
 name: zustand
 description: Use when adding/refactoring Zustand state, reducing prop drilling, creating or editing *store* files, moving feature state/actions out of React components, or centralizing feature modals in a Zustand modal host.
-disable-model-invocation: true
+paths:
+  - "**/*.{ts,tsx}"
 ---
 
 # Zustand
@@ -20,8 +21,8 @@ Preferred pattern:
 - Action functions may use `useFeatureStore.setState((state) => ({ ... }))` for updates based on current state.
 - Components pass no-argument actions directly to handlers like `onClick={increment}`.
 
-
 Optional deeper pattern: when centralizing feature modals with a host component and discriminated `switch` states, also read [MODAL_HOST.md](MODAL_HOST.md).
+
 ## Store shape
 
 Create a small focused store file near the feature, for example:
@@ -53,6 +54,8 @@ export function resetCounterStore() {
 }
 ```
 
+
+
 ## Component usage
 
 Read data with a store selector. Call exported actions directly.
@@ -74,6 +77,8 @@ export function CounterControls() {
 }
 ```
 
+
+
 ## Rules
 
 - Do not put actions inside the Zustand state object unless the user asks for that pattern.
@@ -83,6 +88,8 @@ export function CounterControls() {
 - Keep initial state as a named constant when reset behavior is needed.
 - Prefer discriminated unions for complex UI state instead of multiple booleans.
 - Treat URL params, form data, local storage, and API data as boundary data; parse before writing to the store.
+
+
 
 ## Refactor workflow
 
@@ -94,6 +101,8 @@ export function CounterControls() {
 6. Replace prop chains with store selectors and direct action imports.
 7. Remove now-unused props and imports.
 
+
+
 ## Checks
 
 Before finishing, verify:
@@ -103,3 +112,4 @@ Before finishing, verify:
 - Components use store selectors for reads.
 - Components call no-argument actions directly where possible, like `onClick={increment}`.
 - Prop drilling was actually reduced.
+

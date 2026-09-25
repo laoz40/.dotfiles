@@ -18,10 +18,12 @@ constrained toward the same quality bar a careful human would hold.
 Two hard guardrails:
 
 - **Errors only.** Every rule fires at `"error"` severity; the linter reports
-  zero warnings. A warning is a rule the team has agreed to ignore.
+zero warnings. A warning is a rule the team has agreed to ignore.
 - **No suppressions.** State the positive target instead: tune the rule's
-  options, add a scoped per-file override with a justified limit, or fix the
-  code. Inline `eslint-disable` / ignore comments are banned.
+options, add a scoped per-file override with a justified limit, or fix the
+code. Inline `eslint-disable` / ignore comments are banned.
+
+
 
 ## Process
 
@@ -42,15 +44,15 @@ In oxlint, set categories in `categories` (explicit `rules` entries override
 categories):
 
 - `"correctness": "error"`, `"suspicious": "error"`, `"perf": "error"` —
-  enable wholesale. These are the bug-catching tiers with low false-positive
-  rates.
+enable wholesale. These are the bug-catching tiers with low false-positive
+rates.
 - **pedantic** and **restriction** — explore with `oxlint --rules` and adopt
-  rules individually, so each earns its place with a known reason. This is
-  where the quality-pushers live: `eqeqeq`, `array-callback-return`,
-  `complexity`, `max-lines`, `max-statements`.
+rules individually, so each earns its place with a known reason. This is
+where the quality-pushers live: `eqeqeq`, `array-callback-return`,
+`complexity`, `max-lines`, `max-statements`.
 - **nursery** — the exploration tier: new rules still settling into permanent
-  categories. Review its list when adopting, and opt in rules that fit the
-  codebase once proven quiet.
+categories. Review its list when adopting, and opt in rules that fit the
+codebase once proven quiet.
 
 Expect fallout to triage **fix-vs-tune**: legitimate patterns revealed as
 config gaps get tuned in the config (e.g. side-effect imports like
@@ -87,8 +89,7 @@ forgets to return, switch fallthrough, and class methods that ignore `this`.
 
 ### 5. Type-aware linting
 
-Add the `oxlint-tsgolint` dev dependency and set `"options": { "typeAware":
-true }` in the root lint config (root-config only; the `--type-aware` CLI flag
+Add the `oxlint-tsgolint` dev dependency and set `"options": { "typeAware": true }` in the root lint config (root-config only; the `--type-aware` CLI flag
 overrides it). tsgolint (Go, built on typescript-go) runs the type-aware
 rules, while oxlint keeps traversal, config, and reporting. Requires
 TypeScript 7.0+ (the native compiler).
@@ -138,7 +139,7 @@ An oxlint plugin of opinionated rules that reject low-evidence TypeScript
 patterns (chained casts, `unknown`/`object` signatures, known-value widening,
 module mocking). It is optional — adopt when the user asks for anti-slop or
 slop-pattern enforcement. Setup, rule list, and adoption order live in
-[`anti-slop.md`](anti-slop.md).
+`[anti-slop.md](anti-slop.md)`.
 
 ## Vendored UI components (shadcn)
 
@@ -166,19 +167,20 @@ a justification.
 ## oxlint gotchas
 
 - `oxlint --rules` lists every rule with its category, default state, and
-  fixability — the source of truth for what a category contains.
+fixability — the source of truth for what a category contains.
 - Rule options are often absent from `configuration_schema.json`. Test
-  empirically: an unknown option field produces a hard config error listing
-  the valid fields, so a quick lint run settles what a rule accepts.
+empirically: an unknown option field produces a hard config error listing
+the valid fields, so a quick lint run settles what a rule accepts.
 - oxlint's JSON parser accepts trailing commas (JSONC-style).
 - **A rule can only be configured in a scope where its plugin is enabled.**
-  If a plugin (e.g. `jsx-a11y`) is declared inside an override rather than at
-  the top level, a top-level `rules` entry for that plugin is silently
-  ignored — no error, no effect. Put the entry in the override that declares
-  the plugin. Override `plugins` add to the enabled set; they don't replace
-  it.
+If a plugin (e.g. `jsx-a11y`) is declared inside an override rather than at
+the top level, a top-level `rules` entry for that plugin is silently
+ignored — no error, no effect. Put the entry in the override that declares
+the plugin. Override `plugins` add to the enabled set; they don't replace
+it.
 - `no-undef` and `no-unreachable` sit in **nursery**, so enabling
-  correctness leaves them off — enable them explicitly when wanted.
+correctness leaves them off — enable them explicitly when wanted.
 - Rules that merely duplicate what the TypeScript compiler catches
-  (`constructor-super`, `no-const-assign`, `no-redeclare`, …) belong in a
-  TS-files override at `"off"` — they are redundant there, not suppressed.
+(`constructor-super`, `no-const-assign`, `no-redeclare`, …) belong in a
+TS-files override at `"off"` — they are redundant there, not suppressed.
+
