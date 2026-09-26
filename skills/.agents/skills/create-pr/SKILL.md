@@ -6,8 +6,6 @@ argument-hint: "Optional notes about what the PR description should emphasize"
 
 # Create PR
 
-Draft a reviewable PR description, then create the PR with the user's approval.
-
 ## Gather context
 
 1. Determine the source branch, base branch, title, draft status, and whether a PR already exists. Ask for any unknown details in one grouped question.
@@ -20,36 +18,55 @@ Draft a reviewable PR description, then create the PR with the user's approval.
    - contribution documentation
 4. If a template exists, preserve its headings and order. Do not add sections unless the template or user requests them.
 
-## Write the draft
+## Write the PR description
 
 - Use the `unslop` skill for text that you write.
+- Use the `show-me` skill where possible to better communicate changes visually.
 - Make the description easy to scan for humans without removing meaningful technical detail.
-- Write for a reader who has no prior context about the project or change.
+- Skip all preambles and keep prose brief.
 - Describe behavior and boundaries, not file churn or vague claims such as “improves code quality.”
-- Include important constraints, compatibility details, error handling, migrations, risks, and intentionally deferred work under the correct template heading.
-- Follow each template heading's purpose. Keep scope sections concrete, rationale sections causal, implementation sections specific, constraint sections relevant to review
+- Follow each template heading's purpose.
 - Do not mention internal planning artifacts, temporary status, or future work unless the user requests them.
-- Use simplt conventional commit tag in the title e.g. feat:, fix:, refactor:
-    - After reading only the title, a reviewer should know what users or operators can do differently (or what bug stops happening).
-    - Avoid inventory lists, area labels without change, vague polish
+- Use simple conventional commit tag in the title e.g. feat:, fix:, refactor:
+  - Don't make the title inventory lists, area labels without change, or vague polish. It should be a readable statement of what the PR does.
 
-### Write the scope section
+### Writing the scope
 
-- Make the section clear to a person who does not know the codebase.
-- Start with a short statement that identifies the system area and the purpose of the change.
+- Write for a reader who has no prior context about the change or why.
 - Explain the affected workflows in simple terms.
-- Keep important implementation and behavior details, but group related details so the section stays readable.
 
-### Write the rationale section
+#### Show evidence if possible
+
+Concrete evidence that the change works. Show a before and after.
+
+- Screenshots are S-tier - when the environment is set up for it and the change is visual.
+- Execution-based evidence is A-tier. Test results, console output. Show the exact test that now fails and passes, using pseudocode.
+Merge Danger
+
+### Writing the rationale
 
 - Make the section a direct justification for the change.
 - Explain the concrete problem in the old code before you explain the solution.
 
-Present the draft for review. Ask whether to revise it or create the PR. Do not invoke `gh pr create` yet.
+### Writing additional notes
+
+#### Merge Danger
+
+Describe whether it's a one-way or two-way door. You can walk back through two-way doors, but not one-way doors. A PR that is cheap to roll back is lower risk. Changes that involve destructive actions or hard-to-reverse decisions are one-way doors.
+
+The blast radius is the potential impact or scope of the changes introduced by this PR. Consider all possibilities. Examples are layout shift, breakages for consumers, mobile responsiveness, etc.
+
+```md
+**Door:** <one-way or two-way>
+
+<optional: description>
+
+**Blast Radius:** <one-word description>
+
+<optional: potential ramifications of merge>
+```
 
 ## Verify before creating
-
-After explicit approval, and before push or `gh pr create`:
 
 ### Discover checks
 
@@ -62,16 +79,11 @@ Find what this repo runs before a PR is mergeable. Stop once you have a concrete
 
 1. Make sure the branch is up to date. Prefer rebasing. Fix any conflicts.
 1. Run every discovered check locally.
-3. If any fail, fix, commit if needed, and re-run until all pass.
-4. Do not push or create/update the PR until every check passes.
+1. If any fail, fix, commit if needed, and re-run until all pass.
+1. Do not push or create/update the PR until every check passes.
 
 ## Create or update the PR
 
-After explicit approval:
-
 1. Verify GitHub CLI authentication with `gh auth status`.
 2. If a PR already exists for the branch, update it with `gh pr edit` rather than creating another. Preserve bot-managed or auto-generated sections unchanged unless the user asks you to edit them. Do not use those sections as the source of truth for the human-written description.
-4. Otherwise run `gh pr create` with the approved title, base, head, draft status, and body.
-5. Return the PR URL and briefly note whether it was created or updated.
-
-Use a quoted or file-backed body so Markdown is preserved exactly.
+3. Return the PR URL
