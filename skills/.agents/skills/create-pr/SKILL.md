@@ -20,13 +20,12 @@ argument-hint: "Optional notes about what the PR description should emphasize"
 
 ## Write the PR description
 
-- Use the `unslop` skill for text that you write.
-- Use the `show-me` skill where possible to better communicate changes visually.
-- Make the description easy to scan for humans without removing meaningful technical detail.
+- Use `unslop` skill for text that you write.
+- Prefer using `show-me` skill to communicate changes visually.
 - Skip all preambles and keep prose brief.
 - Describe behavior and boundaries, not file churn or vague claims such as “improves code quality.”
 - Follow each template heading's purpose.
-- Do not mention internal planning artifacts, temporary status, or future work unless the user requests them.
+- Do not mention planning artifacts, temporary status, or future work unless the user requests them.
 - Use simple conventional commit tag in the title e.g. feat:, fix:, refactor:
   - Don't make the title inventory lists, area labels without change, or vague polish. It should be a readable statement of what the PR does.
 
@@ -34,6 +33,7 @@ argument-hint: "Optional notes about what the PR description should emphasize"
 
 - Write for a reader who has no prior context about the change or why.
 - Explain the affected workflows in simple terms.
+- Should be easy to scan for humans
 
 #### Show evidence if possible
 
@@ -41,7 +41,6 @@ Concrete evidence that the change works. Show a before and after.
 
 - Screenshots are S-tier - when the environment is set up for it and the change is visual.
 - Execution-based evidence is A-tier. Test results, console output. Show the exact test that now fails and passes, using pseudocode.
-Merge Danger
 
 ### Writing the rationale
 
