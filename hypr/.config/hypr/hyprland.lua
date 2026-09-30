@@ -109,6 +109,7 @@ local autostart = {
 
 local desktop_autostart = {
 	"dms run",
+	"dms-dnd-on-fullscreen.sh",
 	"vesktop --start-minimized",
 	"obsidian",
 	"steam -silent",
