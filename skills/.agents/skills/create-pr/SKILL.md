@@ -9,10 +9,21 @@ argument-hint: "Optional notes about what the PR description should emphasize"
 ## Gather context
 
 1. Determine the source branch, base branch, title, draft status, and whether a PR already exists. Ask for any unknown details in one grouped question.
-2. Inspect the change before writing:
-   - `git status --short`
-   - `git log --oneline <base>..HEAD`
-   - `git diff --stat <base>...HEAD`
+
+### Determine the base branch
+
+Do not assume the default branch (main) is the base. If the branch is part of a stack, its base is the parent branch.
+
+- Check whether the branch was cut from another feature branch: `git reflog show <branch>` and `git merge-base` against candidate branches. The reflog entry where the branch was created names its starting commit.
+- Check for an existing stack: `gh pr list --state open` and look for an open PR whose head is a plausible parent branch. If found, base this PR on that branch, not main.
+- When still ambiguous, ask the user. Creating a PR based on main when it should sit on a parent branch pollutes the diff with the whole stack.
+
+The head is always the current working branch. Verify with `git branch --show-current` before creating. 2. Inspect the change before writing:
+
+- `git status --short`
+- `git log --oneline <base>..HEAD`
+- `git diff --stat <base>...HEAD`
+
 3. Find and read the repository PR template before drafting e.g.
    - `.github/pull_request_template.md`
    - contribution documentation
@@ -26,8 +37,11 @@ argument-hint: "Optional notes about what the PR description should emphasize"
 - Describe behavior and boundaries, not file churn or vague claims such as “improves code quality.”
 - Follow each template heading's purpose.
 - Do not mention planning artifacts, temporary status, or future work unless the user requests them.
-- Use simple conventional commit tag in the title e.g. feat:, fix:, refactor:
-  - Don't make the title inventory lists, area labels without change, or vague polish. It should be a readable statement of what the PR does.
+- Use a simple conventional commit tag in the title e.g. feat:, fix:, refactor:
+- Write the title as a readable statement of what the PR does, the way a colleague would describe it in a standup.
+  - Lead with the change or outcome, not the area. "fix: stop session expiry from logging users out mid-edit", not "fix: session handling".
+  - Bad titles are inventory lists ("feat: add config, refactor auth, update tests"), area labels with no change ("refactor: core module"), or vague polish ("improve UX").
+  - Prefer verbs a human uses: add, fix, stop, drop, speed up, make. Avoid "leverage", "enhance", "streamline", "optimize" with no detail.
 
 ### Writing the scope
 
@@ -39,7 +53,20 @@ argument-hint: "Optional notes about what the PR description should emphasize"
 
 Concrete evidence that the change works. Show a before and after.
 
-- Screenshots are S-tier - when the environment is set up for it and the change is visual.
+- Screenshots are S-tier for any PR that changes user-visible UI.
+  - **Attempt capture before `gh pr create`.** This is part of verification.
+  - Confirm the environment before capturing anything:
+      - Does the dev server need to be started first? What port?
+      - Is the page behind login? `npx playwright screenshot` starts a fresh browser with no cookies, so it captures the login page, not the app. To get past auth, sign in once and persist the session: either save and reload a storage state (`--save-storage` / `--load-storage`) or reuse a `--user-data-dir`. A short script driving the sign-in form works
+      - Does the changed UI need seeded data or navigation from the landing page?
+  - If the environment can't reproduce the change after you tried (dev server, auth, navigation), skip screenshots and use execution-based evidence instead, and state what you ran and what broke.
+  - Take screenshots with the Playwright CLI, no test suite needed:
+    ```sh
+    npx playwright screenshot --full-page --wait-for-timeout 3000 <url> before.png
+    npx playwright screenshot --color-scheme dark <url> after.png
+    ```
+  - Useful flags: `--full-page` for the whole scrollable page, `--wait-for-selector '<selector>'` to wait for the changed UI to appear, `--wait-for-timeout` for animations or slow loads, `--color-scheme dark` and `--device 'iPhone 11'` for responsive/dark-mode changes.
+  - Capture a matching pair, before and after, from the same view. A screenshot of the wrong page or a different viewport than its pair is worse than none.
 - Execution-based evidence is A-tier. Test results, console output. Show the exact test that now fails and passes, using pseudocode.
 
 ### Writing the rationale
@@ -67,6 +94,8 @@ The blast radius is the potential impact or scope of the changes introduced by t
 
 ## Verify before creating
 
+### UI screenshot gate (when the diff is visual)
+
 ### Discover checks
 
 Find what this repo runs before a PR is mergeable. Stop once you have a concrete command list:
@@ -85,4 +114,9 @@ Find what this repo runs before a PR is mergeable. Stop once you have a concrete
 
 1. Verify GitHub CLI authentication with `gh auth status`.
 2. If a PR already exists for the branch, update it with `gh pr edit` rather than creating another. Preserve bot-managed or auto-generated sections unchanged unless the user asks you to edit them. Do not use those sections as the source of truth for the human-written description.
-3. Return the PR URL
+3. Pass images with the `--attach` flag. It accepts a file path with optional alt text after `#`, and can be repeated:
+   ```sh
+   gh pr create --attach './before.png#Before: broken layout' --attach './after.png#After' ...
+   ```
+   - Reference the files in the body where they belong so they land in context instead of dumped at the end.
+4. Return the PR URL.
