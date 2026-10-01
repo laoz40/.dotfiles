@@ -51,23 +51,11 @@ The head is always the current working branch. Verify with `git branch --show-cu
 
 #### Show evidence if possible
 
-Concrete evidence that the change works. Show a before and after.
+Concrete evidence that the change works. Show a before and after when you can.
 
-- Screenshots are S-tier for any PR that changes user-visible UI.
-  - **Attempt capture before `gh pr create`.** This is part of verification.
-  - Confirm the environment before capturing anything:
-      - Does the dev server need to be started first? What port?
-      - Is the page behind login? `npx playwright screenshot` starts a fresh browser with no cookies, so it captures the login page, not the app. To get past auth, sign in once and persist the session: either save and reload a storage state (`--save-storage` / `--load-storage`) or reuse a `--user-data-dir`. A short script driving the sign-in form works
-      - Does the changed UI need seeded data or navigation from the landing page?
-  - If the environment can't reproduce the change after you tried (dev server, auth, navigation), skip screenshots and use execution-based evidence instead, and state what you ran and what broke.
-  - Take screenshots with the Playwright CLI, no test suite needed:
-    ```sh
-    npx playwright screenshot --full-page --wait-for-timeout 3000 <url> before.png
-    npx playwright screenshot --color-scheme dark <url> after.png
-    ```
-  - Useful flags: `--full-page` for the whole scrollable page, `--wait-for-selector '<selector>'` to wait for the changed UI to appear, `--wait-for-timeout` for animations or slow loads, `--color-scheme dark` and `--device 'iPhone 11'` for responsive/dark-mode changes.
-  - Capture a matching pair, before and after, from the same view. A screenshot of the wrong page or a different viewport than its pair is worse than none.
-- Execution-based evidence is A-tier. Test results, console output. Show the exact test that now fails and passes, using pseudocode.
+- Screenshots are S-tier for changes involving UI. Read the **`pr-screenshots`** skill. **Attempt capture before `gh pr create`** when the diff is visual. This is part of verification, not optional polish.
+    - If capture fails after you tried, use execution-based evidence instead (test commands, output) and state what failed.
+- Execution-based evidence is A-tier when screenshots are not possible.
 
 ### Writing the rationale
 
@@ -96,6 +84,8 @@ The blast radius is the potential impact or scope of the changes introduced by t
 
 ### UI screenshot gate (when the diff is visual)
 
+Follow **`pr-screenshots`** before opening or updating the PR.
+
 ### Discover checks
 
 Find what this repo runs before a PR is mergeable. Stop once you have a concrete command list:
@@ -114,9 +104,6 @@ Find what this repo runs before a PR is mergeable. Stop once you have a concrete
 
 1. Verify GitHub CLI authentication with `gh auth status`.
 2. If a PR already exists for the branch, update it with `gh pr edit` rather than creating another. Preserve bot-managed or auto-generated sections unchanged unless the user asks you to edit them. Do not use those sections as the source of truth for the human-written description.
-3. Pass images with the `--attach` flag. It accepts a file path with optional alt text after `#`, and can be repeated:
-   ```sh
-   gh pr create --attach './before.png#Before: broken layout' --attach './after.png#After' ...
-   ```
-   - Reference the files in the body where they belong so they land in context instead of dumped at the end.
-4. Return the PR URL.
+3. Attach screenshots and place them in the description per **`pr-screenshots`** when the PR includes UI evidence.
+4. Stop any dev server you started for capture
+5. Return the PR URL.
