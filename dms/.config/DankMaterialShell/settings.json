@@ -119,6 +119,8 @@
   "lockScreenFontFamily": "JetBrainsMonoNL Nerd Font Mono",
   "notificationCompactMode": true,
   "notificationShowTimeoutBar": true,
+  "notificationAnimationSpeed": 4,
+  "notificationCustomAnimationDuration": 126,
   "notificationHistoryMaxAgeDays": 1,
   "osdAlwaysShowValue": true,
   "osdPowerProfileEnabled": true,
@@ -143,7 +145,7 @@
     {
       "id": "default",
       "name": "Main Bar",
-      "enabled": false,
+      "enabled": true,
       "position": 0,
       "screenPreferences": [
         "all"
@@ -240,7 +242,7 @@
     {
       "id": "bar1787902150792",
       "name": "Bar 2",
-      "enabled": true,
+      "enabled": false,
       "position": 1,
       "screenPreferences": [
         "all"
