@@ -1,5 +1,5 @@
 {
-  "lastChangelogVersion": "0.84.4",
+  "lastChangelogVersion": "1.0.2",
   "defaultProvider": "cursor",
   "defaultModel": "composer-2.5:slow",
   "packages": [
@@ -27,9 +27,10 @@
   },
   "enabledModels": [
     "cursor/grok-4.6:slow",
-    "cursor/gpt-5-6-sol@272k:slow",
-    "cursor/gpt-5-6-luna@272k:slow",
-    "cursor/composer-2.5:slow"
+    "cursor/composer-2.5:slow",
+    "openai/gpt-6.1-sol",
+    "openai/gpt-6-luna",
+    "openai/gpt-6-astra"
   ],
   "markdown": {
     "mermaid": "streaming"
@@ -37,5 +38,6 @@
   "defaultProjectTrust": "always",
   "tuiMode": "fullscreen",
   "fullscreenExitOutput": "transcript",
-  "fullscreenScrollbar": "always"
+  "fullscreenScrollbar": "always",
+  "deviceId": "e30f8994-f9d4-4217-abe9-0fe507147206"
 }
