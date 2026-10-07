@@ -1,6 +1,7 @@
 ---
 name: pr-screenshots
 description: Capture UI evidence for pull requests and attach images to GitHub PRs with gh. Use when creating or updating a PR with screenshots, browser automation, authenticated pages, or gh pr --attach.
+disable-model-invocation: true
 ---
 
 # PR UI evidence and GitHub images
