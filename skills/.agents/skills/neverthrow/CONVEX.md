@@ -1,6 +1,6 @@
-# Convex Flow
+# Convex flow
 
-Use neverthrow inside services and convert to a plain tuple only in the registered Convex handler. Let Convex's generated API carry the inferred return type to callers.
+Use neverthrow inside services and lib. Convert results to a plain tuple only in the registered Convex handler. Let Convex's generated API carry the inferred return type to callers.
 
 ## Serializable tuple boundary
 
@@ -20,98 +20,97 @@ export function tupleErr<const E extends { reason: string }>(
 }
 ```
 
-## Repository operations
+## Handler, service, and lib layers
 
-Convex already propagates database failures as rejected function calls and rolls back mutations that throw. Keep those failures outside the expected business-error channel.
+Keep endpoint ordering in handlers, domain policy in services, and individual I/O operations and pure checks in lib. Read existing architecture docs and helper implementations before editing.
 
-Use `ResultAsync.fromSafePromise` only to make the Promise chainable. Despite its name, it does not convert a rejection into an `Err`; the rejection still escapes to Convex.
+- Handlers own validators and step order. They call services only and finish tuple endpoints with `.match(tupleOk, tupleErr)`. Keep domain branches, DB calls, and lib imports out of handler files.
+- Services compose lib functions and other services. Each exported function is one meaningful, reusable step. Services choose and enforce policy and invariants. Keep direct `ctx.db` access in lib.
+- Authorization services load the caller's identity and access, choose the required permission, and compose pure lib checks. A lib check receives its inputs; it does not load them or choose which permission an endpoint requires.
+- Lib contains individual DB operations and pure checks on supplied values. Split a function that loads data and then orchestrates domain work into a lib loader and a service that chains the checks and operations.
+- Query and mutation services call lib directly, without `ctx.runQuery` or `ctx.runMutation`. Action services use registered functions when they need database access.
+- Use concrete, verb-first names such as `getEditableRecord` or `updateRecordTitle`. Avoid generic `prepare`, `persist`, or `ensure` names. Do not rename existing functions outside the task's scope.
+- Group related service steps by domain concept. Name files for their work, such as `recordQueries.ts` or `recordNotifications.ts`. Keep internal entrypoints beside the feature they serve.
+- Create external clients inside the step that uses them. Do not pass client factory callbacks through service arguments.
+- Avoid services that merely re-export or wrap one lib call. Fold the operation into a meaningful service step. Keep the handler's workflow visible instead of hiding it in one large service.
+- Crons and internal entrypoints reuse the same service steps. Do not branch on which endpoint called a service using mode flags or endpoint-only optional arguments.
+
+## Promise helpers
+
+Centralize promise helpers in one lib module, such as `convex/lib/result.ts`, and reuse it. Keep direct `ResultAsync.fromSafePromise` and `ResultAsync.fromPromise` calls inside that helper module only.
+
+| Operation | Helper | Failure behavior |
+| --- | --- | --- |
+| One Convex I/O expression, such as `ctx.db.*`, `ctx.auth.getUserIdentity()`, `ctx.scheduler.*`, or a raw `runQuery` / `runMutation` | `okOrThrow(promise)` | Unexpected rejection escapes to Convex |
+| `runQuery` / `runMutation` returning a serialized tuple | `fromConvexTuple(promise)` | Tuple error becomes `Err`; unexpected rejection escapes |
+| External API, such as Stripe, Resend, Google, fetch, DNS, or rendering | `tryPromise({ try, catch })` | `catch` returns a domain error object |
+
+`tryPromise` catches synchronous throws in its `try` callback too. Its `catch` returns the error value, such as `{ reason: "EMAIL_REQUEST_FAILED" as const }`, not `err(...)`, and never rethrows. Resolved API responses may still report failure; check those with `.andThen()` and return `err(...)`.
+
+Use `okOrThrow` on a single Convex I/O operation, not a whole async helper or workflow. Exported service and lib functions build `ResultAsync` from individual steps. Do not wrap an internal async implementation in `okOrThrow` or `tryPromise` to make its export appear compliant.
 
 ```ts
-import { ResultAsync } from "neverthrow";
+// convex/lib/records.ts
+import { okOrThrow } from "./result";
 
-function findRecord(ctx: QueryCtx | MutationCtx, recordId: Id<"records">) {
-  return ResultAsync.fromSafePromise(
-    ctx.db.get(recordId),
-  );
+export function getRecord(ctx: QueryCtx | MutationCtx, id: Id<"records">) {
+  return okOrThrow(ctx.db.get("records", id));
 }
 
-function saveRecord(ctx: MutationCtx, record: Doc<"records">) {
-  return ResultAsync.fromSafePromise(
-    ctx.db
-      .patch(record._id, { title: record.title })
-      .then(() => record),
-  );
+export function patchRecordTitle(ctx: MutationCtx, id: Id<"records">, title: string) {
+  return okOrThrow(ctx.db.patch("records", id, { title })).map(() => null);
 }
 ```
 
-Reserve `tryPromise` for failures that are intentionally recoverable product outcomes. Do not remap ordinary Convex database failures to errors such as `DATABASE_ERROR`.
+## Service steps and handler
 
-## Business rules and service
-
-```ts
-function requireRecord(recordId: Id<"records">) {
-  return function requireFound(record: Doc<"records"> | null) {
-    if (record === null) {
-      return err({
-        reason: "RECORD_NOT_FOUND" as const,
-        recordId,
-      });
-    }
-
-    return ok(record);
-  };
-}
-
-function requireEditable(record: Doc<"records">) {
-  if (record.locked) {
-    return err({
-      reason: "RECORD_LOCKED" as const,
-      recordId: record._id,
-    });
-  }
-
-  return ok(record);
-}
-
-function applyUpdate(
-  record: Doc<"records">,
-  input: UpdateRecordInput,
-) {
-  return { ...record, title: input.title };
-}
-
-export function updateRecordService(
-  ctx: MutationCtx,
-  input: UpdateRecordInput,
-) {
-  return findRecord(ctx, input.recordId)
-    .andThen(requireRecord(input.recordId))
-    .andThen(requireEditable)
-    .map((record) => applyUpdate(record, input))
-    .andThen((record) => saveRecord(ctx, record));
-}
-```
-
-Use small arrows only when a named step needs additional values such as `ctx` or `input`.
-
-## Inline Convex handler
-
-Convert the `ResultAsync` to the serializable tuple directly in the registered handler:
+The following excerpts assume the project's generated context types and normal imports. Each service step adds domain meaning to lib operations.
 
 ```ts
+// convex/services/records.ts
+export function getEditableRecord(ctx: MutationCtx, id: Id<"records">) {
+  return getRecord(ctx, id)
+    .andThen(requireRecord)
+    .andThen(requireEditable);
+}
+
+export function updateRecordTitle(ctx: MutationCtx, record: Doc<"records">, title: string) {
+  return requireEditable(record)
+    .andThen(() => patchRecordTitle(ctx, record._id, title));
+}
+
+// convex/records.ts
 export const updateRecord = mutation({
-  args: {
-    recordId: v.id("records"),
-    title: v.string(),
-  },
-
+  args: { recordId: v.id("records"), title: v.string() },
   handler: (ctx, input) =>
-    updateRecordService(ctx, input)
+    requireRecordWriteAccess(ctx)
+      .andThen(() => getEditableRecord(ctx, input.recordId))
+      .andThen((record) => updateRecordTitle(ctx, record, input.title))
       .match(tupleOk, tupleErr),
 });
 ```
 
-Do not add a separate handler function or exported return type solely for frontend inference. Convex codegen exposes the handler's inferred return type through `api`.
+`requireRecord` and `requireEditable` are pure lib checks returning `Result`. The former returns `RECORD_NOT_FOUND` for `null`; the latter returns `RECORD_LOCKED` for a locked record. `requireRecordWriteAccess` is an authorization service that loads the caller's access and returns `FORBIDDEN` when access is denied. The write step enforces editability itself so other handlers can reuse it safely.
+
+Let errors propagate through `.andThen()` and `.map()`. Lib, email senders, and rate limiters return their real domain `reason` codes. Do not collapse them into synthetic service errors using `.mapErr()`. Group reasons in the client's switch when they share a message. Remove identity `.mapErr()` calls and passthrough switches.
+
+Return `null` for successful write-only or fire-and-forget work. Preserve a value only when a later step or caller uses it.
+
+## Tuple calls and inference
+
+Action services convert internal tuple responses back into neverthrow before composing more work:
+
+```ts
+return fromConvexTuple(
+  ctx.runMutation(internal.records.updateRecord, input),
+).andThen((value) => sendRecordNotification(value));
+```
+
+Use `okOrThrow` for raw responses, not tuple responses. Otherwise a returned error tuple would remain an `Ok` value.
+
+Prefer inferred return types. A service that references generated API functions from its own handler module may need an explicit `ResultAsync<Success, Error>` return type to break circular inference. Do not add a separate handler wrapper solely for frontend inference.
+
+Paginated query handlers may return plain pagination when tuples would break Convex pagination. Keep individual reads inside service/lib steps wrapped with `okOrThrow`; do not wrap the whole pagination workflow.
 
 ## Frontend caller
 
@@ -138,12 +137,16 @@ Type inference works directly from `useMutation`:
 ```ts
 const updateRecord = useMutation(api.records.updateRecord);
 
-const [error, record] = await tryCatch(
+const [error] = await tryCatch(
   updateRecord(input),
 );
 
 if (error !== null) {
   switch (error.reason) {
+    case "FORBIDDEN":
+      showMessage("You do not have access to edit this record.");
+      return;
+
     case "RECORD_NOT_FOUND":
       showMessage("The record no longer exists.");
       return;
@@ -163,9 +166,23 @@ if (error !== null) {
   }
 }
 
-showRecord(record);
+showMessage("Record updated.");
 ```
 
 ## Mutation safety
 
 Check every expected failure before the first write. Returning an expected `Err` after `ctx.db.patch`, `insert`, `replace`, or `delete` does not roll back an otherwise successful Convex mutation.
+
+## Review checks
+
+- Every `okOrThrow` call wraps one Convex I/O expression.
+- Every tuple-returning internal call uses `fromConvexTuple`.
+- Every `tryPromise` wraps external work and its `catch` returns a domain error value.
+- Handlers call services only and show the workflow as named steps.
+- Services contain policy and compose lib calls, with no direct DB access.
+- Lib loaders perform I/O; pure checks receive their inputs. Loading followed by domain orchestration belongs in services.
+- Services preserve lower-layer error reasons.
+- Exported lib functions compose steps rather than wrapping whole async implementations.
+- Expected mutation failures are checked before writes.
+
+Where the project has lint rules for these conventions, fix violations rather than adding ignore comments. When touching older code, apply these rules within the task's scope.

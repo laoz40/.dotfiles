@@ -1,11 +1,12 @@
 ---
 name: neverthrow
 description: Implements TypeScript neverthrow library, for better error handling using the Result type. Use when creating or refactoring services, handlers, or callers that use Result or ResultAsync.
+disable-model-invocation: true
 paths:
   - "**/*.{ts,tsx}"
 ---
 
-# Neverthrow Services
+# Neverthrow services
 
 ## Core rules
 
@@ -15,10 +16,8 @@ paths:
 - Use `.map()` for infallible value transformations.
 - Prefer named functions in chains: `.andThen(requireUser).map(buildOrder)`.
 - Use a small arrow only when a step needs an additional argument: `.andThen((user) => loadAccount(user, input.accountId))`.
-- Let TypeScript infer service success and error unions instead of duplicating them manually.
+- Prefer inferred success and error unions. Add explicit return types when needed to resolve circular inference.
 - Return only values callers use; return `null` for successful write-only steps.
-
-
 
 ## Promise boundary helper
 
@@ -44,7 +43,9 @@ export function tryPromise<T, E>(
 
 `Promise.resolve().then(options.try)` converts both synchronous throws and Promise rejections into the error mapped by `catch`.
 
-Use `tryPromise` in repositories and external adapters:
+Use `tryPromise` in adapters when a rejected call represents an expected domain failure. Let unexpected infrastructure failures propagate according to the framework's conventions.
+
+For an adapter whose database failures are intentionally recoverable:
 
 ```ts
 function findRecord(id: string) {
@@ -54,8 +55,6 @@ function findRecord(id: string) {
   });
 }
 ```
-
-
 
 ## Business rules
 
@@ -70,8 +69,6 @@ function requireRecord(record: Record | null) {
   return ok(record);
 }
 ```
-
-
 
 ## Service pipeline
 
@@ -94,9 +91,9 @@ Each `.andThen()` callback returns `Result` or `ResultAsync`. An `Err` propagate
 ## Boundaries
 
 - Do not invent a custom serializable Result envelope unless the transport requires one.
-- At the outer handler, use the framework's native typed error channel and return the success value directly.
+- At the outer handler, follow the transport's success and error conventions.
 - Return Result instances directly when the boundary supports them; otherwise adapt once using the framework's serializer or error API.
 - Handle expected error unions with an exhaustive switch on `error.reason` and a `never` default.
 - Test each expected `Err`, successful values, and that later side effects are skipped after an error.
 
-See [EXAMPLES.md](EXAMPLES.md) for a project-agnostic complete flow. For TanStack Query, read [TANSTACK-QUERY.md](TANSTACK-QUERY.md) for typed retries, exhaustive component handling, and mutations. For Convex, read [CONVEX.md](CONVEX.md) for inline handlers, tuple boundaries, inferred frontend types, and exhaustive caller handling.
+See [EXAMPLES.md](EXAMPLES.md) for a project-agnostic complete flow. For TanStack Query, read [TANSTACK-QUERY.md](TANSTACK-QUERY.md) for typed retries, exhaustive component handling, and mutations. For Convex-specific guidance, read [CONVEX.md](CONVEX.md).
