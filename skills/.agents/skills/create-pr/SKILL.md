@@ -8,7 +8,7 @@ argument-hint: "Optional notes about what the PR description should emphasize"
 
 ## Gather context
 
-1. Determine the source branch, base branch, title, draft status, and whether a PR already exists. Ask for any unknown details in one grouped question.
+1. Determine the source branch, base branch, title, and whether a PR already exists. Ask for any unknown details in one grouped question.
 
 ### Determine the base branch
 
@@ -24,7 +24,7 @@ The head is always the current working branch. Verify with `git branch --show-cu
 - `git log --oneline <base>..HEAD`
 - `git diff --stat <base>...HEAD`
 
-3. Find and read the repository PR template before drafting e.g.
+3. Find and read the repository PR template before making e.g.
    - `.github/pull_request_template.md`
    - contribution documentation
 4. If a template exists, preserve its headings and order. Do not add sections unless the template or user requests them.
