@@ -13,13 +13,15 @@ T3_HOME="${T3CODE_HOME:-$HOME/.t3}"
 
 usage() {
   cat <<'EOF'
-Usage: sync-t3-after-update [version | path-to-AppImage]
+Usage: sync-t3-after-update [--launchers-only] [version | path-to-AppImage]
 
 After updating T3 from the in-app UI, run this to align:
-  ~/.t3 runtime, t3code.service (Tailscale), desktop entries, and the
+  t3code.service (Tailscale), desktop entries, and the
   t3code command wrapper, using the app-installed ~/.local/bin/t3 CLI.
 
-Open the updated desktop app first so its bundled CLI launcher is refreshed.
+Launchers are repaired before checking the CLI. Use --launchers-only to repair
+shortcuts without installing the CLI or restarting the service.
+Open the updated desktop app to install or refresh its bundled CLI launcher.
 Uses this device's Tailscale IPv4 address unless TAILSCALE_IP is set.
 
 With no argument, uses the newest T3-Code-*-x86_64.AppImage in ~/Applications
@@ -66,8 +68,7 @@ resolve_appimage() {
 }
 
 write_unit() {
-  local runtime="$1"
-  mkdir -p "$(dirname "$UNIT")"
+  mkdir -p "$(dirname "$UNIT")" "$T3_HOME/userdata/logs"
   cat >"$UNIT" <<EOF
 [Unit]
 Description=T3 Code server
@@ -82,7 +83,7 @@ Environment=T3_BOOT_SERVICE_UNIT=t3code.service
 Environment=T3CODE_HOST=$TAILSCALE_IP
 Environment=T3CODE_PORT=$T3_PORT
 Environment=TAILSCALE_WAIT_HOST=$TAILSCALE_IP
-ExecStart=%h/.local/bin/wait-for-tailscale-exec $runtime __service-launcher
+ExecStart=%h/.local/bin/wait-for-tailscale-exec "$T3" serve --host "$TAILSCALE_IP" --port "$T3_PORT" --base-dir "$T3_HOME"
 KillMode=mixed
 OOMPolicy=continue
 Restart=always
@@ -97,15 +98,69 @@ EOF
 
 update_desktop_exec() {
   local file="$1"
-  local exec_line="$2"
+  local appimage="$2"
   [[ -f "$file" ]] || return 0
-  sed -i "s|^Exec=.*|$exec_line|" "$file"
+  # Replace only the AppImage path, preserving flags and URL placeholders.
+  sed -i "s|^Exec=.*\\.AppImage\"\\{0,1\\}|Exec=\"$appimage\"|" "$file"
+  if ! rg -q '^Exec=.*--password-store=' "$file"; then
+    sed -i '/^Exec=/s|\.AppImage"|.AppImage" --password-store=gnome-libsecret|' "$file"
+  fi
+}
+
+update_launchers() {
+  local appimage="$1" version="$2"
+  local apps="$HOME/.local/share/applications"
+  update_desktop_exec "$apps/com.t3tools.T3Code.desktop" "$appimage"
+  update_desktop_exec "$apps/t3code.desktop" "$appimage"
+  update_desktop_exec "$apps/t3code-url-handler.desktop" "$appimage"
+  if [[ -f "$apps/t3code.desktop" ]]; then
+    sed -i "s|^X-AppImage-Version=.*|X-AppImage-Version=$version|" "$apps/t3code.desktop"
+  fi
+
+  echo "Writing $WRAPPER..."
+  mkdir -p "$(dirname "$WRAPPER")"
+  cat >"$WRAPPER" <<EOF
+#!/usr/bin/env bash
+exec "$appimage" --no-sandbox --password-store=gnome-libsecret "\$@"
+EOF
+  chmod +x "$WRAPPER"
 }
 
 main() {
   if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
     usage
     exit 0
+  fi
+
+  local launchers_only=false
+  if [[ "${1:-}" == "--launchers-only" ]]; then
+    launchers_only=true
+    shift
+  fi
+
+  local appimage version cli_ver
+  appimage=$(resolve_appimage "${1:-}")
+  version=$(version_from_appimage "$appimage")
+
+  echo "AppImage: $appimage"
+  echo "Version:  $version"
+
+  update_launchers "$appimage" "$version"
+  if [[ "$launchers_only" == true ]]; then
+    echo "Done. Launchers are on $version."
+    return 0
+  fi
+
+  if [[ ! -x "$T3" ]]; then
+    echo "sync-t3-after-update: launchers repaired; missing $T3; open T3 Code and install the CLI, then retry" >&2
+    exit 1
+  fi
+
+  cli_ver=$("$T3" --version | awk '{sub(/^v/, "", $2); print $2}')
+  if [[ "$cli_ver" != "$version" ]]; then
+    echo "sync-t3-after-update: bundled CLI is $cli_ver, selected AppImage is $version" >&2
+    echo "Open the selected AppImage to refresh its CLI launcher, then retry." >&2
+    exit 1
   fi
 
   if [[ -z "$TAILSCALE_IP" ]]; then
@@ -119,52 +174,8 @@ main() {
     fi
   fi
 
-  local appimage version runtime cli_ver
-  appimage=$(resolve_appimage "${1:-}")
-  version=$(version_from_appimage "$appimage")
-
-  echo "AppImage: $appimage"
-  echo "Version:  $version"
-
-  if [[ ! -x "$T3" ]]; then
-    echo "sync-t3-after-update: missing $T3; install the CLI from the desktop app" >&2
-    exit 1
-  fi
-
-  cli_ver=$("$T3" --version | awk '{sub(/^v/, "", $2); print $2}')
-  if [[ "$cli_ver" != "$version" ]]; then
-    echo "sync-t3-after-update: bundled CLI is $cli_ver, selected AppImage is $version" >&2
-    echo "Open the selected AppImage to refresh its CLI launcher, then retry." >&2
-    exit 1
-  fi
-
-  echo "Updating local runtime..."
-  "$T3" update "$version" --yes
-
-  runtime="$T3_HOME/runtime/versions/$version/t3"
-  if [[ ! -x "$runtime" ]]; then
-    echo "sync-t3-after-update: runtime binary missing: $runtime" >&2
-    exit 1
-  fi
-
   echo "Writing $UNIT..."
-  write_unit "$runtime"
-
-  local apps="$HOME/.local/share/applications"
-  update_desktop_exec "$apps/com.t3tools.T3Code.desktop" "Exec=\"$appimage\" %U"
-  update_desktop_exec "$apps/t3code.desktop" "Exec=$appimage --no-sandbox %U"
-  if [[ -f "$apps/t3code.desktop" ]]; then
-    sed -i "s|^X-AppImage-Version=.*|X-AppImage-Version=$version|" "$apps/t3code.desktop"
-  fi
-  update_desktop_exec "$apps/t3code-url-handler.desktop" "Exec=\"$appimage\" %U"
-
-  echo "Writing $WRAPPER..."
-  mkdir -p "$(dirname "$WRAPPER")"
-  cat >"$WRAPPER" <<EOF
-#!/usr/bin/env bash
-exec "$appimage" --no-sandbox "\$@"
-EOF
-  chmod +x "$WRAPPER"
+  write_unit
 
   echo "Restarting t3code.service..."
   systemctl --user daemon-reload
