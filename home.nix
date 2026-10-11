@@ -142,6 +142,10 @@
     HYPRCURSOR_SIZE = "20";
   };
 
+  home.sessionPath = [
+    "$HOME/.local/share/npm/bin"
+  ];
+
   dconf = {
     enable = true;
     settings."org/gnome/desktop/interface" = {
