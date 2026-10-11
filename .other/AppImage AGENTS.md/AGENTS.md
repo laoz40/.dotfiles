@@ -137,11 +137,13 @@ Each service must use the wrapper in `ExecStart` and set `TAILSCALE_WAIT_HOST`:
 
 **t3code.service**
 
+The ExecStart points at a versioned runtime binary under `~/.t3/runtime/versions/`, so the version in the path changes on updates. Keep the wrapper and environment settings:
+
 ```ini
 Environment=T3CODE_HOST=100.66.137.3
 Environment=T3CODE_PORT=3773
 Environment=TAILSCALE_WAIT_HOST=100.66.137.3
-ExecStart=%h/.local/bin/wait-for-tailscale-exec /home/leoz/.nvm/versions/node/v24.15.0/bin/node /home/leoz/.t3/runtime/service-launcher.mjs
+ExecStart=%h/.local/bin/wait-for-tailscale-exec /home/leoz/.t3/runtime/versions/<version>/t3 __service-launcher
 ```
 
 **paseo.service**
@@ -151,7 +153,7 @@ Environment=TAILSCALE_WAIT_HOST=100.66.137.3
 ExecStart=%h/.local/bin/wait-for-tailscale-exec %h/.nvm/versions/node/v24.15.0/bin/paseo daemon start --foreground --no-relay
 ```
 
-After any command that rewrites a unit file (`t3 service update`, manual edits, etc.), re-apply the service-specific settings above, then:
+After any command that rewrites a unit file (`t3 update`, `t3 service install`, manual edits, etc.), re-apply the service-specific settings above, then:
 
 ```sh
 systemctl --user daemon-reload
@@ -162,19 +164,23 @@ The wrapper script itself is independent of app versions and does not need to ch
 
 ## T3 Code
 
-T3 Code has two installs that share `~/.t3` and should stay on the same version:
+T3 Code uses the AppImage's bundled CLI, installed from the desktop app:
 
-- **AppImage** (`~/Applications/T3-Code-*-x86_64.AppImage`)
-- **CLI** (`t3` via nvm): powers `t3code.service` for always-on remote access over Tailscale
+- **AppImage**: `~/Applications/T3-Code-*-x86_64.AppImage`
+- **CLI command**: `~/.local/bin/t3`, a symlink to the app-managed `~/.t3/bin/t3` launcher
+- **Boot runtime**: `~/.t3/runtime/versions/<version>/t3`, run directly by `t3code.service`
 
-When updating the AppImage, also update the CLI and boot service:
+A separate npm installation of `t3` is no longer needed. The boot runtime runs independently of the AppImage and npm.
+
+After updating the AppImage, open it so the app refreshes its bundled CLI launcher, then run:
 
 ```sh
-/home/leoz/.nvm/versions/node/v24.15.0/bin/npm install -g t3@latest --prefix /home/leoz/.nvm/versions/node/v24.15.0
-t3 service update
+~/.local/bin/sync-t3-after-update
 ```
 
-`t3 service update` rewrites `t3code.service`. Re-apply the **Tailscale boot services** t3code settings above, then reload and restart:
+The sync script checks that the bundled CLI matches the selected AppImage before making changes. It uses that CLI to update the boot runtime, restores the Tailscale service settings, updates desktop launchers and the `t3code` wrapper, and restarts the service.
+
+`t3 service update` is deprecated. Use `t3 update` to move to a newer release, or `t3 service install` to repair the service. If running these commands manually, re-apply the **Tailscale boot services** t3code settings above, then reload and restart:
 
 ```sh
 systemctl --user daemon-reload
