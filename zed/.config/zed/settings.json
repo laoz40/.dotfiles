@@ -78,6 +78,36 @@
     "light": "One Light",
     "dark": "blue-gold",
   },
+  "languages": {
+    "TypeScript": {
+      "language_servers": [
+        "typescript-ls",
+        "!vtsls",
+        "!typescript-language-server",
+      ],
+    },
+    "TSX": {
+      "language_servers": [
+        "typescript-ls",
+        "!vtsls",
+        "!typescript-language-server",
+      ],
+    },
+    "JavaScript": {
+      "language_servers": [
+        "typescript-ls",
+        "!vtsls",
+        "!typescript-language-server",
+      ],
+    },
+    "JSX": {
+      "language_servers": [
+        "typescript-ls",
+        "!vtsls",
+        "!typescript-language-server",
+      ],
+    },
+  },
   "theme_overrides": {
     "blue-gold": {
       "background.appearance": "blurred",
