@@ -17,7 +17,7 @@ M.palette = {
 
 	blue = "#6A95DF",
 	blue_alt = "#2A69B5",
-	blue_light = "#9DB9F5",
+	blue_light = "#7AABFF",
 
 	gold = "#dfb46a",
 	gold_alt = "#D39834",
@@ -209,7 +209,7 @@ function M.colorscheme()
 	hl("@function.builtin", { fg = p.gold })
 	hl("@method", { fg = p.gold })
 	hl("@constructor", { fg = p.gold })
-	hl("@variable", { fg = p.blue })
+	hl("@variable", { fg = p.fg_dim })
 	hl("@variable.builtin", { fg = p.blue_alt })
 	hl("@parameter", { fg = p.blue })
 	hl("@variable.parameter", { fg = p.blue })
@@ -301,10 +301,10 @@ function M.colorscheme()
 	-- Semantic tokens
 	hl("@lsp.type.function", { link = "@function" })
 	hl("@lsp.type.method", { link = "@method" })
-	hl("@lsp.type.variable", { fg = p.blue })
+	hl("@lsp.type.variable", { fg = p.fg_dim })
 	hl("@lsp.type.parameter", { fg = p.blue })
-	hl("@lsp.mod.readonly", { fg = p.blue })
-	hl("@lsp.typemod.variable.readonly", { fg = p.blue })
+	hl("@lsp.mod.readonly", { fg = p.fg_dim })
+	hl("@lsp.typemod.variable.readonly", { fg = p.fg_dim })
 	hl("@lsp.typemod.parameter.readonly", { fg = p.blue })
 	hl("@lsp.typemod.property.readonly", { fg = p.blue_light })
 	hl("@lsp.type.property", { fg = p.blue_light })

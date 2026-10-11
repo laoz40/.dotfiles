@@ -254,6 +254,11 @@
             "font_style": null,
             "font_weight": null
           },
+          "keyword.control": {
+            "color": "#2A69B5ff",
+            "font_style": null,
+            "font_weight": null
+          },
           "label": {
             "color": "#c0caf5ff",
             "font_style": null,
@@ -300,7 +305,7 @@
             "font_weight": null
           },
           "property": {
-            "color": "#9DB9F5ff",
+            "color": "#7AABFFff",
             "font_style": null,
             "font_weight": null
           },
@@ -390,6 +395,11 @@
             "font_weight": null
           },
           "variable": {
+            "color": "#9aa8d6ff",
+            "font_style": null,
+            "font_weight": null
+          },
+          "variable.parameter": {
             "color": "#6A95DFff",
             "font_style": null,
             "font_weight": null
