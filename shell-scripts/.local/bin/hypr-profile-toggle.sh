@@ -80,12 +80,15 @@ if $is_laptop; then
   ln -sfn "$DOTFILES_DIR/waybar/.config/waybar/themes/$waybar_theme.jsonc" "$THEME_DIR/waybar-config.jsonc"
   ln -sfn "$DOTFILES_DIR/waybar/.config/waybar/themes/$waybar_theme.css" "$THEME_DIR/waybar-style.css"
 
-  pkill -x waybar 2>/dev/null || true
+  pkill -x 'waybar|\.waybar-wrapped' 2>/dev/null || true
+  while pgrep -x 'waybar|\.waybar-wrapped' >/dev/null; do
+    sleep 0.1
+  done
   nohup waybar >/dev/null 2>&1 &
 else
   # Desktop: waybar is not used here, DMS is the bar. Make sure no stray
   # waybar is running and retheme DMS instead.
-  pkill -x waybar 2>/dev/null || true
+  pkill -x 'waybar|\.waybar-wrapped' 2>/dev/null || true
   apply_dms_appearance "$next"
 fi
 

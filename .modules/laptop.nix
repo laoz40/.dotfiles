@@ -5,6 +5,7 @@
   # No NVIDIA driver configuration is needed.
 
   home.packages = with pkgs; [
+    waybar
     brightnessctl
     powertop
   ];
