@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if (($# == 0)); then
+  echo "usage: wait-for-tailscale-exec <command> [args...]" >&2
+  exit 2
+fi
+
+HOST="${TAILSCALE_WAIT_HOST:-100.66.137.3}"
+MAX_WAIT="${TAILSCALE_WAIT_SEC:-120}"
+
+for ((i = 0; i < MAX_WAIT; i++)); do
+  if ip -4 addr show tailscale0 2>/dev/null | grep -qw "$HOST"; then
+    exec "$@"
+  fi
+  sleep 1
+done
+
+echo "wait-for-tailscale-exec: Tailscale IP $HOST not ready after ${MAX_WAIT}s" >&2
+exit 1
