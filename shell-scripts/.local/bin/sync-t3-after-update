@@ -5,7 +5,7 @@ set -euo pipefail
 
 T3="$HOME/.local/bin/t3"
 APPS_DIR="${APPS_DIR:-$HOME/Applications}"
-TAILSCALE_IP="${TAILSCALE_IP:-100.66.137.3}"
+TAILSCALE_IP="${TAILSCALE_IP:-}"
 T3_PORT="${T3CODE_PORT:-3773}"
 UNIT="$HOME/.config/systemd/user/t3code.service"
 WRAPPER="$HOME/.local/bin/t3code"
@@ -20,6 +20,7 @@ After updating T3 from the in-app UI, run this to align:
   t3code command wrapper, using the app-installed ~/.local/bin/t3 CLI.
 
 Open the updated desktop app first so its bundled CLI launcher is refreshed.
+Uses this device's Tailscale IPv4 address unless TAILSCALE_IP is set.
 
 With no argument, uses the newest T3-Code-*-x86_64.AppImage in ~/Applications
 (by modification time).
@@ -105,6 +106,17 @@ main() {
   if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
     usage
     exit 0
+  fi
+
+  if [[ -z "$TAILSCALE_IP" ]]; then
+    if ! TAILSCALE_IP=$(tailscale ip -4); then
+      echo "sync-t3-after-update: could not detect Tailscale IPv4; connect Tailscale or set TAILSCALE_IP" >&2
+      exit 1
+    fi
+    if [[ -z "$TAILSCALE_IP" ]]; then
+      echo "sync-t3-after-update: no Tailscale IPv4; connect Tailscale or set TAILSCALE_IP" >&2
+      exit 1
+    fi
   fi
 
   local appimage version runtime cli_ver
