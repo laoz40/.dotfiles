@@ -1,6 +1,5 @@
 require("visuals")
 require("windowrules")
-require("keybinds")
 require("waywall")
 
 -- Monitors
@@ -39,6 +38,8 @@ local main_monitor = detect_main_monitor()
 local other_monitor = "HDMI-A-1"
 -- env for compatibility for now
 hl.env("MONITOR", main_monitor)
+
+require("keybinds")(main_monitor == "eDP-1")
 
 hl.monitor({
 	output = main_monitor,

@@ -89,7 +89,6 @@ hl.bind(
 -- Launchers.
 hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd("rofi -show drun"))
 hl.bind("SUPER + period", hl.dsp.exec_cmd("rofi -show emoji"))
-hl.bind("SUPER + P", hl.dsp.exec_cmd("dms ipc call powermenu toggle"))
 hl.bind("SUPER + V", hl.dsp.exec_cmd("dms ipc call clipboard toggle"))
 hl.bind("SUPER + T", hl.dsp.exec_cmd("~/.local/bin/rofi_waybar_timer/rofi_waybar_timer.sh"))
 hl.bind("SUPER + M", hl.dsp.exec_cmd("rofi -show calc -modi calc -no-show-match -no-sort"))
@@ -133,3 +132,7 @@ hl.bind(
 	mainMod .. " + M",
 	hl.dsp.exec_cmd("sh -c 'pgrep -x wl-kbptr >/dev/null || exec wl-kbptr'")
 )
+
+return function(is_laptop)
+	hl.bind("SUPER + P", hl.dsp.exec_cmd(is_laptop and "rofi_power_menu.sh" or "dms ipc call powermenu toggle"))
+end
