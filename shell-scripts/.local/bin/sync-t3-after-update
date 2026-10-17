@@ -21,7 +21,8 @@ After updating T3 from the in-app UI, run this to align:
 
 Launchers are repaired before checking the CLI. Use --launchers-only to repair
 shortcuts without installing the CLI or restarting the service.
-Open the updated desktop app to install or refresh its bundled CLI launcher.
+Stale T3-generated CLI launchers are repointed to the selected AppImage and
+validated before replacement. Open the desktop app to install a missing CLI.
 Uses this device's Tailscale IPv4 address unless TAILSCALE_IP is set.
 
 With no argument, uses the newest T3-Code-*-x86_64.AppImage in ~/Applications
@@ -84,7 +85,8 @@ Environment=T3CODE_HOST=$TAILSCALE_IP
 Environment=T3CODE_PORT=$T3_PORT
 Environment=TAILSCALE_WAIT_HOST=$TAILSCALE_IP
 ExecStart=%h/.local/bin/wait-for-tailscale-exec "$T3" serve --host "$TAILSCALE_IP" --port "$T3_PORT" --base-dir "$T3_HOME"
-KillMode=mixed
+# The bundled CLI is a shell wrapper; its server child must receive SIGTERM too.
+KillMode=control-group
 OOMPolicy=continue
 Restart=always
 RestartSec=5
@@ -101,7 +103,7 @@ update_desktop_exec() {
   local appimage="$2"
   [[ -f "$file" ]] || return 0
   # Replace only the AppImage path, preserving flags and URL placeholders.
-  sed -i "s|^Exec=.*\\.AppImage\"\\{0,1\\}|Exec=\"$appimage\"|" "$file"
+  sed -i "s|^Exec=.*\\.AppImage\"\\{0,1\\}|Exec=\"$HOME/.local/bin/t3code-desktop-launch\" \"$appimage\"|" "$file"
   if ! rg -q '^Exec=.*--password-store=' "$file"; then
     sed -i '/^Exec=/s|\.AppImage"|.AppImage" --password-store=gnome-libsecret|' "$file"
   fi
@@ -121,9 +123,50 @@ update_launchers() {
   mkdir -p "$(dirname "$WRAPPER")"
   cat >"$WRAPPER" <<EOF
 #!/usr/bin/env bash
-exec "$appimage" --no-sandbox --password-store=gnome-libsecret "\$@"
+exec "$HOME/.local/bin/t3code-desktop-launch" "$appimage" --no-sandbox --password-store=gnome-libsecret "\$@"
 EOF
   chmod +x "$WRAPPER"
+}
+
+cli_version() {
+  "$1" --version | awk '{sub(/^v/, "", $2); print $2}'
+}
+
+refresh_cli() {
+  local appimage="$1" version="$2"
+  local target candidate quoted_app line candidate_ver
+  target=$(readlink -f "$T3")
+  if ! rg -Fxq "# Written by T3 Code: runs the desktop app's bundled t3 CLI." "$target" ||
+    [[ $(rg -c "^app='.*\\.AppImage'$" "$target") != 1 ]]; then
+    echo "sync-t3-after-update: unrecognized CLI launcher at $target; open the selected AppImage to refresh it" >&2
+    return 1
+  fi
+
+  candidate=$(mktemp "${target}.XXXXXX")
+  # The generated launcher is POSIX sh, so quote apostrophes without Bash syntax.
+  quoted_app="'${appimage//\'/\'\\\'\'}'"
+  while IFS= read -r line || [[ -n "$line" ]]; do
+    if [[ "$line" == app=* ]]; then
+      printf 'app=%s\n' "$quoted_app"
+    else
+      printf '%s\n' "$line"
+    fi
+  done <"$target" >"$candidate"
+  chmod --reference="$target" "$candidate"
+
+  echo "Validating CLI against $appimage..."
+  if ! candidate_ver=$(cli_version "$candidate"); then
+    rm -f "$candidate"
+    echo "sync-t3-after-update: selected AppImage CLI failed; existing CLI launcher was kept" >&2
+    return 1
+  fi
+  if [[ "$candidate_ver" != "$version" ]]; then
+    rm -f "$candidate"
+    echo "sync-t3-after-update: selected AppImage CLI is $candidate_ver, expected $version; existing CLI launcher was kept" >&2
+    return 1
+  fi
+  mv -f "$candidate" "$target"
+  echo "Updated $target to $version."
 }
 
 main() {
@@ -140,6 +183,7 @@ main() {
 
   local appimage version cli_ver
   appimage=$(resolve_appimage "${1:-}")
+  appimage=$(realpath "$appimage")
   version=$(version_from_appimage "$appimage")
 
   echo "AppImage: $appimage"
@@ -156,11 +200,9 @@ main() {
     exit 1
   fi
 
-  cli_ver=$("$T3" --version | awk '{sub(/^v/, "", $2); print $2}')
+  cli_ver=$(cli_version "$T3" 2>/dev/null) || cli_ver=""
   if [[ "$cli_ver" != "$version" ]]; then
-    echo "sync-t3-after-update: bundled CLI is $cli_ver, selected AppImage is $version" >&2
-    echo "Open the selected AppImage to refresh its CLI launcher, then retry." >&2
-    exit 1
+    refresh_cli "$appimage" "$version"
   fi
 
   if [[ -z "$TAILSCALE_IP" ]]; then
@@ -181,7 +223,7 @@ main() {
   systemctl --user daemon-reload
   systemctl --user restart t3code.service
 
-  cli_ver=$("$T3" --version | awk '{sub(/^v/, "", $2); print $2}')
+  cli_ver=$(cli_version "$T3")
   if [[ "$cli_ver" != "$version" ]]; then
     echo "sync-t3-after-update: version mismatch (cli=$cli_ver, appimage=$version)" >&2
     exit 1

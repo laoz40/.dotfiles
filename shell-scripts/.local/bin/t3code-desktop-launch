@@ -1,0 +1,45 @@
+#!/usr/bin/python3
+"""Refresh the boot service's desktop environment before opening T3 Code."""
+import fcntl
+import os
+from pathlib import Path
+import subprocess
+import sys
+
+
+def refresh_environment():
+    names = ("DISPLAY", "WAYLAND_DISPLAY", "XDG_SESSION_TYPE", "XAUTHORITY")
+    desktop = {name: os.environ[name] for name in names if os.environ.get(name)}
+    if not (desktop.get("DISPLAY") or desktop.get("WAYLAND_DISPLAY")):
+        return
+
+    runtime = Path(os.environ["XDG_RUNTIME_DIR"])
+    with (runtime / "t3code-desktop-launch.lock").open("a") as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX)
+        pid = subprocess.check_output(
+            ["systemctl", "--user", "show", "t3code.service", "--property=MainPID", "--value"],
+            text=True,
+        ).strip()
+        current = {}
+        if pid != "0":
+            for item in Path(f"/proc/{int(pid)}/environ").read_bytes().split(b"\0"):
+                key, separator, value = item.partition(b"=")
+                if separator and os.fsdecode(key) in desktop:
+                    current[os.fsdecode(key)] = os.fsdecode(value)
+
+        subprocess.run(
+            ["systemctl", "--user", "import-environment", *desktop], check=True
+        )
+        if current != desktop:
+            subprocess.run(["systemctl", "--user", "restart", "t3code.service"], check=True)
+
+
+def main():
+    if len(sys.argv) < 2:
+        sys.exit("Usage: t3code-desktop-launch COMMAND [ARG ...]")
+    refresh_environment()
+    os.execvp(sys.argv[1], sys.argv[1:])
+
+
+if __name__ == "__main__":
+    main()
