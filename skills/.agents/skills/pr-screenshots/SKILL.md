@@ -26,6 +26,7 @@ disable-model-invocation: true
 3. If the repo has an existing script or test that already reaches the right screen, prefer that over a new ad-hoc flow.
 4. Capture the changed UI (modal open, hover, error state, narrow viewport), not only the default landing view.
 5. Before/after pairs: same route, viewport, and theme.
+6. **Inspect every saved image before attaching it.** Open the image with an image-viewing tool and confirm the changed feature and intended interaction or state are visible. For settled views, verify that the relevant data has finished loading. Recapture incidental loading screens, login walls, or unrelated views. Those screens are valid evidence only when they are the change being demonstrated. Capture is complete only when every image you intend to attach passes this inspection.
 
 Playwright CLI is fine for public pages or after auth is handled:
 
