@@ -86,6 +86,8 @@ zstyle ':completion:*' group-name ''
 autoload -Uz compinit
 compinit
 
+[[ -f "$HOME/.config/vite-plus/env" ]] && source "$HOME/.config/vite-plus/env"
+
 zmodload zsh/complist
 bindkey -M menuselect 'h' backward-char
 bindkey -M menuselect 'j' down-line-or-history
