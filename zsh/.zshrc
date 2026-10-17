@@ -48,10 +48,6 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 
-# nvm
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
-
 # secrets
 [ -f "$HOME/.bash_secrets" ] && source "$HOME/.bash_secrets"
 
