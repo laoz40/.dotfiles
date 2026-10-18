@@ -138,6 +138,7 @@
   };
 
   home.sessionVariables = {
+    SUDO_EDITOR = "${pkgs.neovim}/bin/nvim";
     HYPRCURSOR_THEME = "Bibata-Modern-Classic";
     HYPRCURSOR_SIZE = "20";
   };
