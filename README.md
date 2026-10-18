@@ -105,7 +105,7 @@ System stuff:
 - **mpv**: `mpv`
 - ** GNOME Keyring**: `gnome-keyring`
 - **TLP** (for laptop): `tlp`
-- **brightnessctl** (for laptop): `brightnessctl`
+- **brightnessctl** (for laptop): install with `sudo pacman -S brightnessctl` so Ly can use `/usr/bin/brightnessctl`.
 - **Timeshift**: `timeshift`
   - **Timeshift-autosnap**: `timeshift-autosnap`
   - **Grub-btrfs**: `grub-btrfs`
