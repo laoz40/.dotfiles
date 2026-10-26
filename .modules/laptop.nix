@@ -1,6 +1,9 @@
 { pkgs, ... }:
 
 {
+  # The desktop uses DMS notifications; the laptop needs its own daemon.
+  services.dunst.enable = true;
+
   # Intel Iris Xe graphics use the host system's Mesa/Intel stack.
   # No NVIDIA driver configuration is needed.
 

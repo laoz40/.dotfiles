@@ -166,7 +166,6 @@
   };
 
   services.dunst = {
-    enable = false;
     configFile = "${./dunst/.config/dunst/dunstrc}";
   };
 
