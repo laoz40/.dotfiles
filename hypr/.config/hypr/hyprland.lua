@@ -117,6 +117,7 @@ local desktop_autostart = {
 }
 
 local laptop_autostart = {
+	"dbus-update-activation-environment --systemd WAYLAND_DISPLAY DISPLAY && systemctl --user start dunst.service",
 	"waybar",
 	"hyprpaper",
 	"sleep 1 && rofi_wallpaper.sh get_random",

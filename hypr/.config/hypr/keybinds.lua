@@ -133,6 +133,11 @@ hl.bind(
 )
 
 return function(is_laptop)
+	if is_laptop then
+		hl.bind("CTRL + SUPER + L", hl.dsp.exec_cmd("laptop-keep-awake"))
+		hl.bind("switch:on:Lid Switch", hl.dsp.exec_cmd("laptop-keep-awake lid-close"), { locked = true })
+		hl.bind("switch:off:Lid Switch", hl.dsp.exec_cmd("laptop-keep-awake lid-open"), { locked = true })
+	end
 	hl.bind("SUPER + V", hl.dsp.exec_cmd(is_laptop and "rofi_cliphist.sh" or "dms ipc call clipboard toggle"))
 	hl.bind("SUPER + P", hl.dsp.exec_cmd(is_laptop and "rofi_power_menu.sh" or "dms ipc call powermenu toggle"))
 end

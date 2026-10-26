@@ -1,0 +1,121 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+unit=laptop-keep-awake.service
+
+notify() {
+    notify-send -a 'Laptop keep-awake' 'Laptop keep-awake' "$1" || true
+}
+
+fail() {
+    printf '%s\n' "$1" >&2
+    notify "$1"
+    exit 1
+}
+
+enabled() {
+    systemctl --user is-active --quiet "$unit"
+}
+
+panel() {
+    hyprctl dispatch "hl.dsp.dpms({action = \"$1\", monitor = \"eDP-1\"})" >/dev/null
+    # Lid events need not count as user activity for hypridle. Its dimming
+    # listener can leave the backlight at zero even after DPMS wakes the panel.
+    if [[ $1 == on ]] && command -v brightnessctl >/dev/null; then
+        local current maximum
+        current=$(brightnessctl get) || return 0
+        maximum=$(brightnessctl max) || return 0
+        if (( current * 100 < maximum )); then
+            brightnessctl -r >/dev/null || true
+            current=$(brightnessctl get) || return 0
+            if (( current * 100 < maximum )); then
+                brightnessctl set 10% >/dev/null || true
+            fi
+        fi
+    fi
+}
+
+# systemd-inhibit clears NOTIFY_SOCKET, so pass it explicitly to its child.
+if [[ ${1:-} == _start ]]; then
+    exec systemd-inhibit --what=handle-lid-switch --mode=block \
+        --who=laptop-keep-awake --why='Keep local tasks running with the lid closed' \
+        "$0" _hold "$NOTIFY_SOCKET"
+fi
+
+# systemd-inhibit starts this only after acquiring the lid inhibitor. Type=notify
+# makes systemd-run wait for this readiness signal before reporting success.
+if [[ ${1:-} == _hold ]]; then
+    NOTIFY_SOCKET=$2 systemd-notify --ready
+    # This session starts Hyprland directly, without graphical-session.target.
+    # Release the inhibitor on logout even if the user manager stays running.
+    while hyprctl monitors >/dev/null 2>&1; do
+        sleep 15 &
+        wait $!
+    done
+    exit 0
+fi
+
+action=${1:-toggle}
+case "$action" in
+    toggle|on|off|status|idle-suspend|lid-close|lid-open) ;;
+    *) printf 'Usage: %s [toggle|on|off|status]\n' "$0" >&2; exit 2 ;;
+esac
+
+: "${XDG_RUNTIME_DIR:?Run this inside your user session}"
+# Serialize toggles and idle callbacks. Do not pass the lock to the service.
+exec 9>"$XDG_RUNTIME_DIR/laptop-keep-awake.lock"
+flock 9
+
+case "$action" in
+    status)
+        if enabled; then echo on; else echo off; fi
+        exit 0
+        ;;
+    idle-suspend)
+        if ! enabled; then systemctl suspend; fi
+        exit 0
+        ;;
+    lid-close)
+        if enabled; then panel off; fi
+        exit 0
+        ;;
+    lid-open)
+        if enabled; then panel on; fi
+        exit 0
+        ;;
+esac
+
+if [[ $action == toggle ]]; then
+    if enabled; then action=off; else action=on; fi
+fi
+
+if [[ $action == off ]]; then
+    # Turn the panel back on before releasing protection. On failure keep the
+    # inhibitor so the user can retry without unexpectedly suspending.
+    if enabled; then
+        panel on || fail 'Could not wake the panel; keep-awake is still enabled.'
+    fi
+    if [[ $(systemctl --user show "$unit" -p LoadState --value) != not-found ]]; then
+        systemctl --user stop "$unit" || fail 'Could not disable keep-awake.'
+    fi
+    notify 'Disabled. Normal lid and idle suspension restored.'
+    exit 0
+fi
+
+if ! enabled; then
+    [[ -n ${HYPRLAND_INSTANCE_SIGNATURE:-} ]] || fail 'Run this inside Hyprland.'
+    hyprctl monitors >/dev/null || fail 'Cannot reach Hyprland.'
+    self=$(readlink -f -- "$0")
+    # No sleep inhibitor: manual suspend and hypridle's pre-sleep lock still work.
+    if ! systemd-run --user --quiet --collect --unit="$unit" \
+        --property=Type=notify --property=NotifyAccess=all \
+        --property=TimeoutStartSec=10 \
+        --property="ExecStopPost=$(command -v hyprctl) dispatch 'hl.dsp.dpms({action = \"on\", monitor = \"eDP-1\"})'" \
+        --setenv="HYPRLAND_INSTANCE_SIGNATURE=$HYPRLAND_INSTANCE_SIGNATURE" \
+        --setenv="PATH=$PATH" \
+        "$self" _start 9>&-; then
+        systemctl --user stop "$unit" 2>/dev/null || true
+        fail 'Could not acquire the lid inhibitor. Keep-awake was not enabled.'
+    fi
+fi
+notify 'Enabled. Lid and idle suspension blocked; manual suspend is available.'
