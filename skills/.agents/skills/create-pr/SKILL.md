@@ -12,11 +12,11 @@ argument-hint: "Optional notes about what the PR description should emphasize"
 
 ### Determine the base branch
 
-Do not assume the default branch (main) is the base. If the branch is part of a stack, its base is the parent branch.
+For standalone PRs, use the repository's default branch unless the user specifies another base. Determine the default branch with `gh repo view --json defaultBranchRef --jq '.defaultBranchRef.name'`. For stacked PRs, use the parent branch.
 
 - Check whether the branch was cut from another feature branch: `git reflog show <branch>` and `git merge-base` against candidate branches. The reflog entry where the branch was created names its starting commit.
-- Check for an existing stack: `gh pr list --state open` and look for an open PR whose head is a plausible parent branch. If found, base this PR on that branch, not main.
-- When still ambiguous, ask the user. Creating a PR based on main when it should sit on a parent branch pollutes the diff with the whole stack.
+- Check for an existing stack: `gh pr list --state open` and look for an open PR whose head is a plausible parent branch. If found, base this PR on that branch.
+- If the intended base remains ambiguous, ask the user. Targeting the default branch when a PR should sit on a parent branch includes the whole stack in the diff.
 
 The head is always the current working branch. Verify with `git branch --show-current` before creating. 2. Inspect the change before writing:
 
