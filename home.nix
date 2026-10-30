@@ -27,6 +27,7 @@
     fd
     jq
     bat
+    markitdown
     btop
     gh
 
@@ -73,6 +74,21 @@
     })
 
     # Fonts
+    (stdenvNoCC.mkDerivation {
+      pname = "fast-font";
+      version = "0-unstable-aeae077";
+      src = fetchzip {
+        extension = "tar.gz";
+        url = "https://codeload.github.com/Born2Root/Fast-Font/tar.gz/aeae0775d9251365eae3b133cbf26ce0366f6108";
+        hash = "sha256-DvC5F32qwNFMrxmPGWIYYsEdWI7pD5w6dt/cAz457+Y=";
+      };
+      dontBuild = true;
+      installPhase = ''
+        runHook preInstall
+        install -Dm644 fast-fonts/*.ttf -t "$out/share/fonts/truetype"
+        runHook postInstall
+      '';
+    })
     nerd-fonts.jetbrains-mono
     noto-fonts
     noto-fonts-color-emoji
