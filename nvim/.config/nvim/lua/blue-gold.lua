@@ -23,6 +23,7 @@ M.palette = {
 	gold_alt = "#D39834",
 	gold_light = "#F2D28B",
 
+	green = "#98c379",
 	red = "#e06c75",
 
 	none = "NONE",
@@ -72,8 +73,8 @@ function M.colorscheme()
 
 	local p = M.palette
 	local diff = {
-		add = p.blue,
-		change = p.gold_alt,
+		add = p.green,
+		change = p.blue,
 		delete = p.red,
 	}
 
@@ -126,7 +127,7 @@ function M.colorscheme()
 	hl("MatchParen", { fg = p.gold_alt, bold = true })
 
 	-- Misc editor groups
-	hl("Directory", { fg = p.bg, bg = p.gold })
+	hl("Directory", { fg = p.fg, bg = p.none })
 	hl("Special", { fg = p.blue })
 	hl("ErrorMsg", { fg = p.red })
 	hl("ModeMsg", { fg = p.blue })
@@ -382,16 +383,13 @@ function M.colorscheme()
 	hl("MiniIndentscopeSymbol", { link = "Comment" })
 	hl("MiniIndentscopeSymbolOff", { link = "Comment" })
 
-	-- mini.diff
-	hl("MiniDiffSignAdd", { fg = diff.add, bg = p.none })
-	hl("MiniDiffSignChange", { fg = diff.change, bg = p.none })
-	hl("MiniDiffSignDelete", { fg = diff.delete, bg = p.none })
-	hl("MiniDiffOverAdd", { fg = diff.add, bg = p.none, bold = true })
-	hl("MiniDiffOverChange", { fg = diff.change, bg = p.none, bold = true })
-	hl("MiniDiffOverChangeBuf", { fg = diff.change, bg = p.none, bold = true })
-	hl("MiniDiffOverContext", { fg = p.fg_dim, bg = p.none })
-	hl("MiniDiffOverContextBuf", { fg = p.fg_dim, bg = p.none })
-	hl("MiniDiffOverDelete", { fg = diff.delete, bg = p.none, bold = true })
+	-- gitsigns.nvim
+	hl("GitSignsAdd", { fg = diff.add, bg = p.none })
+	hl("GitSignsChange", { fg = diff.change, bg = p.none })
+	hl("GitSignsDelete", { fg = diff.delete, bg = p.none })
+	hl("GitSignsAddLn", { bg = "#193b2d" })
+	hl("GitSignsChangeLn", { bg = "#263a50" })
+	hl("GitSignsChangeDeleteLn", { link = "GitSignsChangeLn" })
 
 	-- mini.files
 	hl("MiniFilesDirectory", { fg = p.gold })
@@ -401,7 +399,7 @@ function M.colorscheme()
 	-- Plugin: oil.nvim
 	---------------------------------------------------------------------------
 
-	-- Override OilDir's default link to Directory, because Directory has a gold bg.
+	-- Keep Oil directories bold.
 	hl("OilDir", { fg = p.gold, bg = p.none, bold = true })
 	hl("OilDirIcon", { fg = p.gold, bg = p.none })
 	hl("OilDirHidden", { fg = p.comment, bg = p.none })
