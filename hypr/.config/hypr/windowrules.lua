@@ -23,6 +23,13 @@ hl.window_rule({
 	suppress_event = "maximize",
 })
 
+-- Keep the main workspace apps full width even with additional columns open.
+hl.window_rule({
+	name = "full-width-workspace-apps",
+	match = { class = "^(zen.*|com\\.mitchellh\\.ghostty|com\\.t3tools\\.T3Code)$" },
+	scrolling_width = 1.0,
+})
+
 -- Fix some dragging issues with XWayland.
 hl.window_rule({
 	name = "fix-xwayland-drags",

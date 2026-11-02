@@ -27,8 +27,9 @@ hl.config({
   },
 
   scrolling = {
+    -- A lone column fills the workspace; other apps can share it side by side.
     fullscreen_on_one_column = true,
-    column_width = 1,
+    column_width = 0.5,
     wrap_focus = false,
   },
 
