@@ -7,8 +7,7 @@
       "source": "https://github.com/mateusdcc/pi-gpt-search",
       "extensions": []
     },
-    "npm:pi-rewind",
-    "npm:pi-cursor-sdk"
+    "npm:pi-rewind"
   ],
   "defaultThinkingLevel": "medium",
   "theme": "blue-gold",
