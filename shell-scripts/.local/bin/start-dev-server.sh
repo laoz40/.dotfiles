@@ -3,23 +3,26 @@ set -euo pipefail
 
 # Start a JS project's dev server (bun/pnpm/yarn/npm).
 # With --convex: starts Convex in a side pane when present, then starts dev in current pane.
+# With --docker: starts Docker Compose in a side pane, then starts dev in current pane.
 
 usage() {
   cat <<'EOF'
-Usage: start-dev-server.sh [--convex]
+Usage: start-dev-server.sh [-c|--convex|convex|-d|--docker|docker]
 
 Detects the project root from the current working directory, then starts:
   - `bun dev` if bun.lock or bun.lockb exists at the root
-  - otherwise `pnpm dev` if pnpm-lock.yaml exists at the root
-  - otherwise `yarn dev` if yarn.lock exists at the root
-  - otherwise `npm run dev` if package-lock.json exists at the root
+  - `pnpm dev` if pnpm-lock.yaml exists at the root
+  - `yarn dev` if yarn.lock exists at the root
+  - `npm run dev` if package-lock.json exists at the root
 
-With --convex, also starts Convex in a side pane if a convex/ directory exists.
+With -c, --convex, or convex, starts `convex dev` in a side pane if a convex/ directory exists:
+With -d, --docker, or docker, also runs `docker compose up` in a side pane.
 Works inside Herdr or tmux. Outside a multiplexer, it just runs the main dev command.
 EOF
 }
 
 with_convex=0
+with_docker=0
 
 case "${1:-}" in
   -h|--help)
@@ -28,6 +31,9 @@ case "${1:-}" in
     ;;
   -c|--convex|convex)
     with_convex=1
+    ;;
+  -d|--docker|docker)
+    with_docker=1
     ;;
   "")
     ;;
@@ -155,6 +161,9 @@ if (( with_convex )); then
   else
     echo "skip: no convex/ directory found"
   fi
+fi
+if (( with_docker )); then
+  new_side_pane "docker" "docker compose up"
 fi
 
 echo "starting dev server in current pane -> $dev_cmd"
