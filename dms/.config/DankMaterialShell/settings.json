@@ -143,7 +143,7 @@
       "small": true
     }
   ],
-  "scrollTitleEnabled": false,
+  "scrollTitleEnabled": true,
   "audioVisualizerEnabled": false,
   "mediaExcludePlayers": [
     "chromium",
@@ -242,7 +242,11 @@
         {
           "id": "music",
           "enabled": true,
-          "mediaAdaptiveWidthEnabled": false
+          "mediaAdaptiveWidthEnabled": false,
+          "mediaStyle": "controls",
+          "mediaSize": 1,
+          "mediaShowLyrics": false,
+          "mediaShowCoverArt": false
         }
       ],
       "centerWidgets": [
@@ -717,7 +721,9 @@
   "blurBorderSeeded": true,
   "dashOptions": {
     "media": {
-      "waveProgress": false
+      "playerStyle": "material",
+      "waveProgress": false,
+      "animatedArt": true
     },
     "clock": {
       "seconds": true,
