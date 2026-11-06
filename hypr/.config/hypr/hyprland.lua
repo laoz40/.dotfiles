@@ -72,6 +72,9 @@ hl.workspace_rule({ workspace = "2", monitor = other_monitor, default = true, pe
 -- Input
 
 hl.config({
+	render = {
+		cm_auto_hdr = 0,
+	},
 	input = {
 		kb_layout = "us",
 		follow_mouse = 1,
