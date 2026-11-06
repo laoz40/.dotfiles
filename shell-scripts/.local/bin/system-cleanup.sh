@@ -53,6 +53,25 @@ else
 fi
 echo
 
+# Nix: keep recent rollback generations, then collect unreferenced store paths.
+echo "Nix store:"
+show_size "/nix/store"
+if command -v home-manager >/dev/null 2>&1 && command -v nix-env >/dev/null 2>&1 && command -v nix-collect-garbage >/dev/null 2>&1; then
+  nix_gc="$(command -v nix-collect-garbage)"
+  echo "Policy: remove Home Manager and user Nix generations older than 30 days, then collect unused store paths."
+  echo "Older rollback generations will no longer be available."
+  if confirm "Clean Nix generations and store?"; then
+    home-manager expire-generations '-30 days'
+    nix-env --delete-generations 30d
+    sudo "$nix_gc"
+  else
+    echo "Skipped Nix cleanup."
+  fi
+else
+  echo "Home Manager or Nix commands not found. Skipped Nix cleanup."
+fi
+echo
+
 # Paru AUR cache only. Avoid paru -Sc because it can also prompt for pacman cache/db cleanup.
 paru_cache="$HOME/.cache/paru"
 paru_clone="$paru_cache/clone"
