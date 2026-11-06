@@ -8,7 +8,7 @@ hl.config({
     gaps_in = minimal and 0 or 5,
     gaps_out = minimal and 0 or 10,
 
-    border_size = minimal and 0 or 2,
+    border_size = minimal and 0 or 1,
     col = {
       active_border = "rgba(18,63,102,1)",
       inactive_border = "rgba(11,28,43,0.5)",
