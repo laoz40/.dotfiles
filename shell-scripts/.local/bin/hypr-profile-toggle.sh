@@ -10,21 +10,18 @@ mkdir -p "$STATE_DIR" "$THEME_DIR"
 # Make sure `dms` and our scripts are reachable when invoked from a keybind.
 export PATH="$HOME/.nix-profile/bin:$HOME/.local/bin:$PATH"
 
-current="main"
-if [[ -f "$STATE_FILE" ]]; then
-  current="$(<"$STATE_FILE")"
-fi
-
-case "$current" in
-  minimal) next="main" ;;
-  *) next="minimal" ;;
+case "${1:-}" in
+  main|minimal|sharp) next="$1" ;;
+  *) printf 'Usage: %s {main|minimal|sharp}\n' "$0" >&2; exit 1 ;;
 esac
 
 printf '%s\n' "$next" > "$STATE_FILE"
 
 # Shared appearance symlinks (apply on every machine).
-ln -sfn "$DOTFILES_DIR/rofi/.config/rofi/themes/$next.rasi" "$THEME_DIR/rofi-config.rasi"
-ln -sfn "$DOTFILES_DIR/ghostty/.config/ghostty/themes/$next.conf" "$THEME_DIR/ghostty-theme.conf"
+app_theme="$next"
+[[ "$next" != "sharp" ]] || app_theme="main"
+ln -sfn "$DOTFILES_DIR/rofi/.config/rofi/themes/$app_theme.rasi" "$THEME_DIR/rofi-config.rasi"
+ln -sfn "$DOTFILES_DIR/ghostty/.config/ghostty/themes/$app_theme.conf" "$THEME_DIR/ghostty-theme.conf"
 
 # Machine detection: reuse hyprland.lua's rule. The laptop's built-in panel is
 # eDP-1; the desktop's main output is DP-3 (no eDP-1).
@@ -43,22 +40,27 @@ apply_dms_appearance() {
   # rewrites it through that symlink. The `cat >` redirect below writes
   # *through* the symlink, so the change lands in dotfiles (git will show it).
 
-  # The two bars are configured independently in the DMS shell settings UI
+  # The bars are configured independently in the DMS shell settings UI
   # (appearance, transparency, corners, etc.). Switching profiles just toggles
   # which bar is enabled instead of mutating a single bar's properties. Update
   # these ids if you recreate the bars (ids are shown in the DMS bar editor).
   local main_bar_id="default"
   local minimal_bar_id="bar1787902150792"
+  local sharp_bar_id="bar-sharp-profile"
 
-  local main_on=true
-  [[ "$profile" == "main" ]] || main_on=false
+  local selected_bar
+  case "$profile" in
+    main) selected_bar="$main_bar_id" ;;
+    minimal) selected_bar="$minimal_bar_id" ;;
+    sharp) selected_bar="$sharp_bar_id" ;;
+  esac
 
   jq --arg main "$main_bar_id" \
      --arg mini "$minimal_bar_id" \
-     --argjson main_on "$main_on" '
+     --arg sharp "$sharp_bar_id" \
+     --arg selected "$selected_bar" '
     .barConfigs |= map(
-        if .id == $main then .enabled = $main_on
-        elif .id == $mini then .enabled = (if $main_on then false else true end)
+        if .id == $main or .id == $mini or .id == $sharp then .enabled = (.id == $selected)
         else . end
       )
   ' "$cfg" > /tmp/dms-settings.json \
@@ -74,7 +76,7 @@ apply_dms_appearance() {
 if $is_laptop; then
   # Waybar (laptop only).
   waybar_theme="$next"
-  if [[ "$next" == "main" ]]; then
+  if [[ "$next" != "minimal" ]]; then
     waybar_theme="transparent"
   fi
   ln -sfn "$DOTFILES_DIR/waybar/.config/waybar/themes/$waybar_theme.jsonc" "$THEME_DIR/waybar-config.jsonc"

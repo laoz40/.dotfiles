@@ -100,8 +100,10 @@ hl.bind("CTRL + SUPER + ALT + P", hl.dsp.exec_cmd("passmenu-rofi.sh --type"))
 -- Toggle waybar.
 hl.bind(mainMod .. " + W", hl.dsp.exec_cmd([[pkill -SIGUSR1 -x 'waybar|\.waybar-wrapped']]))
 
--- Toggle Hyprland visual profile (main/minimal).
-hl.bind("CTRL + SUPER + P", hl.dsp.exec_cmd("hypr-profile-toggle.sh"))
+-- Switch Hyprland visual profiles.
+hl.bind("CTRL + SUPER + 1", hl.dsp.exec_cmd("hypr-profile-toggle.sh main"))
+hl.bind("CTRL + SUPER + 2", hl.dsp.exec_cmd("hypr-profile-toggle.sh minimal"))
+hl.bind("CTRL + SUPER + 3", hl.dsp.exec_cmd("hypr-profile-toggle.sh sharp"))
 
 -- App shortcuts.
 hl.bind("SUPER + N", function()

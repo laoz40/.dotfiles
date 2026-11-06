@@ -50,7 +50,7 @@ Package versions come from the flake inputs in `flake.nix`, pinned in `flake.loc
 nix flake update --flake ~/.dotfiles
 ```
 
-The Hyprland main/minimal visuals can be switched at runtime with `hypr-profile-toggle.sh`.
+Switch the Hyprland visual profile with `Ctrl+Super+1` (main), `Ctrl+Super+2` (minimal), or `Ctrl+Super+3` (sharp).
 
 ## Stuff I use:
 
@@ -165,7 +165,7 @@ sudo systemctl restart grub-btrfsd
 | Script | What it does |
 | --- | --- |
 | `herdr-sessionizer.sh` | Pick a folder with fzf and focus or create a Herdr workspace for it. |
-| `hypr-profile-toggle.sh` | Toggle between main and minimal Hyprland/Waybar/Rofi/Ghostty profiles. |
+| `hypr-profile-toggle.sh` | Switch Hyprland and desktop appearance profiles; accepts `main`, `minimal`, or `sharp`. |
 | `ocr-screenshot.sh` | Select a screen region, OCR it with Tesseract, and copy the text to the clipboard. From [Screen-Text-Reader](https://github.com/TheBrightSoul/Screen-Text-Reader). |
 | `privacy_dots.sh` | Report microphone, camera, location, and screen-share status for privacy indicators. From [privacy-dots](https://github.com/alvaniss/privacy-dots). |
 | `ram-alert.sh` | Monitor RAM usage and send alerts or Waybar JSON when usage is high. |
