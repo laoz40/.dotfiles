@@ -240,6 +240,10 @@
 
     # Terminal apps
     ".config/lazygit/config.yml".source = ./lazygit/.config/lazygit/config.yml;
+    ".config/mpv/mpv.conf".text = ''
+      target-trc=bt.1886
+      target-prim=bt.709
+    '';
     ".config/herdr/config.toml".source = ./herdr/.config/herdr/config.toml;
     ".config/herdr/plugins/config/persiyanov.reviewr/config.toml".source = ./herdr/.config/herdr/plugins/config/persiyanov.reviewr/config.toml;
     ".config/fastfetch" = {

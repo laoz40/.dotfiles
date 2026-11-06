@@ -11,8 +11,8 @@
 
   targets.genericLinux.gpu.nvidia = {
     enable = true;
-    version = "610.57.04";
-    sha256 = "sha256-suk1xmuDuwDAyFe8jg7g/VLekoa0DJzB7sKafOfrEW0=";
+    version = "615.78.08";
+    sha256 = "sha256-Pj9t3cLudnoIGFMAr3vjyyhuznZpjS3eNSRZl4LQf/4=";
   };
 
   nixpkgs.config = {
