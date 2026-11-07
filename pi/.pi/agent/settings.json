@@ -1,7 +1,7 @@
 {
-  "lastChangelogVersion": "1.0.2",
-  "defaultProvider": "cursor",
-  "defaultModel": "composer-2.5:slow",
+  "lastChangelogVersion": "1.4.0",
+  "defaultProvider": "openai",
+  "defaultModel": "gpt-6.1-sol",
   "packages": [
     {
       "source": "https://github.com/mateusdcc/pi-gpt-search",
@@ -25,10 +25,9 @@
     "anthropicExtraUsage": false
   },
   "enabledModels": [
-    "cursor/grok-4.6:slow",
-    "cursor/composer-2.5:slow",
-    "openai/gpt-6.1-sol",
     "openai/gpt-6-luna",
+    "openai/gpt-6.1-terra",
+    "openai/gpt-6.1-sol",
     "openai/gpt-6-astra"
   ],
   "markdown": {
