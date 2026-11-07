@@ -6,8 +6,7 @@
     {
       "source": "https://github.com/mateusdcc/pi-gpt-search",
       "extensions": []
-    },
-    "npm:pi-rewind"
+    }
   ],
   "defaultThinkingLevel": "medium",
   "theme": "blue-gold",
