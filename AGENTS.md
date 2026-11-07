@@ -1,11 +1,13 @@
-# Agent Notes
+# dotfiles
 
-## PC
+The user had 2 different devices sharing the same dotfiles:
+
+### PC
 
 OS: Arch Linux
 GPU: NVIDIA 3070
 
-## Laptop
+### Laptop
 
 OS: Arch Linux
 GPU: Intel Iris Xe Graphics (Integrated)
@@ -18,13 +20,13 @@ let user run:
 
 ```bash
 home-manager switch --flake ~/.dotfiles#leoz@desktop
+# or
+home-manager switch --flake ~/.dotfiles#leoz@laptop
 ```
 
 Some application configs use out-of-store symlinks, so edits to those files take effect immediately. Other configs are copied into the Nix store and require another `home-manager switch`. New files must be declared in `home.nix` before Home Manager will install or link them into `$HOME`.
 
 ### Updating packages
-
-Package versions come from the flake inputs in `flake.nix`, pinned in `flake.lock`. To update:
 
 ```bash
 nix flake update --flake ~/.dotfiles
@@ -50,11 +52,15 @@ Using nvim 0.12+, which has native plugin manager vim.pack()
 Remove plugins with command `lua vim.pack.del({"plugin.nvim"})`
 This removes it from lock file. Simply deleting the vim.pack code in the config will not remove the plugins.
 
+## Hyprland
+
+Hyprland is using the new lua syntax. Hyprlang syntax for configs and commands is deprecated.
+
 ## Herdr
 
 Herdr is a terminal multiplexer. It is essentially a tmux wrapper with AI agent session panel.
 
 ## Profiles
 
-There are two different themes that can be switched between: Main and Minimal.
-Minimal theme is adjustments to ghostty, hyprland, etc to reduce the transparency, blur, gaps and animations.
+There are different theme configs that can be switched between, see hyprland `visuals.lua`.
+Minimal theme is adjustments to ghostty, hyprland, rofi, etc to reduce the transparency, blur, gaps and animations.
