@@ -65,12 +65,8 @@ if command -v herdr &> /dev/null \
   herdr
 fi
 
-# Show onefetch when the shell starts inside a git repo, otherwise show fastfetch.
-if command -v git &> /dev/null \
-  && command -v onefetch &> /dev/null \
-  && git rev-parse --is-inside-work-tree &> /dev/null; then
-  onefetch --include-hidden --no-color-palette
-elif command -v fastfetch &> /dev/null; then
+# Show system information when the shell starts.
+if command -v fastfetch &> /dev/null; then
   fastfetch
 fi
 
