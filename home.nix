@@ -28,7 +28,14 @@
     jq
     bat
     markitdown
-    btop
+    (symlinkJoin {
+      name = "btop-with-gpu";
+      paths = [ btop ];
+      nativeBuildInputs = [ makeWrapper ];
+      postBuild = ''
+        wrapProgram "$out/bin/btop" --prefix LD_LIBRARY_PATH : /run/opengl-driver/lib
+      '';
+    })
     gh
 
     # AI tools
