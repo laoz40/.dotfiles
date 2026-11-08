@@ -271,11 +271,17 @@
           "minimumWidth": false
         },
         {
+          "id": "gpuTemp",
+          "enabled": true,
+          "selectedGpuIndex": 0,
+          "pciId": "10de:2488"
+        },
+        {
           "id": "memUsage",
           "enabled": true,
           "minimumWidth": false,
-          "showSwap": false,
-          "showInGb": false
+          "showSwap": true,
+          "showInGb": true
         },
         {
           "id": "notificationButton",
@@ -385,6 +391,12 @@
           "id": "cpuUsage",
           "enabled": true,
           "minimumWidth": false
+        },
+        {
+          "id": "gpuTemp",
+          "enabled": true,
+          "selectedGpuIndex": 0,
+          "pciId": ""
         },
         {
           "id": "memUsage",
@@ -621,6 +633,14 @@
           "id": "cpuUsage",
           "enabled": true,
           "minimumWidth": false
+        },
+        {
+          "id": "gpuTemp",
+          "enabled": true,
+          "selectedGpuIndex": 0,
+          "pciId": "",
+          "overflowMode": "section",
+          "minimumWidth": true
         },
         {
           "id": "memUsage",
