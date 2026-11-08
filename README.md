@@ -82,7 +82,7 @@ Linux stuff and other stuff:
 - **hyprshot**: `hyprshot`
     -**satty**: `satty`
 - **hyprpicker**: `hyprpicker`
-- **hyprwhspr**: `hyprwhspr` (AUR)
+- **Voxtype**: `voxtype-bin` (AUR)
 - **rofi**: `rofi`
     - **rofi-emoji**: `rofi-emoji noto-fonts-emoji`
     - **rofi-calc**: `rofi-calc`

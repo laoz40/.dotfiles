@@ -79,10 +79,10 @@ hl.bind("SUPER + C", hl.dsp.exec_cmd("hyprpicker -a"))
 hl.bind("SUPER + SHIFT + A", hl.dsp.exec_cmd("pavucontrol"))
 hl.bind("SUPER + SHIFT + N", hl.dsp.exec_cmd("rofi-network-manager"))
 
--- hyprwhspr - Toggle mode.
+-- Voxtype - toggle recording.
 hl.bind(
 	"SUPER + SHIFT + D",
-	hl.dsp.exec_cmd("/usr/lib/hyprwhspr/config/hyprland/hyprwhspr-tray.sh record"),
+	hl.dsp.exec_cmd("voxtype record toggle"),
 	{ description = "Speech-to-text" }
 )
 
