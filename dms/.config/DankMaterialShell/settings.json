@@ -604,6 +604,10 @@
           "workspaceFocusedBorderColor": "secondary"
         },
         {
+          "id": "dankPomodoroTimer",
+          "enabled": true
+        },
+        {
           "id": "music",
           "enabled": true,
           "mediaAdaptiveWidthEnabled": false,
@@ -638,7 +642,7 @@
           "id": "gpuTemp",
           "enabled": true,
           "selectedGpuIndex": 0,
-          "pciId": "",
+          "pciId": "10de:2488",
           "overflowMode": "section",
           "minimumWidth": true
         },
@@ -1067,5 +1071,6 @@
   "notificationFocusedMonitor": false,
   "avatarRing": "primary",
   "dankLauncherV2ShowSourceBadges": true,
-  "barInsetPaddingSyncAll": true
+  "barInsetPaddingSyncAll": true,
+  "desktopWidgetInstances": []
 }
