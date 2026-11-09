@@ -93,7 +93,6 @@ hl.bind("SUPER + T", hl.dsp.exec_cmd("~/.local/bin/rofi_waybar_timer/rofi_waybar
 hl.bind("SUPER + M", hl.dsp.exec_cmd("rofi -show calc -modi calc -no-show-match -no-sort"))
 hl.bind("SUPER + D", hl.dsp.exec_cmd("rofi_define.sh"))
 hl.bind("SUPER + delete", hl.dsp.exec_cmd("rofi-process-killer.sh"))
-hl.bind("SUPER + W", hl.dsp.exec_cmd("rofi_wallpaper.sh"))
 hl.bind("SUPER + SHIFT + W", hl.dsp.exec_cmd("rofi_wallpaper.sh get_random"))
 hl.bind("CTRL + SUPER + ALT + P", hl.dsp.exec_cmd("passmenu-rofi.sh --type"))
 
@@ -140,6 +139,7 @@ return function(is_laptop)
 		hl.bind("switch:on:Lid Switch", hl.dsp.exec_cmd("laptop-keep-awake lid-close"), { locked = true })
 		hl.bind("switch:off:Lid Switch", hl.dsp.exec_cmd("laptop-keep-awake lid-open"), { locked = true })
 	end
+	hl.bind("SUPER + W", hl.dsp.exec_cmd(is_laptop and "rofi_wallpaper.sh" or "dms ipc call wallpaperCarousel toggle"))
 	hl.bind("SUPER + V", hl.dsp.exec_cmd(is_laptop and "rofi_cliphist.sh" or "dms ipc call clipboard toggle"))
 	hl.bind("SUPER + P", hl.dsp.exec_cmd(is_laptop and "rofi_power_menu.sh" or "dms ipc call powermenu toggle"))
 end
