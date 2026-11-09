@@ -57,7 +57,22 @@ local servers = {
 
   tailwindcss = {},
   eslint = {},
-  oxlint = {},
+  oxlint = {
+    cmd = function(dispatchers, config)
+      local cmd = { "oxlint", "--lsp" }
+      if config.root_dir then
+        local bin_dir = vim.fs.joinpath(config.root_dir, "node_modules", ".bin")
+        local effect_tsgo = vim.fs.joinpath(bin_dir, "effect-tsgo")
+        local oxlint = vim.fs.joinpath(bin_dir, "oxlint")
+        if vim.fn.executable(effect_tsgo) == 1 then
+          cmd = { effect_tsgo, "oxlint", "--lsp" }
+        elseif vim.fn.executable(oxlint) == 1 then
+          cmd = { oxlint, "--lsp" }
+        end
+      end
+      return vim.lsp.rpc.start(cmd, dispatchers)
+    end,
+  },
   marksman = {},
 	tinymist = {},
   bashls = {},
