@@ -76,14 +76,6 @@
       "row": 2
     },
     {
-      "id": "bluetooth",
-      "enabled": true,
-      "w": 4,
-      "h": 1,
-      "col": 4,
-      "row": 2
-    },
-    {
       "id": "audioOutput",
       "enabled": true,
       "w": 4,
@@ -118,10 +110,10 @@
     {
       "id": "edit",
       "enabled": true,
-      "w": 1,
+      "w": 4,
       "h": 1,
       "small": true,
-      "col": 7,
+      "col": 4,
       "row": 5
     },
     {
@@ -136,11 +128,11 @@
     {
       "id": "builtin_tailscale",
       "enabled": true,
-      "w": 3,
+      "w": 4,
       "h": 1,
       "col": 4,
-      "row": 5,
-      "small": true
+      "row": 2,
+      "small": false
     }
   ],
   "scrollTitleEnabled": true,
