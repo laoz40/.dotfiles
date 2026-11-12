@@ -179,7 +179,8 @@
   "textRenderQuality": 3,
   "acLockTimeout": 60,
   "acSuspendTimeout": 600,
-  "acPostLockMonitorTimeout": 300,
+  "acPostLockMonitorTimeout": 0,
+  "acMonitorTimeout": 0,
   "batteryNotifyLow": true,
   "lockBeforeSuspend": true,
   "loginctlLockIntegration": false,
@@ -1119,5 +1120,6 @@
   "avatarRing": "primary",
   "dankLauncherV2ShowSourceBadges": true,
   "barInsetPaddingSyncAll": true,
-  "desktopWidgetInstances": []
+  "desktopWidgetInstances": [],
+  "fadeToDpmsEnabled": false
 }
