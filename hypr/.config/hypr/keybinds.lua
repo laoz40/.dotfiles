@@ -122,7 +122,7 @@ hl.bind("SUPER + 8", hl.dsp.exec_cmd("vesktop"))
 
 -- File managers.
 hl.bind("SUPER + E", hl.dsp.exec_cmd("ghostty -e yazi"))
-hl.bind("SUPER + SHIFT + E", hl.dsp.exec_cmd("nautilus"))
+hl.bind("SUPER + SHIFT + E", hl.dsp.exec_cmd("strata"))
 
 -- Btop.
 hl.bind("CTRL + SHIFT + escape", hl.dsp.exec_cmd("ghostty --class=com.ghostty.float -e btop"))
