@@ -13,14 +13,12 @@ T3_HOME="${T3CODE_HOME:-$HOME/.t3}"
 
 usage() {
   cat <<'EOF'
-Usage: sync-t3-after-update [--launchers-only] [version | path-to-AppImage]
+Usage: sync-t3-after-update [version | path-to-AppImage]
 
 After updating T3 from the in-app UI, run this to align:
-  t3code.service (Tailscale), desktop entries, and the
+  Tokyo Night diff syntax, t3code.service (Tailscale), desktop entries, and the
   t3code command wrapper, using the app-installed ~/.local/bin/t3 CLI.
 
-Launchers are repaired before checking the CLI. Use --launchers-only to repair
-shortcuts without installing the CLI or restarting the service.
 Stale T3-generated CLI launchers are repointed to the selected AppImage and
 validated before replacement. Open the desktop app to install a missing CLI.
 Uses this device's Tailscale IPv4 address unless TAILSCALE_IP is set.
@@ -39,14 +37,6 @@ appimage_from_version() {
   fi
   echo "sync-t3-after-update: no AppImage at $path" >&2
   return 1
-}
-
-version_from_appimage() {
-  local base
-  base=$(basename "$1")
-  base=${base#T3-Code-}
-  base=${base%-x86_64.AppImage}
-  printf '%s' "$base"
 }
 
 resolve_appimage() {
@@ -133,7 +123,7 @@ cli_version() {
 }
 
 refresh_cli() {
-  local appimage="$1" version="$2"
+  local appimage="$1"
   local target candidate quoted_app line candidate_ver
   target=$(readlink -f "$T3")
   if ! rg -Fxq "# Written by T3 Code: runs the desktop app's bundled t3 CLI." "$target" ||
@@ -160,11 +150,12 @@ refresh_cli() {
     echo "sync-t3-after-update: selected AppImage CLI failed; existing CLI launcher was kept" >&2
     return 1
   fi
-  if [[ "$candidate_ver" != "$version" ]]; then
+  if [[ -z "$candidate_ver" ]]; then
     rm -f "$candidate"
-    echo "sync-t3-after-update: selected AppImage CLI is $candidate_ver, expected $version; existing CLI launcher was kept" >&2
+    echo "sync-t3-after-update: selected AppImage CLI did not report a version" >&2
     return 1
   fi
+  version="$candidate_ver"
   mv -f "$candidate" "$target"
   echo "Updated $target to $version."
 }
@@ -175,35 +166,18 @@ main() {
     exit 0
   fi
 
-  local launchers_only=false
-  if [[ "${1:-}" == "--launchers-only" ]]; then
-    launchers_only=true
-    shift
-  fi
-
   local appimage version cli_ver
   appimage=$(resolve_appimage "${1:-}")
   appimage=$(realpath "$appimage")
-  version=$(version_from_appimage "$appimage")
-
   echo "AppImage: $appimage"
-  echo "Version:  $version"
-
-  update_launchers "$appimage" "$version"
-  if [[ "$launchers_only" == true ]]; then
-    echo "Done. Launchers are on $version."
-    return 0
-  fi
-
   if [[ ! -x "$T3" ]]; then
-    echo "sync-t3-after-update: launchers repaired; missing $T3; open T3 Code and install the CLI, then retry" >&2
+    echo "sync-t3-after-update: missing $T3; open T3 Code and install the CLI, then retry" >&2
     exit 1
   fi
 
-  cli_ver=$(cli_version "$T3" 2>/dev/null) || cli_ver=""
-  if [[ "$cli_ver" != "$version" ]]; then
-    refresh_cli "$appimage" "$version"
-  fi
+  refresh_cli "$appimage"
+  echo "Version:  $version"
+  update_launchers "$appimage" "$version"
 
   if [[ -z "$TAILSCALE_IP" ]]; then
     if ! TAILSCALE_IP=$(tailscale ip -4); then
@@ -215,6 +189,8 @@ main() {
       exit 1
     fi
   fi
+
+  "$HOME/.local/bin/patch-t3-tokyo-night" "$appimage"
 
   echo "Writing $UNIT..."
   write_unit

@@ -1,0 +1,127 @@
+#!/usr/bin/env python3
+"""Use Shiki and the bundled Tokyo Night TextMate theme in T3 Code."""
+import hashlib
+import json
+import os
+import re
+from pathlib import Path
+import shutil
+import struct
+import subprocess
+import sys
+import tempfile
+
+
+def patch_bundle(name, contents):
+    if name.startswith('diffRendering-') and name.endswith('.js'):
+        contents = contents.replace(b'dark:`pierre-dark`', b'dark:`tokyo-night`')
+        # The Shiki engine needs a TextMate light theme too. t3-light is Zed-only.
+        contents = contents.replace(b'=`t3-light`', b'=`github-light`')
+        if b'dark:`tokyo-night`' not in contents:
+            raise RuntimeError('Could not find the diff theme selection')
+    if name.startswith('main-') and name.endswith('.js'):
+        contents, count = re.subn(
+            rb'(var \w+=)`(?:highlights|shiki-js)`(,\w+=new Map;function)',
+            rb'\1`shiki-js`\2', contents,
+        )
+        if count != 1:
+            raise RuntimeError('Could not find the shared syntax highlighter selection')
+    # Inline diff previews also select the engine explicitly.
+    return contents.replace(b'preferredHighlighter:`highlights`',
+                            b'preferredHighlighter:`shiki-js`')
+
+
+def patch_asar(path):
+    data = path.read_bytes()
+    sizes = struct.unpack('<4I', data[:16])
+    header = json.loads(data[16:16 + sizes[3]])
+    base = 8 + sizes[1]
+    assets = header
+    for part in 'apps/server/dist/client/assets'.split('/'):
+        assets = assets['files'][part]
+    replacements = {}
+    found_diff = found_engine = False
+    for name, entry in assets['files'].items():
+        if not name.endswith('.js'):
+            continue
+        position = base + int(entry['offset'])
+        contents = data[position:position + entry['size']]
+        patched = patch_bundle(name, contents)
+        found_diff |= name.startswith('diffRendering-')
+        found_engine |= name.startswith('main-')
+        if patched != contents:
+            replacements[id(entry)] = patched
+    if not (found_diff and found_engine):
+        raise RuntimeError('Could not find the diff viewer and shared highlighter')
+    if not replacements:
+        return False
+
+    def entries(directory):
+        for entry in directory['files'].values():
+            if 'files' in entry:
+                yield from entries(entry)
+            elif 'offset' in entry:
+                yield entry
+
+    payloads = []
+    offset = 0
+    for entry in entries(header):
+        position = base + int(entry['offset'])
+        contents = replacements.get(id(entry), data[position:position + entry['size']])
+        if id(entry) in replacements and 'integrity' in entry:
+            integrity = entry['integrity']
+            integrity['hash'] = hashlib.sha256(contents).hexdigest()
+            block = integrity['blockSize']
+            integrity['blocks'] = [hashlib.sha256(contents[i:i + block]).hexdigest()
+                                   for i in range(0, len(contents), block)]
+        entry['offset'] = str(offset)
+        entry['size'] = len(contents)
+        offset += len(contents)
+        payloads.append(contents)
+    encoded = json.dumps(header, separators=(',', ':'), ensure_ascii=False).encode()
+    padding = b'\0' * (-(4 + len(encoded)) % 4)
+    with path.open('wb') as archive:
+        archive.write(struct.pack('<4I', 4, 8 + len(encoded) + len(padding),
+                                  4 + len(encoded) + len(padding), len(encoded)))
+        archive.write(encoded)
+        archive.write(padding)
+        for contents in payloads:
+            archive.write(contents)
+    return True
+
+
+def main():
+    appimage = Path(sys.argv[1]).resolve()
+    with tempfile.TemporaryDirectory(prefix='t3-theme-') as temporary:
+        work = Path(temporary)
+        subprocess.run([str(appimage), '--appimage-extract'], cwd=work,
+                       stdout=subprocess.DEVNULL, check=True)
+        root = work / 'squashfs-root'
+        if not patch_asar(root / 'resources/app.asar'):
+            print('T3 already uses Shiki with Tokyo Night.')
+            return
+        mksquashfs = shutil.which('mksquashfs')
+        if not mksquashfs:
+            tools = Path.home() / '.local/share/t3-theme/squashfs-tools'
+            tools.parent.mkdir(parents=True, exist_ok=True)
+            if not tools.exists():
+                subprocess.run(['nix', 'build', 'nixpkgs#squashfsTools',
+                                '--out-link', str(tools)], check=True)
+            mksquashfs = str(tools / 'bin/mksquashfs')
+        image = work / 'filesystem.squashfs'
+        subprocess.run([mksquashfs, str(root), str(image), '-noappend',
+                        '-comp', 'zstd', '-Xcompression-level', '3', '-no-progress',
+                        '-processors', '2'], stdout=subprocess.DEVNULL, check=True)
+        offset = int(subprocess.check_output([str(appimage), '--appimage-offset']))
+        replacement = appimage.with_name(appimage.name + '.patched')
+        with replacement.open('wb') as output, appimage.open('rb') as original:
+            output.write(original.read(offset))
+            with image.open('rb') as filesystem:
+                shutil.copyfileobj(filesystem, output)
+        replacement.chmod(appimage.stat().st_mode)
+        os.replace(replacement, appimage)
+        print('Patched T3 to use Shiki with the Tokyo Night TextMate theme.')
+
+
+if __name__ == '__main__':
+    main()
