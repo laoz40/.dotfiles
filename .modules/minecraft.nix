@@ -23,6 +23,7 @@ in
   home.packages = with pkgs; [
     (prismlauncher.override {
       additionalLibs = x11Libraries;
+      jdks = [ jdk21 ];
     })
     waywall
     jemalloc
