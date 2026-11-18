@@ -27,7 +27,6 @@
     fd
     jq
     bat
-    markitdown
     (symlinkJoin {
       name = "btop-with-gpu";
       paths = [ btop ];
