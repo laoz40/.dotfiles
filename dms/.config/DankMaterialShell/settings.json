@@ -928,6 +928,7 @@
       "showOnLastDisplay": true,
       "position": 1,
       "mode": "compact",
+      "middleClickAction": "close",
       "taskbarAlign": "center",
       "widgetExpansion": "popout",
       "iconSize": 40,
@@ -1121,5 +1122,36 @@
   "dankLauncherV2ShowSourceBadges": true,
   "barInsetPaddingSyncAll": true,
   "desktopWidgetInstances": [],
-  "fadeToDpmsEnabled": false
+  "fadeToDpmsEnabled": false,
+  "dashTabs": [
+    {
+      "id": "overview",
+      "enabled": true
+    },
+    {
+      "id": "media",
+      "enabled": true
+    },
+    {
+      "id": "wallpaper",
+      "enabled": true
+    },
+    {
+      "id": "weather",
+      "enabled": true
+    },
+    {
+      "id": "wellbeing",
+      "enabled": true
+    },
+    {
+      "id": "notifications",
+      "enabled": false
+    },
+    {
+      "id": "settings",
+      "enabled": false
+    }
+  ],
+  "keepAwakeBlocksSleep": false
 }
