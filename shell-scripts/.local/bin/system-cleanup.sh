@@ -55,6 +55,7 @@ echo
 
 # Nix: keep recent rollback generations, then collect unreferenced store paths.
 echo "Nix store:"
+echo "Calculating size, this may take a while..."
 show_size "/nix/store"
 if command -v home-manager >/dev/null 2>&1 && command -v nix-env >/dev/null 2>&1 && command -v nix-collect-garbage >/dev/null 2>&1; then
   nix_gc="$(command -v nix-collect-garbage)"
