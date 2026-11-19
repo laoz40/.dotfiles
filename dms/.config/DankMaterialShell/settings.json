@@ -1060,6 +1060,9 @@
           "row": 2
         }
       ]
+    },
+    "wellbeing": {
+      "panelRows": 7
     }
   },
   "notificationAnimationDuration": 126,
