@@ -1,0 +1,342 @@
+--- a/Main.qml
++++ b/Main.qml
+@@ -27,14 +27,30 @@
+         if (typeof sessionModel !== "undefined" && sessionModel.lastIndex >= 0) sessionIndex = sessionModel.lastIndex;
+     }
+ 
+-    function cleanName(name) {
+-        if (!name) return "";
+-        var s = name.toString();
+-        if (s.endsWith("/")) s = s.substring(0, s.length - 1);
+-        if (s.indexOf("/") !== -1) s = s.substring(s.lastIndexOf("/") + 1);
+-        if (s.indexOf(".desktop") !== -1) s = s.substring(0, s.indexOf(".desktop"));
+-        s = s.replace(/[-_]/g, ' ');
+-        return s.charAt(0).toUpperCase() + s.slice(1);
++    function usernameAt(index) {
++        if (typeof userModel === "undefined" || index < 0 || index >= userModel.count)
++            return sddm.lastUser || "User";
++        return userModel.data(userModel.index(index, 0), Qt.UserRole + 1) || "User";
++    }
++
++    function sessionNameAt(index) {
++        if (typeof sessionModel === "undefined" || index < 0 || index >= sessionModel.count)
++            return "Session";
++        return sessionModel.data(sessionModel.index(index, 0), Qt.UserRole + 4) || "Session";
++    }
++
++    component SessionIcon: Item {
++        property color tint: container.extractedAccent
++        implicitWidth: 18
++        implicitHeight: 18
++
++        Rectangle {
++            x: 1; y: 2; width: 16; height: 11; radius: 2
++            color: "transparent"
++            border.color: parent.tint
++        }
++        Rectangle { x: 8; y: 13; width: 2; height: 3; color: parent.tint }
++        Rectangle { x: 5; y: 16; width: 8; height: 1; color: parent.tint }
+     }
+ 
+     function doLogin() {
+@@ -250,7 +266,7 @@
+         anchors.fill: parent
+         source: backgroundImage
+         blurEnabled: true
+-        blur: loginState.visible ? 1.0 : 0.0
++        blur: loginState.visible ? 0.45 : 0.0
+         opacity: loginState.visible ? 1.0 : 0.0
+         autoPaddingEnabled: false
+ 
+@@ -371,26 +387,16 @@
+             onStopped: isError = false
+         }
+ 
+-        Rectangle {
++        Item {
+             id: loginCard
+-            width: 380
+-            // Dynamic height: Expands smoothly when NumLock text appears
+-            height: 480 + (numLockIndicator.visible ? 40 : 0)
++            width: Math.min(360, parent.width - 40)
++            height: loginLayout.implicitHeight
+             x: (parent.width - width) / 2
+-            y: (parent.height - 480) / 2
+-            color: loginState.isError ? "#442222" : baseColor
+-            opacity: 0.7
+-            radius: 32
+-
+-            Behavior on color { ColorAnimation { duration: 200 } }
+-            // Beautiful MD3 bounce/jiggle animation when card resizes
+-            Behavior on height { NumberAnimation { duration: 300; easing.type: Easing.InOutQuad } }
+-            // Also animate Y position so it stays perfectly centered when height changes
+-            Behavior on y { NumberAnimation { duration: 300; easing.type: Easing.OutBack } }
++            y: (parent.height - height) / 2
+ 
+             ColumnLayout {
++                id: loginLayout
+                 anchors.fill: parent
+-                anchors.margins: 40
+                 spacing: 15
+ 
+                 Item {
+@@ -407,17 +413,7 @@
+ 
+                         Text {
+                             anchors.centerIn: parent
+-                            text: {
+-                                var n = "";
+-                                if (typeof userModel !== "undefined" && userModel.count > 0) {
+-                                    var d = userModel.data(userModel.index(container.userIndex, 0), Qt.DisplayRole);
+-                                    var nr = userModel.data(userModel.index(container.userIndex, 0), Qt.UserRole + 1);
+-                                    n = d ? d.toString() : (nr ? nr.toString() : "U");
+-                                } else {
+-                                    n = sddm.lastUser ? sddm.lastUser : "U";
+-                                }
+-                                return n.charAt(0).toUpperCase();
+-                            }
++                            text: container.usernameAt(container.userIndex).charAt(0)
+                             color: container.extractedAccent
+                             font.pixelSize: 48
+                             font.family: activeFontBold
+@@ -438,8 +434,10 @@
+                             ctx.arc(width/2, height/2, width/2, 0, 2 * Math.PI);
+                             ctx.closePath();
+                             ctx.clip();
+-                            ctx.drawImage(avatar, 0, 0, width, height);
+-                            console.log("Pixie SDDM: Canvas draw complete.");
++                            var size = Math.min(avatar.sourceSize.width, avatar.sourceSize.height);
++                            ctx.drawImage(avatar, (avatar.sourceSize.width - size) / 2,
++                                          (avatar.sourceSize.height - size) / 2, size, size,
++                                          0, 0, width, height);
+                         }
+ 
+                         Timer {
+@@ -455,15 +453,15 @@
+                             smooth: true
+                             visible: false
+ 
+-                            Component.onCompleted: {
+-                                var s = Qt.resolvedUrl("assets/avatar.jpg");
++                            source: {
++                                if (config.avatar && container.usernameAt(container.userIndex) === config.avatarUser)
++                                    return Qt.resolvedUrl(config.avatar);
+                                 if (typeof userModel !== "undefined" && userModel.count > 0) {
+-                                    var icon = userModel.data(userModel.index(container.userIndex, 0), Qt.UserRole + 3);
+-                                    if (icon && icon.toString().match(/\.(jpg|jpeg|png|bmp|webp|svg)$/i)) {
+-                                        s = icon.toString();
+-                                    }
++                                    var icon = userModel.data(userModel.index(container.userIndex, 0), Qt.UserRole + 4);
++                                    if (icon)
++                                        return icon;
+                                 }
+-                                source = s;
++                                return Qt.resolvedUrl("assets/avatar.jpg");
+                             }
+ 
+                             onStatusChanged: {
+@@ -493,19 +491,8 @@
+                     Text {
+                         id: userNameLabel
+                         anchors.centerIn: parent
+-                        text: {
+-                            if (typeof userModel !== "undefined" && userModel.count > 0) {
+-                                var idx = container.userIndex;
+-                                var modelIdx = userModel.index(idx, 0);
+-                                var display = userModel.data(modelIdx, Qt.DisplayRole);
+-                                var edit = userModel.data(modelIdx, Qt.EditRole);
+-                                var nr = userModel.data(modelIdx, Qt.UserRole + 1);
+-                                var realName = userModel.data(modelIdx, Qt.UserRole + 2);
+-                                var finalName = display ? display.toString() : (realName ? realName.toString() : (nr ? nr.toString() : (edit ? edit.toString() : "User")));
+-                                return cleanName(finalName) + (userModel.count > 1 ? " ▾" : "");
+-                            }
+-                            return cleanName(sddm.lastUser ? sddm.lastUser : "User");
+-                        }
++                        text: container.usernameAt(container.userIndex)
++                              + (typeof userModel !== "undefined" && userModel.count > 1 ? " ▾" : "")
+                         color: "white"
+                         font.pixelSize: 24
+                         font.weight: Font.Bold
+@@ -526,8 +513,8 @@
+                     id: sessionPill
+                     visible: typeof sessionModel !== "undefined" && sessionModel.count > 1
+                     Layout.alignment: Qt.AlignHCenter
+-                    Layout.preferredWidth: 180
+-                    Layout.preferredHeight: 36
++                    Layout.preferredWidth: Math.min(loginCard.width, sessionContents.implicitWidth + 32)
++                    Layout.preferredHeight: 42
+                     color: (sessionClickArea.pressed || sessionPopup.opened) ? surfaceVariantColor : surfaceColor
+                     radius: 18
+                     border.width: 1
+@@ -537,29 +524,25 @@
+                     Behavior on scale { NumberAnimation { duration: 100 } }
+ 
+                     RowLayout {
++                        id: sessionContents
+                         anchors.centerIn: parent
++                        width: Math.min(implicitWidth, sessionPill.width - 24)
+                         spacing: 8
++
++                        SessionIcon {}
++
+                         Text {
+-                            text: "󰟀"
+-                            color: container.extractedAccent
+-                            font.pixelSize: 16
++                            Layout.fillWidth: true
++                            text: container.sessionNameAt(container.sessionIndex)
++                            elide: Text.ElideRight
++                            color: config.textColor
++                            font.pixelSize: 15
++                            font.family: activeFontRegular
+                         }
+                         Text {
+-                            text: {
+-                                if (typeof sessionModel !== "undefined" && sessionModel.count > 0) {
+-                                    var idx = container.sessionIndex;
+-                                    var modelIdx = sessionModel.index(idx, 0);
+-                                    var n = sessionModel.data(modelIdx, Qt.UserRole + 4);
+-                                    var f = sessionModel.data(modelIdx, Qt.UserRole + 2);
+-                                    var d = sessionModel.data(modelIdx, Qt.DisplayRole);
+-                                    var finalName = n ? n.toString() : (f ? f.toString() : (d ? d.toString() : "Session " + (idx + 1)));
+-                                    return cleanName(finalName) + (sessionModel.count > 1 ? " ▾" : "");
+-                                }
+-                                return "Hyprland";
+-                            }
+-                            color: "white"
+-                            font.pixelSize: 13
+-                            font.weight: Font.Medium
++                            text: "▾"
++                            color: container.extractedAccent
++                            font.pixelSize: 14
+                         }
+                     }
+ 
+@@ -572,30 +555,32 @@
+ 
+                 TextField {
+                     id: passwordField
+-                    Layout.topMargin: 30 // Keeps space above it static
+-                    echoMode: TextInput.Password
++                    Layout.topMargin: 10
+                     Layout.fillWidth: true
++                    Layout.preferredHeight: 52
++                    echoMode: TextInput.Password
+                     horizontalAlignment: Text.AlignHCenter
+-                    font.pixelSize: 18
+-                    color: "white"
++                    verticalAlignment: Text.AlignVCenter
++                    font.pixelSize: 20
++                    color: config.textColor
+                     focus: loginState.visible
+                     enabled: !container.isLoggingIn
+ 
+                     background: Rectangle {
+                         color: surfaceColor
+                         radius: 16
+-                        border.width: parent.activeFocus ? 2 : 0
+-                        border.color: container.extractedAccent
++                        border.width: parent.activeFocus || loginState.isError ? 2 : 1
++                        border.color: loginState.isError ? "#ff8d92" : (parent.activeFocus ? container.extractedAccent : surfaceVariantColor)
+                         opacity: parent.enabled ? 1.0 : 0.5
+                     }
+ 
+                     Text {
+-                        text: "Enter Password"
+-                        color: "gray"
++                        text: "Password"
++                        color: config.textColor
+                         font.pixelSize: 16
+                         visible: !parent.text
+                         anchors.centerIn: parent
+-                        opacity: 0.5
++                        opacity: 0.65
+                     }
+ 
+                     onAccepted: container.doLogin()
+@@ -627,7 +612,7 @@
+ 
+                     contentItem: Text {
+                         text: container.isLoggingIn ? "⋯" : "→"
+-                        color: "white"
++                        color: container.isLoggingIn ? config.textColor : baseColor
+                         font.pixelSize: 32
+                         horizontalAlignment: Text.AlignHCenter
+                         verticalAlignment: Text.AlignVCenter
+@@ -644,7 +629,6 @@
+                     }
+                 }
+ 
+-                Item { Layout.fillHeight: true } // ADD THIS LINE HERE AT THE BOTTOM
+             }
+         }
+     }
+@@ -716,13 +700,7 @@
+                         radius: 14
+                         Text {
+                             anchors.centerIn: parent
+-                            text: {
+-                                var mIdx = userModel.index(index, 0);
+-                                var d = userModel.data(mIdx, Qt.DisplayRole);
+-                                var n_r = userModel.data(mIdx, Qt.UserRole + 1);
+-                                var finalVal = d ? d.toString() : (n_r ? n_r.toString() : "U");
+-                                return finalVal.charAt(0).toUpperCase();
+-                            }
++                            text: container.usernameAt(index).charAt(0)
+                             color: isCurrent ? baseColor : "white"
+                             font.pixelSize: 12
+                             font.family: activeFontBold
+@@ -732,14 +710,7 @@
+                     Item { Layout.preferredWidth: 12 }
+                     Text {
+                         Layout.fillWidth: true
+-                        text: {
+-                            var mIdx = userModel.index(index, 0);
+-                            var d = userModel.data(mIdx, Qt.DisplayRole);
+-                            var n_r = userModel.data(mIdx, Qt.UserRole + 1);
+-                            var r = userModel.data(mIdx, Qt.UserRole + 2);
+-                            var e = userModel.data(mIdx, Qt.EditRole);
+-                            return cleanName(d ? d : (r ? r : (n_r ? n_r : e)));
+-                        }
++                        text: container.usernameAt(index)
+                         color: isCurrent ? "white" : (hovered ? "#DDDDDD" : "#AAAAAA")
+                         font.pixelSize: 15
+                         font.family: activeFontRegular
+@@ -810,29 +781,18 @@
+                 }
+                 contentItem: RowLayout {
+                     anchors.fill: parent
+-                    spacing: 0
+-                    Item { Layout.preferredWidth: 20 }
+-                    Text {
+-                        Layout.preferredWidth: 40
+-                        text: "󰟀"
+-                        color: isCurrent ? container.extractedAccent : "gray"
+-                        font.pixelSize: 16
+-                        horizontalAlignment: Text.AlignHCenter
+-                        verticalAlignment: Text.AlignVCenter
+-                    }
++                    anchors.leftMargin: 20
++                    anchors.rightMargin: 12
++                    spacing: 8
++
++                    SessionIcon { tint: isCurrent ? container.extractedAccent : config.textColor }
++
+                     Text {
+                         Layout.fillWidth: true
+-                        text: {
+-                            var n_val = sessionModel.data(sessionModel.index(index, 0), Qt.UserRole + 4);
+-                            var f_val = sessionModel.data(sessionModel.index(index, 0), Qt.UserRole + 2);
+-                            return cleanName(n_val ? n_val : f_val);
+-                        }
+-                        color: isCurrent ? "white" : "#AAAAAA"
++                        text: container.sessionNameAt(index)
++                        color: config.textColor
+                         font.pixelSize: 14
+                         font.family: activeFontRegular
+-                        horizontalAlignment: Text.AlignHCenter
+-                        verticalAlignment: Text.AlignVCenter
+-                        rightPadding: 60
+                         elide: Text.ElideRight
+                     }
+                 }
