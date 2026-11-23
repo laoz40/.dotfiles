@@ -239,7 +239,8 @@
           "mediaStyle": "controls",
           "mediaSize": 1,
           "mediaShowLyrics": false,
-          "mediaShowCoverArt": false
+          "mediaShowCoverArt": false,
+          "audioScrollMode": "volume"
         }
       ],
       "centerWidgets": [
@@ -341,7 +342,7 @@
     {
       "id": "bar1787902150792",
       "name": "Minimal",
-      "enabled": false,
+      "enabled": true,
       "position": 0,
       "screenPreferences": [
         "all"
@@ -361,7 +362,11 @@
         {
           "id": "music",
           "enabled": true,
-          "mediaAdaptiveWidthEnabled": false
+          "mediaAdaptiveWidthEnabled": false,
+          "mediaShowLyrics": false,
+          "mediaShowCoverArt": false,
+          "audioScrollMode": "volume",
+          "mediaStyle": "controls"
         }
       ],
       "centerWidgets": [
@@ -579,7 +584,7 @@
     {
       "id": "bar-sharp-profile",
       "name": "Sharp",
-      "enabled": true,
+      "enabled": false,
       "position": 0,
       "screenPreferences": [
         "all"
@@ -993,6 +998,7 @@
   "blurBorderSeeded": true,
   "dashOptions": {
     "media": {
+      "artStyle": "disc",
       "playerStyle": "material",
       "waveProgress": false,
       "animatedArt": true
