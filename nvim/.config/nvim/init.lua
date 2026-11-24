@@ -22,6 +22,9 @@ vim.o.sessionoptions = "curdir,folds,globals,help,tabpages,terminal,winsize"
 vim.opt.background = "dark"
 vim.o.termguicolors = true
 require("blue-gold").colorscheme()
+-- vim.pack.add({ "https://github.com/folke/tokyonight.nvim" })
+-- require("tokyonight").setup({ transparent = true })
+-- vim.cmd.colorscheme("tokyonight-storm")
 vim.o.winborder = "rounded"
 vim.o.number = true
 vim.o.relativenumber = true
