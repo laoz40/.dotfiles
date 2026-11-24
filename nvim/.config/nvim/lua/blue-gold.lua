@@ -11,9 +11,11 @@ M.palette = {
 	bg_alt = "#132a40",
 	fg = "#c0caf5",
 	fg_dim = "#9aa8d6",
+	fg_muted = "#8b95c9",
 	selection = "#123f66",
-	comment = "#6f7eaa",
+	comment = "#57628e",
 	code_bg = "#10263a",
+	indent_guide = "#283947",
 
 	blue = "#6A95DF",
 	blue_alt = "#2A69B5",
@@ -88,16 +90,16 @@ function M.colorscheme()
 	hl("EndOfBuffer", { fg = p.bg })
 	hl("ColorColumn", { bg = p.selection })
 	hl("Cursor", { reverse = true })
-	hl("CursorLine", { bg = p.selection })
+	hl("CursorLine", { bg = p.none })
 	hl("CursorColumn", { bg = p.selection })
 
 	-- Line numbers, signs, folds
-	hl("LineNr", { fg = p.blue })
+	hl("LineNr", { fg = p.comment })
 	hl("LineNrAbove", { fg = p.comment })
 	hl("LineNrBelow", { fg = p.comment })
-	hl("CursorLineNr", { fg = p.gold, bold = true })
-	hl("CursorLineFold", { fg = p.comment, bg = p.selection })
-	hl("CursorLineSign", { fg = p.comment, bg = p.selection })
+	hl("CursorLineNr", { fg = p.blue_alt })
+	hl("CursorLineFold", { fg = p.comment, bg = p.none })
+	hl("CursorLineSign", { fg = p.comment, bg = p.none })
 	hl("SignColumn", { bg = p.none })
 	hl("Folded", { fg = p.fg_dim, bg = p.bg_alt })
 	hl("FoldColumn", { fg = p.comment })
@@ -141,7 +143,7 @@ function M.colorscheme()
 	---------------------------------------------------------------------------
 
 	-- Comments and todos
-	hl("Comment", { fg = p.comment, italic = true })
+	hl("Comment", { fg = p.comment })
 	hl("Todo", { fg = p.bg, bg = p.gold, bold = true })
 
 	-- Keywords and operators
@@ -150,7 +152,7 @@ function M.colorscheme()
 	hl("Repeat", { fg = p.fg })
 	hl("Label", { fg = p.fg })
 	hl("Operator", { fg = p.fg })
-	hl("Delimiter", { fg = p.fg_dim })
+	hl("Delimiter", { fg = p.fg_muted })
 
 	-- Literals
 	hl("String", { fg = p.gold_alt })
@@ -162,11 +164,11 @@ function M.colorscheme()
 
 	-- Identifiers and types
 	hl("Function", { fg = p.gold })
-	hl("Identifier", { fg = p.blue })
-	hl("Type", { fg = p.fg_dim })
-	hl("StorageClass", { fg = p.fg_dim })
-	hl("Structure", { fg = p.fg_dim })
-	hl("Typedef", { fg = p.fg_dim })
+	hl("Identifier", { fg = p.fg_dim })
+	hl("Type", { fg = p.fg_muted })
+	hl("StorageClass", { fg = p.fg_muted })
+	hl("Structure", { fg = p.fg_muted })
+	hl("Typedef", { fg = p.fg_muted })
 
 	-- Preprocessor
 	hl("PreProc", { fg = p.blue })
@@ -180,9 +182,10 @@ function M.colorscheme()
 
 	-- Comments, keywords, operators
 	hl("@comment", { link = "Comment" })
+	hl("@comment.documentation", { fg = p.fg_muted })
 	hl("@keyword", { fg = p.fg })
 	hl("@keyword.function", { fg = p.fg })
-	hl("@keyword.return", { fg = p.gold_alt })
+	hl("@keyword.return", { fg = p.blue_alt })
 	hl("@keyword.exception", { fg = p.blue_alt })
 	hl("@keyword.throw", { fg = p.blue_alt })
 	hl("@conditional", { fg = p.fg })
@@ -210,8 +213,7 @@ function M.colorscheme()
 	hl("@function.builtin", { fg = p.gold })
 	hl("@method", { fg = p.gold })
 	hl("@constructor", { fg = p.gold })
-	hl("@variable", { fg = p.blue_alt })
-	hl("@variable.member_receiver", { fg = p.fg_dim })
+	hl("@variable", { link = "Identifier" })
 	hl("@variable.builtin", { fg = p.blue_alt })
 	hl("@parameter", { fg = p.blue })
 	hl("@variable.parameter", { fg = p.blue })
@@ -220,16 +222,16 @@ function M.colorscheme()
 	hl("@variable.member", { fg = p.blue_light })
 
 	-- Types and namespaces
-	hl("@type", { fg = p.fg_dim })
-	hl("@type.builtin", { fg = p.fg_dim })
-	hl("@type.definition", { fg = p.fg_dim })
+	hl("@type", { link = "Type" })
+	hl("@type.builtin", { link = "@type" })
+	hl("@type.definition", { link = "@type" })
 	hl("@module", { fg = p.fg })
 	hl("@namespace", { fg = p.fg })
 
 	-- Punctuation
-	hl("@punctuation.delimiter", { fg = p.fg_dim })
-	hl("@punctuation.bracket", { fg = p.fg_dim })
-	hl("@punctuation.special", { fg = p.gold })
+	hl("@punctuation.delimiter", { link = "Delimiter" })
+	hl("@punctuation.bracket", { link = "Delimiter" })
+	hl("@punctuation.special", { fg = p.gold_light })
 
 	-- HTML / JSX / TSX tags
 	hl("@tag", { fg = p.blue })
@@ -303,13 +305,9 @@ function M.colorscheme()
 	-- Semantic tokens
 	hl("@lsp.type.function", { link = "@function" })
 	hl("@lsp.type.method", { link = "@method" })
-	hl("@lsp.type.variable", { fg = p.blue_alt })
-	hl("@lsp.type.parameter", { fg = p.blue })
-	hl("@lsp.mod.readonly", { fg = p.fg_dim })
-	hl("@lsp.typemod.variable.readonly", { fg = p.blue_alt })
-	hl("@lsp.typemod.parameter.readonly", { fg = p.blue })
-	hl("@lsp.typemod.property.readonly", { fg = p.blue_light })
-	hl("@lsp.type.property", { fg = p.blue_light })
+	hl("@lsp.type.variable", { link = "@variable" })
+	hl("@lsp.type.parameter", { link = "@variable.parameter" })
+	hl("@lsp.type.property", { link = "@variable.member" })
 	hl("@lsp.type.type", { link = "@type" })
 	hl("@lsp.type.class", { link = "@type" })
 	hl("@lsp.type.enum", { link = "@type" })
@@ -381,8 +379,8 @@ function M.colorscheme()
 	---------------------------------------------------------------------------
 
 	-- mini.indentscope
-	hl("MiniIndentscopeSymbol", { link = "Comment" })
-	hl("MiniIndentscopeSymbolOff", { link = "Comment" })
+	hl("MiniIndentscopeSymbol", { fg = p.indent_guide })
+	hl("MiniIndentscopeSymbolOff", { link = "MiniIndentscopeSymbol" })
 
 	-- gitsigns.nvim
 	hl("GitSignsAdd", { fg = diff.add, bg = p.none })
