@@ -342,7 +342,7 @@
     {
       "id": "bar1787902150792",
       "name": "Minimal",
-      "enabled": true,
+      "enabled": false,
       "position": 0,
       "screenPreferences": [
         "all"
@@ -584,7 +584,7 @@
     {
       "id": "bar-sharp-profile",
       "name": "Sharp",
-      "enabled": false,
+      "enabled": true,
       "position": 0,
       "screenPreferences": [
         "all"
