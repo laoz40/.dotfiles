@@ -1,6 +1,6 @@
 ---
 name: code-review
-description: Review a branch, PR, or working-tree diff with parallel intent and code subagents. Confirm intent from conversation and PR context, then report intent and code findings separately.
+description: Review a branch, PR, or working-tree diff. Confirm intent from conversation and PR context.
 ---
 
 ## Confirm scope and intent
@@ -10,12 +10,6 @@ Resolve the comparison from the request and repository state. Honor explicit ref
 Infer intent from available conversation, PR description, linked issues, and user-supplied documents. Prioritize the user's latest instructions and corrections. Read applicable `AGENTS.md` files and relevant repository guidance. Surface material conflicts or missing context. Do not treat the implementation as evidence of intended behavior.
 
 Summarize the intended outcome, constraints, and review scope in a few sentences or short bullets. Ask for confirmation and wait before substantive review. If corrected, confirm the revised understanding.
-
-## Review
-
-After confirmation, spawn two subagents in parallel, one for Intent and one for Code. Give each the recorded comparison, confirmed intent, applicable repository instructions, relevant source context, and its review and reporting instructions below. Keep their reviews independent.
-
-Each subagent should inspect the diff, surrounding code, and relevant callers or configuration, run targeted checks when useful, and return findings and verification gaps. Subagents review only and must not spawn further agents.
 
 ### Intent
 
@@ -35,8 +29,8 @@ Report a smell when you can explain its cost to understanding, maintenance, exte
 
 ## Report
 
-Collect both subagent reports. Keep **Intent findings** and **Code findings** in separate lists, ordered by severity within each. State briefly when a list is empty. Report each issue once.
+Keep **Intent findings** and **Code findings** in separate lists, ordered by severity within each. State briefly when a list is empty. Report each issue once.
 
 For each finding, give a precise file location, the problem, the condition or context in which it matters, and its consequence. Cite the relevant requirement or repository rule. Distinguish defects from design judgments and support findings with evidence.
 
-Keep the report concise and actionable. End with checks performed and material verification gaps. Do not modify code unless asked.
+Keep the report concise and actionable. End with checks performed and material verification gaps.
