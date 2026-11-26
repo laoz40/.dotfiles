@@ -1,6 +1,7 @@
 ---
 name: unslop
 description: Cut AI tells from any writing in responses or UI copy. Must always apply.
+disable-model-invocation: true
 ---
 
 # Unslop
